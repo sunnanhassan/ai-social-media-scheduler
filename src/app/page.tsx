@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Logo from "@/components/logo";
-import { ModeToggle } from "@/components/dark-mode-toggle";
+import { ModeToggle, ThemeSegmented } from "@/components/dark-mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -126,8 +126,11 @@ export default function Home() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Navbar */}
-        <header className="h-16 border-b border-border bg-background/80 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-40">
-          <div className="flex items-center gap-4 flex-1 max-w-md">
+        <header className="h-16 border-b border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40">
+          <div className="flex items-center gap-3 sm:gap-4 flex-1 max-w-md">
+            <div className="md:hidden flex items-center shrink-0">
+              <Logo name="" hideName={true} />
+            </div>
             <div className="relative w-full">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input 
@@ -147,7 +150,15 @@ export default function Home() {
               <span className="ml-1 text-[11px] font-semibold">SaaS Palette Active</span>
             </div>
 
-            <Button variant="outline" size="sm" className="gap-2 border-border">
+            {/* Theme Toggle (Light / Dark / System) */}
+            <div className="hidden sm:flex items-center">
+              <ThemeSegmented />
+            </div>
+            <div className="sm:hidden flex items-center">
+              <ModeToggle />
+            </div>
+
+            <Button variant="outline" size="sm" className="gap-2 border-border hidden md:inline-flex">
               <Filter className="w-3.5 h-3.5 text-muted-foreground" />
               Filters
             </Button>
