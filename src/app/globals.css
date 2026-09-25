@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,12 +39,16 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-brand-persimmon: #f87941;
-  --color-brand-peach: #f9b095;
-  --color-brand-palladium: #b1b1b1;
-  --color-brand-violet: #e6e4e6;
-  --color-brand-brilliance: #fdfcfc;
-  --color-brand-night: #2f3035;
+
+  /* Specific SaaS Palette Utility Classes */
+  --color-brilliance: #fdfcfc;
+  --color-violet-essence: #e6e4e6;
+  --color-rose: #f9b095;
+  --color-peach: #f9b095;
+  --color-palladium: #b1b1b1;
+  --color-persimmon: #f87941;
+  --color-night-black: #2f3035;
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -56,75 +59,91 @@
 }
 
 :root {
-  /* SaaS Analytics Color Palette */
-  --background: #fdfcfc;
-  --foreground: #2f3035;
-  --card: #ffffff;
-  --card-foreground: #2f3035;
-  --popover: #ffffff;
+  /* Exactly mapped 6 SaaS Analytics Colors */
+  --background: #fdfcfc;       /* Brilliance */
+  --foreground: #2f3035;       /* Night Black */
+  --card: #fdfcfc;             /* Brilliance */
+  --card-foreground: #2f3035;  /* Night Black */
+  --popover: #fdfcfc;          /* Brilliance */
   --popover-foreground: #2f3035;
-  --primary: #f87941;
-  --primary-foreground: #ffffff;
-  --secondary: #fef1ec;
-  --secondary-foreground: #f87941;
-  --muted: #f4f3f4;
-  --muted-foreground: #76787e;
-  --accent: #fde8df;
-  --accent-foreground: #f87941;
+  
+  --primary: #f87941;          /* Precious Persimmon */
+  --primary-foreground: #fdfcfc; /* Brilliance */
+  
+  --secondary: #f9b095;        /* No Way Rosé */
+  --secondary-foreground: #2f3035; /* Night Black */
+  
+  --muted: #e6e4e6;            /* Violet Essence */
+  --muted-foreground: #707178; /* Contrasted Palladium */
+  
+  --accent: #f9b095;           /* No Way Rosé */
+  --accent-foreground: #2f3035;
+  
   --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #e6e4e6;
-  --input: #e6e4e6;
-  --ring: #f87941;
-  --chart-1: #f87941;
-  --chart-2: #f9b095;
-  --chart-3: #2f3035;
-  --chart-4: #b1b1b1;
-  --chart-5: #e6e4e6;
-  --sidebar: #faf9f9;
-  --sidebar-foreground: #2f3035;
-  --sidebar-primary: #f87941;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #fef1ec;
-  --sidebar-accent-foreground: #f87941;
-  --sidebar-border: #e6e4e6;
+  --destructive-foreground: #fdfcfc;
+  
+  --border: #e6e4e6;           /* Violet Essence */
+  --input: #e6e4e6;            /* Violet Essence */
+  --ring: #f87941;             /* Precious Persimmon */
+  
+  --chart-1: #f87941;          /* Precious Persimmon */
+  --chart-2: #f9b095;          /* No Way Rosé */
+  --chart-3: #2f3035;          /* Night Black */
+  --chart-4: #b1b1b1;          /* Palladium */
+  --chart-5: #e6e4e6;          /* Violet Essence */
+  
+  --sidebar: #fdfcfc;          /* Brilliance */
+  --sidebar-foreground: #2f3035; /* Night Black */
+  --sidebar-primary: #f87941;  /* Precious Persimmon */
+  --sidebar-primary-foreground: #fdfcfc;
+  --sidebar-accent: #f9b095;   /* No Way Rosé */
+  --sidebar-accent-foreground: #2f3035;
+  --sidebar-border: #e6e4e6;   /* Violet Essence */
   --sidebar-ring: #f87941;
   --radius: 0.65rem;
 }
 
 .dark {
-  /* Dark Mode Palette with Night Black (#2f3035) */
-  --background: #25262a;
-  --foreground: #fdfcfc;
-  --card: #2f3035;
+  /* Dark Mode centered on Night Black (#2f3035) */
+  --background: #2f3035;       /* Night Black */
+  --foreground: #fdfcfc;       /* Brilliance */
+  --card: #27282b;             /* Deep Night Card */
   --card-foreground: #fdfcfc;
-  --popover: #2f3035;
+  --popover: #27282b;
   --popover-foreground: #fdfcfc;
-  --primary: #f87941;
-  --primary-foreground: #ffffff;
-  --secondary: #3b3c43;
-  --secondary-foreground: #f9b095;
-  --muted: #383a40;
-  --muted-foreground: #b1b1b1;
-  --accent: #403632;
-  --accent-foreground: #f9b095;
+  
+  --primary: #f87941;          /* Precious Persimmon */
+  --primary-foreground: #fdfcfc;
+  
+  --secondary: #f9b095;        /* No Way Rosé */
+  --secondary-foreground: #2f3035;
+  
+  --muted: #3a3b41;            /* Dark Muted */
+  --muted-foreground: #b1b1b1; /* Palladium */
+  
+  --accent: #f9b095;           /* No Way Rosé */
+  --accent-foreground: #2f3035;
+  
   --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #41434a;
-  --input: #41434a;
+  --destructive-foreground: #fdfcfc;
+  
+  --border: #42434a;           /* Dark Border */
+  --input: #42434a;
   --ring: #f87941;
+  
   --chart-1: #f87941;
   --chart-2: #f9b095;
   --chart-3: #b1b1b1;
   --chart-4: #e6e4e6;
   --chart-5: #fdfcfc;
-  --sidebar: #202124;
+  
+  --sidebar: #27282b;
   --sidebar-foreground: #fdfcfc;
   --sidebar-primary: #f87941;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #35373d;
+  --sidebar-primary-foreground: #fdfcfc;
+  --sidebar-accent: #3a3b41;
   --sidebar-accent-foreground: #f9b095;
-  --sidebar-border: #3c3e45;
+  --sidebar-border: #42434a;
   --sidebar-ring: #f87941;
 }
 
