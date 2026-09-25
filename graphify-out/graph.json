@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-09-25T19:58:05.610306+00:00",
-  "total_nodes": 109,
-  "total_edges": 227,
+  "timestamp": "2026-09-25T20:09:50.288674+00:00",
+  "total_nodes": 110,
+  "total_edges": 229,
   "nodes": [
     {
       "id": "app/globals.css",
       "label": "globals.css",
       "type": "route",
-      "lines": 168,
+      "lines": 189,
       "components": [],
       "community": 5
     },
@@ -280,7 +280,7 @@
       "id": "components/idea/idea-card.tsx",
       "label": "idea-card.tsx",
       "type": "component",
-      "lines": 111,
+      "lines": 132,
       "components": [
         "IdeaCard"
       ],
@@ -290,7 +290,7 @@
       "id": "components/idea/idea-column.tsx",
       "label": "idea-column.tsx",
       "type": "component",
-      "lines": 93,
+      "lines": 109,
       "components": [
         "IdeaColumn"
       ],
@@ -308,8 +308,18 @@
       "id": "components/idea/idea-kanban.tsx",
       "label": "idea-kanban.tsx",
       "type": "component",
-      "lines": 282,
+      "lines": 289,
       "components": [],
+      "community": 2
+    },
+    {
+      "id": "components/idea/idea-toolbar.tsx",
+      "label": "idea-toolbar.tsx",
+      "type": "component",
+      "lines": 96,
+      "components": [
+        "IdeaToolbar"
+      ],
       "community": 2
     },
     {
@@ -1421,6 +1431,16 @@
     {
       "source": "components/idea/idea-kanban.tsx",
       "target": "types/idea.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-toolbar.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-toolbar.tsx",
+      "target": "components/ui/input",
       "relation": "imports"
     },
     {

@@ -1,20 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import IdeaDialog from "./idea-dialog";
 import { IdeaType } from "@/types/idea.type";
-import { GenerateIdeasPopover } from "./generate-ideas-popover";
 import { IdeaColumn, KanbanColumn } from "./idea-column";
+import { IdeaToolbar } from "./idea-toolbar";
 
 const IdeaKanban = () => {
   const queryClient = useQueryClient();
   const [columns, setColumns] = useState<KanbanColumn[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [showIdeaDialog, setShowIdeaDialog] = useState<boolean>(false);
   const [selectedIdea, setSelectedIdea] = useState<IdeaType | null>(null);
   const [selectedColumnId, setSelectedColumnId] = useState<string>("");
@@ -199,67 +198,75 @@ const IdeaKanban = () => {
     });
   };
 
+  const totalIdeas = useMemo(() => {
+    return columns.reduce((acc, col) => acc + col.ideas.length, 0);
+  }, [columns]);
+
+  const displayedColumns = useMemo(() => {
+    if (!searchQuery.trim()) return columns;
+    const query = searchQuery.toLowerCase();
+    return columns.map((col) => ({
+      ...col,
+      ideas: col.ideas.filter(
+        (idea) =>
+          idea.title.toLowerCase().includes(query) ||
+          (idea.description && idea.description.toLowerCase().includes(query))
+      ),
+    }));
+  }, [columns, searchQuery]);
+
   return (
     <>
-      <div className="flex flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b px-6 py-4">
-          <div>
-            <h1 className="text-xl font-semibold">Ideas</h1>
-            <p className="text-sm text-muted-foreground">Capture and organize your content ideas</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <GenerateIdeasPopover onGenerated={handleGeneratedIdea} />
-            <Button
-              variant="outline"
-              className="gap-2"
-              onClick={() => handleAddIdea(columns[0]?.id ?? "")}
-            >
-              <Plus className="h-4 w-4" />
-              New Idea
-            </Button>
-          </div>
-        </header>
+      <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden">
+        {/* Modern Data-Dense Toolbar */}
+        <IdeaToolbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          totalIdeas={totalIdeas}
+          totalColumns={columns.length}
+          onNewIdea={() => handleAddIdea(columns[0]?.id ?? "")}
+          onGenerated={handleGeneratedIdea}
+        />
 
-        <div className="h-[calc(100vh-120px)]">
-          <div className="kanban--board relative py-6 flex-1 h-full overflow-hidden">
-            {isPending ? (
-              <div className="flex gap-4 w-full h-full items-start px-6">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="shrink-0 w-[280px] flex flex-col h-full min-h-0 rounded-2xl bg-card border p-3"
-                  >
-                    <div className="flex items-center justify-between pb-3">
-                      <Skeleton className="h-5 w-24" />
-                      <Skeleton className="h-5 w-6 rounded-full" />
-                    </div>
-                    <div className="flex-1 space-y-3">
-                      <Skeleton className="h-[100px] w-full rounded-xl" />
-                      <Skeleton className="h-[120px] w-full rounded-xl" />
-                      <Skeleton className="h-[80px] w-full rounded-xl" />
-                    </div>
+        {/* Board Canvas with subtle technical grid */}
+        <div className="relative flex-1 min-h-0 pt-4 pb-2 overflow-hidden subtle-grid-bg rounded-lg">
+          {isPending ? (
+            <div className="flex gap-4 w-full h-full items-start px-2">
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className="shrink-0 w-[300px] flex flex-col h-full min-h-0 rounded-lg bg-card/50 border border-border/70 p-3"
+                >
+                  <div className="flex items-center justify-between pb-3 border-b border-border/50">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-6 rounded" />
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="h-full overflow-x-auto px-6">
-                <DragDropContext onDragEnd={handleDragEnd}>
-                  <div style={{ height: "100%" }} className="flex gap-4 w-full">
-                    {columns?.map((column) => (
-                      <IdeaColumn
-                        key={column.id}
-                        column={column}
-                        onAddIdea={handleAddIdea}
-                        onEditIdea={handleEditIdea}
-                        onDeleteIdea={handleDeleteIdea}
-                        isDeleting={deleteIdeaMutation.isPending}
-                      />
-                    ))}
+                  <div className="flex-1 space-y-2.5 pt-3">
+                    <Skeleton className="h-20 w-full rounded-md" />
+                    <Skeleton className="h-28 w-full rounded-md" />
+                    <Skeleton className="h-16 w-full rounded-md" />
                   </div>
-                </DragDropContext>
-              </div>
-            )}
-          </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="h-full overflow-x-auto kanban-scroll px-1">
+              <DragDropContext onDragEnd={handleDragEnd}>
+                <div className="flex gap-4 w-full h-full pb-2">
+                  {displayedColumns?.map((column) => (
+                    <IdeaColumn
+                      key={column.id}
+                      column={column}
+                      onAddIdea={handleAddIdea}
+                      onEditIdea={handleEditIdea}
+                      onDeleteIdea={handleDeleteIdea}
+                      isDeleting={deleteIdeaMutation.isPending}
+                    />
+                  ))}
+                </div>
+              </DragDropContext>
+            </div>
+          )}
         </div>
       </div>
 
