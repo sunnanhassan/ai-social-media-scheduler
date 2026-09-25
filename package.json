@@ -2,6 +2,8 @@
   "name": "ai-social-media-scheduler",
   "version": "0.1.0",
   "private": true,
+  "description": "Modern Data-Dense AI Social Media Content & Scheduling Platform",
+  "author": "Sunnan Hassan <sannanhassan10@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

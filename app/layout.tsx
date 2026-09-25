@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Social Media Scheduler",
-  description: "AI-powered social media scheduling and automation platform",
+  title: "OmniPost.ai | Data-Dense AI Social Media Content & Scheduling Platform",
+  description: "High-efficiency multi-channel AI content ideation, scheduling, and automated publishing pipeline.",
 };
 
 export default function RootLayout({

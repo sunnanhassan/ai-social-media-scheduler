@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-25T20:09:50.288674+00:00",
-  "total_nodes": 110,
-  "total_edges": 229,
+  "timestamp": "2026-09-25T20:17:07.740034+00:00",
+  "total_nodes": 111,
+  "total_edges": 234,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -36,7 +36,7 @@
       "id": "app/(routes)/(dashboard)/billing/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 29,
+      "lines": 7,
       "components": [],
       "community": 5
     },
@@ -52,7 +52,7 @@
       "id": "app/(routes)/(dashboard)/schedule/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 87,
+      "lines": 115,
       "components": [],
       "community": 1
     },
@@ -60,7 +60,7 @@
       "id": "app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 118,
+      "lines": 226,
       "components": [],
       "community": 3
     },
@@ -242,7 +242,7 @@
       "id": "components/logo.tsx",
       "label": "logo.tsx",
       "type": "component",
-      "lines": 23,
+      "lines": 42,
       "components": [],
       "community": 5
     },
@@ -263,6 +263,16 @@
       "lines": 11,
       "components": [
         "ThemeProvider"
+      ],
+      "community": 5
+    },
+    {
+      "id": "components/billing/billing-view.tsx",
+      "label": "billing-view.tsx",
+      "type": "component",
+      "lines": 321,
+      "components": [
+        "BillingView"
       ],
       "community": 5
     },
@@ -336,7 +346,7 @@
       "id": "components/schedule/calendar-view.tsx",
       "label": "calendar-view.tsx",
       "type": "component",
-      "lines": 131,
+      "lines": 129,
       "components": [],
       "community": 1
     },
@@ -1020,7 +1030,7 @@
     },
     {
       "source": "app/(routes)/(dashboard)/billing/page.tsx",
-      "target": "lib/auth/auth-components",
+      "target": "components/billing/billing-view",
       "relation": "imports"
     },
     {
@@ -1086,6 +1096,16 @@
     {
       "source": "app/(routes)/(dashboard)/settings/page.tsx",
       "target": "components/ui/switch",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/input",
       "relation": "imports"
     },
     {
@@ -1371,6 +1391,21 @@
     {
       "source": "components/logo.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "components/billing/billing-view.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/billing/billing-view.tsx",
+      "target": "components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "components/billing/billing-view.tsx",
+      "target": "components/ui/badge",
       "relation": "imports"
     },
     {

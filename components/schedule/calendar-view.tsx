@@ -76,28 +76,26 @@ const CalendarView = () => {
   }
 
   return (
-    <div className="flex flex-col overflow-hidden bg-background">
-      <div className="h-[calc(100vh-100px)]">
-        <div className="flex-1 p-6 pt-4 h-full">
-          <PostCalendar
-            posts={posts}
-            isPending={isPending}
-            currentDate={currentDate}
-            view={view as ViewType}
-            onViewChange={setView}
-            onDateChange={setCurrentDate}
-            onPostClick={handlePostClick}
-            onCreatePost={handleCreatePost}
-            rightActions={
-              <ScheduleToolbar
-                channelIds={channelIds}
-                toggleChannel={toggleChannel}
-                selectedStatus={selectedStatus}
-                setSelectedStatus={setSelectedStatus}
-              />
-            }
-          />
-        </div>
+    <div className="flex flex-col overflow-hidden bg-background h-full">
+      <div className="flex-1 h-full min-h-0 pt-1">
+        <PostCalendar
+          posts={posts}
+          isPending={isPending}
+          currentDate={currentDate}
+          view={view as ViewType}
+          onViewChange={setView}
+          onDateChange={setCurrentDate}
+          onPostClick={handlePostClick}
+          onCreatePost={handleCreatePost}
+          rightActions={
+            <ScheduleToolbar
+              channelIds={channelIds}
+              toggleChannel={toggleChannel}
+              selectedStatus={selectedStatus}
+              setSelectedStatus={setSelectedStatus}
+            />
+          }
+        />
       </div>
 
 
