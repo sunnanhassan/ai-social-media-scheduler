@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-25T19:39:40.703453+00:00",
+  "timestamp": "2026-09-25T19:56:09.674290+00:00",
   "total_nodes": 109,
-  "total_edges": 311,
+  "total_edges": 227,
   "nodes": [
     {
-      "id": "src/app/globals.css",
+      "id": "app/globals.css",
       "label": "globals.css",
       "type": "route",
       "lines": 168,
@@ -12,7 +12,7 @@
       "community": 5
     },
     {
-      "id": "src/app/layout.tsx",
+      "id": "app/layout.tsx",
       "label": "layout.tsx",
       "type": "route",
       "lines": 53,
@@ -23,7 +23,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/(dashboard)/layout.tsx",
+      "id": "app/(routes)/(dashboard)/layout.tsx",
       "label": "layout.tsx",
       "type": "route",
       "lines": 29,
@@ -33,7 +33,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/(dashboard)/billing/page.tsx",
+      "id": "app/(routes)/(dashboard)/billing/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 29,
@@ -41,7 +41,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/(dashboard)/ideas/page.tsx",
+      "id": "app/(routes)/(dashboard)/ideas/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 9,
@@ -49,7 +49,7 @@
       "community": 2
     },
     {
-      "id": "src/app/(routes)/(dashboard)/schedule/page.tsx",
+      "id": "app/(routes)/(dashboard)/schedule/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 87,
@@ -57,7 +57,7 @@
       "community": 1
     },
     {
-      "id": "src/app/(routes)/(dashboard)/settings/page.tsx",
+      "id": "app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 118,
@@ -65,7 +65,7 @@
       "community": 3
     },
     {
-      "id": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
       "lines": 256,
@@ -73,7 +73,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/(landing)/page.tsx",
+      "id": "app/(routes)/(landing)/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 232,
@@ -83,7 +83,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/sign-in/[[...sign-in]]/page.tsx",
+      "id": "app/(routes)/sign-in/[[...sign-in]]/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 11,
@@ -91,7 +91,7 @@
       "community": 5
     },
     {
-      "id": "src/app/(routes)/sign-up/[[...sign-up]]/page.tsx",
+      "id": "app/(routes)/sign-up/[[...sign-up]]/page.tsx",
       "label": "page.tsx",
       "type": "route",
       "lines": 11,
@@ -99,7 +99,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/channel/route.ts",
+      "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 180,
@@ -107,7 +107,7 @@
       "community": 3
     },
     {
-      "id": "src/app/api/channel/callback/route.ts",
+      "id": "app/api/channel/callback/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 136,
@@ -115,7 +115,7 @@
       "community": 3
     },
     {
-      "id": "src/app/api/channel/connect/route.ts",
+      "id": "app/api/channel/connect/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 70,
@@ -123,7 +123,7 @@
       "community": 3
     },
     {
-      "id": "src/app/api/channel/disconnect/route.ts",
+      "id": "app/api/channel/disconnect/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 51,
@@ -131,7 +131,7 @@
       "community": 3
     },
     {
-      "id": "src/app/api/idea/route.ts",
+      "id": "app/api/idea/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 197,
@@ -139,7 +139,7 @@
       "community": 2
     },
     {
-      "id": "src/app/api/idea/generate-ideas/route.ts",
+      "id": "app/api/idea/generate-ideas/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 59,
@@ -147,7 +147,7 @@
       "community": 2
     },
     {
-      "id": "src/app/api/idea/[id]/route.ts",
+      "id": "app/api/idea/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 37,
@@ -155,7 +155,7 @@
       "community": 2
     },
     {
-      "id": "src/app/api/inngest/route.ts",
+      "id": "app/api/inngest/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 11,
@@ -163,7 +163,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/post/route.ts",
+      "id": "app/api/post/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 248,
@@ -171,7 +171,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/post/generate-post/route.ts",
+      "id": "app/api/post/generate-post/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 108,
@@ -179,7 +179,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/post/totals/route.ts",
+      "id": "app/api/post/totals/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 56,
@@ -187,7 +187,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/post/[id]/route.ts",
+      "id": "app/api/post/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 47,
@@ -195,7 +195,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/post/[id]/publish/route.ts",
+      "id": "app/api/post/[id]/publish/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 56,
@@ -203,7 +203,7 @@
       "community": 5
     },
     {
-      "id": "src/app/api/upload-image/route.ts",
+      "id": "app/api/upload-image/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 46,
@@ -211,7 +211,7 @@
       "community": 5
     },
     {
-      "id": "src/components/channel-avatar.tsx",
+      "id": "components/channel-avatar.tsx",
       "label": "channel-avatar.tsx",
       "type": "component",
       "lines": 69,
@@ -219,7 +219,7 @@
       "community": 3
     },
     {
-      "id": "src/components/content-textarea.tsx",
+      "id": "components/content-textarea.tsx",
       "label": "content-textarea.tsx",
       "type": "component",
       "lines": 244,
@@ -227,7 +227,7 @@
       "community": 5
     },
     {
-      "id": "src/components/dark-mode-toggle.tsx",
+      "id": "components/dark-mode-toggle.tsx",
       "label": "dark-mode-toggle.tsx",
       "type": "component",
       "lines": 134,
@@ -239,7 +239,7 @@
       "community": 5
     },
     {
-      "id": "src/components/logo.tsx",
+      "id": "components/logo.tsx",
       "label": "logo.tsx",
       "type": "component",
       "lines": 23,
@@ -247,7 +247,7 @@
       "community": 5
     },
     {
-      "id": "src/components/query-provider.tsx",
+      "id": "components/query-provider.tsx",
       "label": "query-provider.tsx",
       "type": "component",
       "lines": 21,
@@ -257,7 +257,7 @@
       "community": 5
     },
     {
-      "id": "src/components/theme-provider.tsx",
+      "id": "components/theme-provider.tsx",
       "label": "theme-provider.tsx",
       "type": "component",
       "lines": 11,
@@ -267,7 +267,7 @@
       "community": 5
     },
     {
-      "id": "src/components/idea/generate-ideas-popover.tsx",
+      "id": "components/idea/generate-ideas-popover.tsx",
       "label": "generate-ideas-popover.tsx",
       "type": "component",
       "lines": 232,
@@ -277,7 +277,7 @@
       "community": 2
     },
     {
-      "id": "src/components/idea/idea-card.tsx",
+      "id": "components/idea/idea-card.tsx",
       "label": "idea-card.tsx",
       "type": "component",
       "lines": 111,
@@ -287,7 +287,7 @@
       "community": 2
     },
     {
-      "id": "src/components/idea/idea-column.tsx",
+      "id": "components/idea/idea-column.tsx",
       "label": "idea-column.tsx",
       "type": "component",
       "lines": 93,
@@ -297,7 +297,7 @@
       "community": 2
     },
     {
-      "id": "src/components/idea/idea-dialog.tsx",
+      "id": "components/idea/idea-dialog.tsx",
       "label": "idea-dialog.tsx",
       "type": "component",
       "lines": 156,
@@ -305,7 +305,7 @@
       "community": 2
     },
     {
-      "id": "src/components/idea/idea-kanban.tsx",
+      "id": "components/idea/idea-kanban.tsx",
       "label": "idea-kanban.tsx",
       "type": "component",
       "lines": 282,
@@ -313,7 +313,7 @@
       "community": 2
     },
     {
-      "id": "src/components/schedule/ai-assitant.tsx",
+      "id": "components/schedule/ai-assitant.tsx",
       "label": "ai-assitant.tsx",
       "type": "component",
       "lines": 173,
@@ -323,7 +323,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/calendar-view.tsx",
+      "id": "components/schedule/calendar-view.tsx",
       "label": "calendar-view.tsx",
       "type": "component",
       "lines": 131,
@@ -331,7 +331,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/create-post-dialog.tsx",
+      "id": "components/schedule/create-post-dialog.tsx",
       "label": "create-post-dialog.tsx",
       "type": "component",
       "lines": 200,
@@ -339,7 +339,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/edit-post-dialog.tsx",
+      "id": "components/schedule/edit-post-dialog.tsx",
       "label": "edit-post-dialog.tsx",
       "type": "component",
       "lines": 280,
@@ -349,7 +349,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/ideas-list.tsx",
+      "id": "components/schedule/ideas-list.tsx",
       "label": "ideas-list.tsx",
       "type": "component",
       "lines": 141,
@@ -357,7 +357,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/list-view-item.tsx",
+      "id": "components/schedule/list-view-item.tsx",
       "label": "list-view-item.tsx",
       "type": "component",
       "lines": 142,
@@ -367,7 +367,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/list-view.tsx",
+      "id": "components/schedule/list-view.tsx",
       "label": "list-view.tsx",
       "type": "component",
       "lines": 225,
@@ -375,7 +375,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/post-channel-accordions.tsx",
+      "id": "components/schedule/post-channel-accordions.tsx",
       "label": "post-channel-accordions.tsx",
       "type": "component",
       "lines": 159,
@@ -385,7 +385,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/post-channel-selector.tsx",
+      "id": "components/schedule/post-channel-selector.tsx",
       "label": "post-channel-selector.tsx",
       "type": "component",
       "lines": 93,
@@ -395,7 +395,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/post-side-drawer.tsx",
+      "id": "components/schedule/post-side-drawer.tsx",
       "label": "post-side-drawer.tsx",
       "type": "component",
       "lines": 62,
@@ -405,7 +405,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/schedule-date-picker.tsx",
+      "id": "components/schedule/schedule-date-picker.tsx",
       "label": "schedule-date-picker.tsx",
       "type": "component",
       "lines": 167,
@@ -415,7 +415,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/schedule-toolbar.tsx",
+      "id": "components/schedule/schedule-toolbar.tsx",
       "label": "schedule-toolbar.tsx",
       "type": "component",
       "lines": 151,
@@ -423,7 +423,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/use-create-post-state.ts",
+      "id": "components/schedule/use-create-post-state.ts",
       "label": "use-create-post-state.ts",
       "type": "component",
       "lines": 292,
@@ -433,7 +433,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/post-calendar/index.tsx",
+      "id": "components/schedule/post-calendar/index.tsx",
       "label": "index.tsx",
       "type": "component",
       "lines": 214,
@@ -443,7 +443,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/post-calendar/post-calendar.css",
+      "id": "components/schedule/post-calendar/post-calendar.css",
       "label": "post-calendar.css",
       "type": "component",
       "lines": 100,
@@ -451,7 +451,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/bluesky-preview.tsx",
+      "id": "components/schedule/preview/bluesky-preview.tsx",
       "label": "bluesky-preview.tsx",
       "type": "component",
       "lines": 67,
@@ -461,7 +461,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/facebook-preview.tsx",
+      "id": "components/schedule/preview/facebook-preview.tsx",
       "label": "facebook-preview.tsx",
       "type": "component",
       "lines": 97,
@@ -471,7 +471,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/index.tsx",
+      "id": "components/schedule/preview/index.tsx",
       "label": "index.tsx",
       "type": "component",
       "lines": 95,
@@ -479,7 +479,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/instagram-preview.tsx",
+      "id": "components/schedule/preview/instagram-preview.tsx",
       "label": "instagram-preview.tsx",
       "type": "component",
       "lines": 130,
@@ -489,7 +489,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/linkedin-preview.tsx",
+      "id": "components/schedule/preview/linkedin-preview.tsx",
       "label": "linkedin-preview.tsx",
       "type": "component",
       "lines": 103,
@@ -499,7 +499,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/thread-preview.tsx",
+      "id": "components/schedule/preview/thread-preview.tsx",
       "label": "thread-preview.tsx",
       "type": "component",
       "lines": 62,
@@ -509,7 +509,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/twitter-preview.tsx",
+      "id": "components/schedule/preview/twitter-preview.tsx",
       "label": "twitter-preview.tsx",
       "type": "component",
       "lines": 62,
@@ -519,7 +519,7 @@
       "community": 1
     },
     {
-      "id": "src/components/schedule/preview/youtube-preview.tsx",
+      "id": "components/schedule/preview/youtube-preview.tsx",
       "label": "youtube-preview.tsx",
       "type": "component",
       "lines": 93,
@@ -529,7 +529,7 @@
       "community": 1
     },
     {
-      "id": "src/components/settings/channels-tab.tsx",
+      "id": "components/settings/channels-tab.tsx",
       "label": "channels-tab.tsx",
       "type": "component",
       "lines": 184,
@@ -537,7 +537,7 @@
       "community": 3
     },
     {
-      "id": "src/components/ui/accordion.tsx",
+      "id": "components/ui/accordion.tsx",
       "label": "accordion.tsx",
       "type": "component",
       "lines": 81,
@@ -545,7 +545,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/avatar.tsx",
+      "id": "components/ui/avatar.tsx",
       "label": "avatar.tsx",
       "type": "component",
       "lines": 112,
@@ -553,7 +553,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/badge.tsx",
+      "id": "components/ui/badge.tsx",
       "label": "badge.tsx",
       "type": "component",
       "lines": 49,
@@ -561,7 +561,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/button-group.tsx",
+      "id": "components/ui/button-group.tsx",
       "label": "button-group.tsx",
       "type": "component",
       "lines": 83,
@@ -569,7 +569,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/button.tsx",
+      "id": "components/ui/button.tsx",
       "label": "button.tsx",
       "type": "component",
       "lines": 67,
@@ -577,7 +577,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/calendar.tsx",
+      "id": "components/ui/calendar.tsx",
       "label": "calendar.tsx",
       "type": "component",
       "lines": 222,
@@ -585,7 +585,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/card.tsx",
+      "id": "components/ui/card.tsx",
       "label": "card.tsx",
       "type": "component",
       "lines": 103,
@@ -593,7 +593,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/carousel.tsx",
+      "id": "components/ui/carousel.tsx",
       "label": "carousel.tsx",
       "type": "component",
       "lines": 242,
@@ -601,7 +601,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/checkbox.tsx",
+      "id": "components/ui/checkbox.tsx",
       "label": "checkbox.tsx",
       "type": "component",
       "lines": 33,
@@ -609,7 +609,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/combobox.tsx",
+      "id": "components/ui/combobox.tsx",
       "label": "combobox.tsx",
       "type": "component",
       "lines": 299,
@@ -617,7 +617,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/command.tsx",
+      "id": "components/ui/command.tsx",
       "label": "command.tsx",
       "type": "component",
       "lines": 195,
@@ -625,7 +625,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/dialog.tsx",
+      "id": "components/ui/dialog.tsx",
       "label": "dialog.tsx",
       "type": "component",
       "lines": 168,
@@ -633,7 +633,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/dropdown-menu.tsx",
+      "id": "components/ui/dropdown-menu.tsx",
       "label": "dropdown-menu.tsx",
       "type": "component",
       "lines": 269,
@@ -641,7 +641,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/empty.tsx",
+      "id": "components/ui/empty.tsx",
       "label": "empty.tsx",
       "type": "component",
       "lines": 104,
@@ -649,7 +649,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/input-group.tsx",
+      "id": "components/ui/input-group.tsx",
       "label": "input-group.tsx",
       "type": "component",
       "lines": 156,
@@ -657,7 +657,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/input.tsx",
+      "id": "components/ui/input.tsx",
       "label": "input.tsx",
       "type": "component",
       "lines": 19,
@@ -665,7 +665,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/label.tsx",
+      "id": "components/ui/label.tsx",
       "label": "label.tsx",
       "type": "component",
       "lines": 24,
@@ -673,7 +673,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/popover.tsx",
+      "id": "components/ui/popover.tsx",
       "label": "popover.tsx",
       "type": "component",
       "lines": 89,
@@ -681,7 +681,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/scroll-area.tsx",
+      "id": "components/ui/scroll-area.tsx",
       "label": "scroll-area.tsx",
       "type": "component",
       "lines": 55,
@@ -689,7 +689,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/select.tsx",
+      "id": "components/ui/select.tsx",
       "label": "select.tsx",
       "type": "component",
       "lines": 192,
@@ -697,7 +697,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/separator.tsx",
+      "id": "components/ui/separator.tsx",
       "label": "separator.tsx",
       "type": "component",
       "lines": 28,
@@ -705,7 +705,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/sheet.tsx",
+      "id": "components/ui/sheet.tsx",
       "label": "sheet.tsx",
       "type": "component",
       "lines": 147,
@@ -713,7 +713,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/sidebar.tsx",
+      "id": "components/ui/sidebar.tsx",
       "label": "sidebar.tsx",
       "type": "component",
       "lines": 702,
@@ -721,7 +721,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/skeleton.tsx",
+      "id": "components/ui/skeleton.tsx",
       "label": "skeleton.tsx",
       "type": "component",
       "lines": 13,
@@ -729,7 +729,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/sonner.tsx",
+      "id": "components/ui/sonner.tsx",
       "label": "sonner.tsx",
       "type": "component",
       "lines": 49,
@@ -737,7 +737,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/spinner.tsx",
+      "id": "components/ui/spinner.tsx",
       "label": "spinner.tsx",
       "type": "component",
       "lines": 10,
@@ -745,7 +745,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/switch.tsx",
+      "id": "components/ui/switch.tsx",
       "label": "switch.tsx",
       "type": "component",
       "lines": 33,
@@ -753,7 +753,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/tabs.tsx",
+      "id": "components/ui/tabs.tsx",
       "label": "tabs.tsx",
       "type": "component",
       "lines": 90,
@@ -761,7 +761,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/textarea.tsx",
+      "id": "components/ui/textarea.tsx",
       "label": "textarea.tsx",
       "type": "component",
       "lines": 18,
@@ -769,7 +769,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/toggle-group.tsx",
+      "id": "components/ui/toggle-group.tsx",
       "label": "toggle-group.tsx",
       "type": "component",
       "lines": 89,
@@ -777,7 +777,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/toggle.tsx",
+      "id": "components/ui/toggle.tsx",
       "label": "toggle.tsx",
       "type": "component",
       "lines": 47,
@@ -785,7 +785,7 @@
       "community": 4
     },
     {
-      "id": "src/components/ui/tooltip.tsx",
+      "id": "components/ui/tooltip.tsx",
       "label": "tooltip.tsx",
       "type": "component",
       "lines": 57,
@@ -793,7 +793,7 @@
       "community": 4
     },
     {
-      "id": "src/constants/channels.tsx",
+      "id": "constants/channels.tsx",
       "label": "channels.tsx",
       "type": "file",
       "lines": 46,
@@ -806,7 +806,7 @@
       "community": 3
     },
     {
-      "id": "src/constants/post.ts",
+      "id": "constants/post.ts",
       "label": "post.ts",
       "type": "file",
       "lines": 10,
@@ -817,7 +817,7 @@
       "community": 5
     },
     {
-      "id": "src/hooks/use-mobile.ts",
+      "id": "hooks/use-mobile.ts",
       "label": "use-mobile.ts",
       "type": "hook",
       "lines": 19,
@@ -827,7 +827,7 @@
       "community": 5
     },
     {
-      "id": "src/inngest/client.ts",
+      "id": "inngest/client.ts",
       "label": "client.ts",
       "type": "file",
       "lines": 3,
@@ -837,7 +837,7 @@
       "community": 5
     },
     {
-      "id": "src/inngest/functions/publish-scheduled-posts.ts",
+      "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
       "lines": 487,
@@ -848,7 +848,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/encryption.ts",
+      "id": "lib/encryption.ts",
       "label": "encryption.ts",
       "type": "lib",
       "lines": 41,
@@ -859,7 +859,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/insforge-server.ts",
+      "id": "lib/insforge-server.ts",
       "label": "insforge-server.ts",
       "type": "lib",
       "lines": 134,
@@ -870,7 +870,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/utils.ts",
+      "id": "lib/utils.ts",
       "label": "utils.ts",
       "type": "lib",
       "lines": 6,
@@ -880,7 +880,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/auth/auth-components.tsx",
+      "id": "lib/auth/auth-components.tsx",
       "label": "auth-components.tsx",
       "type": "lib",
       "lines": 267,
@@ -894,7 +894,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/auth/auth-context.tsx",
+      "id": "lib/auth/auth-context.tsx",
       "label": "auth-context.tsx",
       "type": "lib",
       "lines": 91,
@@ -908,7 +908,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/social-oauth/index.ts",
+      "id": "lib/social-oauth/index.ts",
       "label": "index.ts",
       "type": "lib",
       "lines": 184,
@@ -918,7 +918,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/social-oauth/pkce.ts",
+      "id": "lib/social-oauth/pkce.ts",
       "label": "pkce.ts",
       "type": "lib",
       "lines": 17,
@@ -929,7 +929,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/social-oauth/state.ts",
+      "id": "lib/social-oauth/state.ts",
       "label": "state.ts",
       "type": "lib",
       "lines": 46,
@@ -940,7 +940,7 @@
       "community": 5
     },
     {
-      "id": "src/lib/social-oauth/types.ts",
+      "id": "lib/social-oauth/types.ts",
       "label": "types.ts",
       "type": "lib",
       "lines": 35,
@@ -948,7 +948,7 @@
       "community": 5
     },
     {
-      "id": "src/types/channel.type.ts",
+      "id": "types/channel.type.ts",
       "label": "channel.type.ts",
       "type": "type",
       "lines": 15,
@@ -956,7 +956,7 @@
       "community": 3
     },
     {
-      "id": "src/types/idea.type.ts",
+      "id": "types/idea.type.ts",
       "label": "idea.type.ts",
       "type": "type",
       "lines": 12,
@@ -964,7 +964,7 @@
       "community": 2
     },
     {
-      "id": "src/types/post.type.ts",
+      "id": "types/post.type.ts",
       "label": "post.type.ts",
       "type": "type",
       "lines": 42,
@@ -974,1558 +974,1138 @@
   ],
   "edges": [
     {
-      "source": "src/app/layout.tsx",
-      "target": "src/components/ui/tooltip",
+      "source": "app/layout.tsx",
+      "target": "components/ui/tooltip",
       "relation": "imports"
     },
     {
-      "source": "src/app/layout.tsx",
-      "target": "src/components/theme-provider",
+      "source": "app/layout.tsx",
+      "target": "components/theme-provider",
       "relation": "imports"
     },
     {
-      "source": "src/app/layout.tsx",
-      "target": "src/components/query-provider",
+      "source": "app/layout.tsx",
+      "target": "components/query-provider",
       "relation": "imports"
     },
     {
-      "source": "src/app/layout.tsx",
-      "target": "src/components/ui/sonner",
+      "source": "app/layout.tsx",
+      "target": "components/ui/sonner",
       "relation": "imports"
     },
     {
-      "source": "src/app/layout.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "app/layout.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/layout.tsx",
-      "target": "src/components/ui/sidebar",
+      "source": "app/(routes)/(dashboard)/layout.tsx",
+      "target": "components/ui/sidebar",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/layout.tsx",
-      "target": "src/components/dark-mode-toggle",
+      "source": "app/(routes)/(dashboard)/layout.tsx",
+      "target": "components/dark-mode-toggle",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/layout.tsx",
-      "target": "./_common/app-sidebar",
+      "source": "app/(routes)/(dashboard)/billing/page.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/billing/page.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/(routes)/(dashboard)/ideas/page.tsx",
+      "target": "components/idea/idea-kanban",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/ideas/page.tsx",
-      "target": "src/components/idea/idea-kanban",
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "src/components/ui/button",
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/ui/toggle-group",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "src/components/ui/toggle-group",
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/list-view",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "src/components/schedule/list-view",
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/calendar-view",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "src/components/schedule/calendar-view",
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/create-post-dialog",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "src/components/schedule/create-post-dialog",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/components/ui/card",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/tabs",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/components/ui/tabs",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/settings/channels-tab",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/components/settings/channels-tab",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/label",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/components/ui/label",
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/ui/switch",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
-      "target": "src/components/ui/switch",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/ui/sidebar",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/ui/sidebar",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/lib/utils",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/ui/sidebar",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/ui/sidebar",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/logo",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/logo",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/ui/button",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/ui/skeleton",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/ui/skeleton",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/constants/channels",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/types/channel.type",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/channel-avatar",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/channel-avatar",
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/schedule/create-post-dialog",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "src/components/schedule/create-post-dialog",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "components/logo",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/components/logo",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "components/dark-mode-toggle",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/components/dark-mode-toggle",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/components/ui/button",
+      "source": "app/(routes)/(landing)/page.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/(landing)/page.tsx",
-      "target": "src/constants/channels",
+      "source": "app/(routes)/sign-in/[[...sign-in]]/page.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/sign-in/[[...sign-in]]/page.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/(routes)/sign-up/[[...sign-up]]/page.tsx",
+      "target": "lib/auth/auth-components",
       "relation": "imports"
     },
     {
-      "source": "src/app/(routes)/sign-up/[[...sign-up]]/page.tsx",
-      "target": "src/lib/auth/auth-components",
+      "source": "app/api/channel/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/constants/channels",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/encryption",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/encryption",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/social-oauth",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/social-oauth",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/social-oauth/pkce",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/social-oauth/pkce",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/social-oauth/state",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/social-oauth/state",
+      "source": "app/api/channel/callback/route.ts",
+      "target": "lib/social-oauth/types",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/callback/route.ts",
-      "target": "src/lib/social-oauth/types",
+      "source": "app/api/channel/connect/route.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/connect/route.ts",
-      "target": "src/constants/channels",
+      "source": "app/api/channel/connect/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/connect/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/channel/connect/route.ts",
+      "target": "lib/social-oauth",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/connect/route.ts",
-      "target": "src/lib/social-oauth",
+      "source": "app/api/channel/connect/route.ts",
+      "target": "lib/social-oauth/pkce",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/connect/route.ts",
-      "target": "src/lib/social-oauth/pkce",
+      "source": "app/api/channel/connect/route.ts",
+      "target": "lib/social-oauth/state",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/connect/route.ts",
-      "target": "src/lib/social-oauth/state",
+      "source": "app/api/channel/disconnect/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/channel/disconnect/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/idea/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/idea/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/idea/generate-ideas/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/idea/generate-ideas/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/idea/[id]/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/idea/[id]/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/inngest/route.ts",
+      "target": "inngest/client",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/inngest/route.ts",
-      "target": "src/inngest/client",
+      "source": "app/api/inngest/route.ts",
+      "target": "inngest/functions/publish-scheduled-posts",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/inngest/route.ts",
-      "target": "src/inngest/functions/publish-scheduled-posts",
+      "source": "app/api/post/route.ts",
+      "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/route.ts",
-      "target": "src/constants/post",
+      "source": "app/api/post/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/post/generate-post/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/generate-post/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/post/totals/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/totals/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/post/[id]/route.ts",
+      "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/[id]/route.ts",
-      "target": "src/constants/post",
+      "source": "app/api/post/[id]/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/[id]/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/post/[id]/publish/route.ts",
+      "target": "inngest/client",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/[id]/publish/route.ts",
-      "target": "src/inngest/client",
+      "source": "app/api/post/[id]/publish/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/post/[id]/publish/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "app/api/upload-image/route.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/app/api/upload-image/route.ts",
-      "target": "src/lib/insforge-server",
+      "source": "components/channel-avatar.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/channel-avatar.tsx",
-      "target": "src/components/ui/avatar",
+      "source": "components/channel-avatar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/channel-avatar.tsx",
-      "target": "src/lib/utils",
+      "source": "components/channel-avatar.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/channel-avatar.tsx",
-      "target": "src/constants/channels",
+      "source": "components/content-textarea.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/content-textarea.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "src/lib/utils",
+      "source": "components/content-textarea.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "./ui/separator",
+      "source": "components/dark-mode-toggle.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "./ui/spinner",
+      "source": "components/dark-mode-toggle.tsx",
+      "target": "components/ui/dropdown-menu",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "./ui/popover",
+      "source": "components/logo.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "./ui/textarea",
+      "source": "components/idea/generate-ideas-popover.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/components/content-textarea.tsx",
-      "target": "src/types/post.type",
+      "source": "components/idea/generate-ideas-popover.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/dark-mode-toggle.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/idea/generate-ideas-popover.tsx",
+      "target": "components/ui/popover",
       "relation": "imports"
     },
     {
-      "source": "src/components/dark-mode-toggle.tsx",
-      "target": "src/components/ui/dropdown-menu",
+      "source": "components/idea/generate-ideas-popover.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/logo.tsx",
-      "target": "src/lib/utils",
+      "source": "components/idea/idea-card.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "components/idea/idea-card.tsx",
+      "target": "types/idea.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/idea/idea-column.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "src/components/ui/popover",
+      "source": "components/idea/idea-column.tsx",
+      "target": "types/idea.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "src/lib/utils",
+      "source": "components/idea/idea-dialog.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "../ui/spinner",
+      "source": "components/idea/idea-dialog.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/generate-ideas-popover.tsx",
-      "target": "../ui/textarea",
+      "source": "components/idea/idea-dialog.tsx",
+      "target": "types/idea.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-card.tsx",
-      "target": "../ui/card",
+      "source": "components/idea/idea-kanban.tsx",
+      "target": "types/idea.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-card.tsx",
-      "target": "../ui/dropdown-menu",
+      "source": "components/schedule/ai-assitant.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-card.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/ai-assitant.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-card.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/ai-assitant.tsx",
+      "target": "components/ui/textarea",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-card.tsx",
-      "target": "src/types/idea.type",
+      "source": "components/schedule/ai-assitant.tsx",
+      "target": "lib/auth/auth-context",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-column.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/calendar-view.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-column.tsx",
-      "target": "../ui/badge",
+      "source": "components/schedule/create-post-dialog.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-column.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/create-post-dialog.tsx",
+      "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-column.tsx",
-      "target": "src/types/idea.type",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-column.tsx",
-      "target": "./idea-card",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "components/ui/dialog",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "src/types/post.type",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "src/types/idea.type",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/dialog",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/select",
+      "source": "components/schedule/edit-post-dialog.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/input",
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "components/ui/select",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/spinner",
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "components/ui/skeleton",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../content-textarea",
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "components/ui/badge",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../schedule/ai-assitant",
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-dialog.tsx",
-      "target": "../ui/textarea",
+      "source": "components/schedule/list-view-item.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/list-view-item.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "../ui/skeleton",
+      "source": "components/schedule/list-view.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "./idea-dialog",
+      "source": "components/schedule/post-channel-accordions.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "src/types/idea.type",
+      "source": "components/schedule/post-channel-accordions.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "./generate-ideas-popover",
+      "source": "components/schedule/post-channel-accordions.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/idea/idea-kanban.tsx",
-      "target": "./idea-column",
+      "source": "components/schedule/post-channel-accordions.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ai-assitant.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/schedule/post-channel-selector.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ai-assitant.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/post-channel-selector.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ai-assitant.tsx",
-      "target": "src/components/ui/textarea",
+      "source": "components/schedule/post-side-drawer.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ai-assitant.tsx",
-      "target": "../ui/spinner",
+      "source": "components/schedule/post-side-drawer.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ai-assitant.tsx",
-      "target": "src/lib/auth/auth-context",
+      "source": "components/schedule/schedule-date-picker.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/calendar-view.tsx",
-      "target": "src/types/post.type",
+      "source": "components/schedule/schedule-date-picker.tsx",
+      "target": "components/ui/calendar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/calendar-view.tsx",
-      "target": "./post-calendar",
+      "source": "components/schedule/schedule-date-picker.tsx",
+      "target": "components/ui/popover",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/calendar-view.tsx",
-      "target": "./schedule-toolbar",
+      "source": "components/schedule/schedule-date-picker.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/calendar-view.tsx",
-      "target": "./create-post-dialog",
+      "source": "components/schedule/schedule-date-picker.tsx",
+      "target": "components/ui/select",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/calendar-view.tsx",
-      "target": "./edit-post-dialog",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "../ui/dialog",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "components/ui/popover",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "components/ui/badge",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "../ui/button-group",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "components/ui/checkbox",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "src/constants/post",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "components/ui/command",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "./schedule-date-picker",
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "../ui/spinner",
+      "source": "components/schedule/use-create-post-state.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "./post-channel-selector",
+      "source": "components/schedule/use-create-post-state.ts",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "./post-channel-accordions",
+      "source": "components/schedule/use-create-post-state.ts",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "./post-side-drawer",
+      "source": "components/schedule/use-create-post-state.ts",
+      "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/create-post-dialog.tsx",
-      "target": "./use-create-post-state",
+      "source": "components/schedule/post-calendar/index.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "./schedule-date-picker",
+      "source": "components/schedule/post-calendar/index.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/schedule/post-calendar/index.tsx",
+      "target": "components/ui/skeleton",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/components/ui/dialog",
+      "source": "components/schedule/post-calendar/index.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/lib/utils",
+      "source": "components/schedule/post-calendar/index.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/types/channel.type",
+      "source": "components/schedule/preview/bluesky-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "../ui/button-group",
+      "source": "components/schedule/preview/bluesky-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "../ui/spinner",
+      "source": "components/schedule/preview/facebook-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/types/post.type",
+      "source": "components/schedule/preview/facebook-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/constants/post",
+      "source": "components/schedule/preview/index.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "src/constants/channels",
+      "source": "components/schedule/preview/index.tsx",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "../content-textarea",
+      "source": "components/schedule/preview/index.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/edit-post-dialog.tsx",
-      "target": "./post-side-drawer",
+      "source": "components/schedule/preview/instagram-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ideas-list.tsx",
-      "target": "src/components/ui/card",
+      "source": "components/schedule/preview/instagram-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ideas-list.tsx",
-      "target": "src/components/ui/select",
+      "source": "components/schedule/preview/instagram-preview.tsx",
+      "target": "components/ui/carousel",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ideas-list.tsx",
-      "target": "src/components/ui/skeleton",
+      "source": "components/schedule/preview/linkedin-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ideas-list.tsx",
-      "target": "src/components/ui/badge",
+      "source": "components/schedule/preview/linkedin-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/ideas-list.tsx",
-      "target": "src/types/post.type",
+      "source": "components/schedule/preview/thread-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "src/types/post.type",
+      "source": "components/schedule/preview/thread-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "../ui/card",
+      "source": "components/schedule/preview/twitter-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "../channel-avatar",
+      "source": "components/schedule/preview/twitter-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "../ui/button",
+      "source": "components/schedule/preview/youtube-preview.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "../ui/spinner",
+      "source": "components/schedule/preview/youtube-preview.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view-item.tsx",
-      "target": "src/lib/utils",
+      "source": "components/settings/channels-tab.tsx",
+      "target": "types/channel.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "src/types/post.type",
+      "source": "components/settings/channels-tab.tsx",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "../ui/tabs",
+      "source": "components/settings/channels-tab.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "../ui/badge",
+      "source": "components/ui/accordion.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "./schedule-toolbar",
+      "source": "components/ui/avatar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "../ui/skeleton",
+      "source": "components/ui/badge.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "../ui/button",
+      "source": "components/ui/button-group.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "./edit-post-dialog",
+      "source": "components/ui/button-group.tsx",
+      "target": "components/ui/separator",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "../ui/spinner",
+      "source": "components/ui/button.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/list-view.tsx",
-      "target": "./list-view-item",
+      "source": "components/ui/calendar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "src/types/channel.type",
+      "source": "components/ui/calendar.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "src/types/post.type",
+      "source": "components/ui/card.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "src/constants/channels",
+      "source": "components/ui/carousel.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "../ui/accordion",
+      "source": "components/ui/carousel.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "../content-textarea",
+      "source": "components/ui/checkbox.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-accordions.tsx",
-      "target": "src/lib/utils",
+      "source": "components/ui/combobox.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-selector.tsx",
-      "target": "src/types/channel.type",
+      "source": "components/ui/combobox.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-selector.tsx",
-      "target": "../ui/skeleton",
+      "source": "components/ui/combobox.tsx",
+      "target": "components/ui/input-group",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-selector.tsx",
-      "target": "../ui/tooltip",
+      "source": "components/ui/command.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-selector.tsx",
-      "target": "../channel-avatar",
+      "source": "components/ui/command.tsx",
+      "target": "components/ui/dialog",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-channel-selector.tsx",
-      "target": "src/lib/utils",
+      "source": "components/ui/command.tsx",
+      "target": "components/ui/input-group",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-side-drawer.tsx",
-      "target": "src/types/channel.type",
+      "source": "components/ui/dialog.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-side-drawer.tsx",
-      "target": "src/types/post.type",
+      "source": "components/ui/dialog.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-side-drawer.tsx",
-      "target": "./ai-assitant",
+      "source": "components/ui/dropdown-menu.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-side-drawer.tsx",
-      "target": "./ideas-list",
+      "source": "components/ui/empty.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-side-drawer.tsx",
-      "target": "./preview",
+      "source": "components/ui/input-group.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-date-picker.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/ui/input-group.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-date-picker.tsx",
-      "target": "src/components/ui/calendar",
+      "source": "components/ui/input-group.tsx",
+      "target": "components/ui/input",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-date-picker.tsx",
-      "target": "src/components/ui/popover",
+      "source": "components/ui/input-group.tsx",
+      "target": "components/ui/textarea",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-date-picker.tsx",
-      "target": "src/lib/utils",
+      "source": "components/ui/input.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-date-picker.tsx",
-      "target": "src/components/ui/select",
+      "source": "components/ui/label.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/lib/utils",
+      "source": "components/ui/popover.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/ui/scroll-area.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/components/ui/popover",
+      "source": "components/ui/select.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/components/ui/badge",
+      "source": "components/ui/separator.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/components/ui/checkbox",
+      "source": "components/ui/sheet.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/components/ui/command",
+      "source": "components/ui/sheet.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "src/types/channel.type",
+      "source": "components/ui/sidebar.tsx",
+      "target": "hooks/use-mobile",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/schedule-toolbar.tsx",
-      "target": "../channel-avatar",
+      "source": "components/ui/sidebar.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "src/constants/channels",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "src/types/channel.type",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/input",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "src/types/post.type",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/separator",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "src/constants/post",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/sheet",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "./post-channel-accordions",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/skeleton",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/use-create-post-state.ts",
-      "target": "./post-side-drawer",
+      "source": "components/ui/sidebar.tsx",
+      "target": "components/ui/tooltip",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-calendar/index.tsx",
-      "target": "src/lib/utils",
+      "source": "components/ui/skeleton.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-calendar/index.tsx",
-      "target": "src/components/ui/button",
+      "source": "components/ui/spinner.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-calendar/index.tsx",
-      "target": "src/components/ui/skeleton",
+      "source": "components/ui/switch.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-calendar/index.tsx",
-      "target": "src/constants/channels",
+      "source": "components/ui/tabs.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/post-calendar/index.tsx",
-      "target": "src/types/post.type",
+      "source": "components/ui/textarea.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/bluesky-preview.tsx",
-      "target": "src/components/ui/card",
+      "source": "components/ui/toggle-group.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/bluesky-preview.tsx",
-      "target": "src/components/ui/avatar",
+      "source": "components/ui/toggle-group.tsx",
+      "target": "components/ui/toggle",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/facebook-preview.tsx",
-      "target": "src/components/ui/card",
+      "source": "components/ui/toggle.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/facebook-preview.tsx",
-      "target": "src/components/ui/avatar",
+      "source": "components/ui/tooltip.tsx",
+      "target": "lib/utils",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "src/types/channel.type",
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./twitter-preview",
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./facebook-preview",
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/encryption",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./instagram-preview",
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/social-oauth",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./bluesky-preview",
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./thread-preview",
+      "source": "lib/auth/auth-components.tsx",
+      "target": "components/ui/avatar",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./linkedin-preview",
+      "source": "lib/auth/auth-components.tsx",
+      "target": "components/ui/dropdown-menu",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "./youtube-preview",
+      "source": "lib/auth/auth-components.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "src/types/post.type",
+      "source": "lib/auth/auth-components.tsx",
+      "target": "components/ui/card",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/index.tsx",
-      "target": "src/constants/channels",
+      "source": "lib/auth/auth-components.tsx",
+      "target": "components/ui/badge",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/instagram-preview.tsx",
-      "target": "src/components/ui/card",
+      "source": "lib/social-oauth/index.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/instagram-preview.tsx",
-      "target": "src/components/ui/avatar",
+      "source": "lib/social-oauth/state.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/instagram-preview.tsx",
-      "target": "src/components/ui/carousel",
+      "source": "lib/social-oauth/types.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {
-      "source": "src/components/schedule/preview/linkedin-preview.tsx",
-      "target": "src/components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/linkedin-preview.tsx",
-      "target": "src/components/ui/avatar",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/thread-preview.tsx",
-      "target": "src/components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/thread-preview.tsx",
-      "target": "src/components/ui/avatar",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/twitter-preview.tsx",
-      "target": "src/components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/twitter-preview.tsx",
-      "target": "src/components/ui/avatar",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/youtube-preview.tsx",
-      "target": "src/components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/schedule/preview/youtube-preview.tsx",
-      "target": "src/components/ui/avatar",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "src/types/channel.type",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "../ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "../ui/skeleton",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "../ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/settings/channels-tab.tsx",
-      "target": "../ui/spinner",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/accordion.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/avatar.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/badge.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/button-group.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/button-group.tsx",
-      "target": "src/components/ui/separator",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/button.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/calendar.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/calendar.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/card.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/carousel.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/carousel.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/checkbox.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/combobox.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/combobox.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/combobox.tsx",
-      "target": "src/components/ui/input-group",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/command.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/command.tsx",
-      "target": "src/components/ui/dialog",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/command.tsx",
-      "target": "src/components/ui/input-group",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/dialog.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/dialog.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/dropdown-menu.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/empty.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/input-group.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/input-group.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/input-group.tsx",
-      "target": "src/components/ui/input",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/input-group.tsx",
-      "target": "src/components/ui/textarea",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/input.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/label.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/popover.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/scroll-area.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/select.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/separator.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sheet.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sheet.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/hooks/use-mobile",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/input",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/separator",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/sheet",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/skeleton",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/sidebar.tsx",
-      "target": "src/components/ui/tooltip",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/skeleton.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/spinner.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/switch.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/tabs.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/textarea.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/toggle-group.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/toggle-group.tsx",
-      "target": "src/components/ui/toggle",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/toggle.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/components/ui/tooltip.tsx",
-      "target": "src/lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "src/lib/insforge-server",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "../client",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "src/types/post.type",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "src/lib/encryption",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "src/lib/social-oauth",
-      "relation": "imports"
-    },
-    {
-      "source": "src/inngest/functions/publish-scheduled-posts.ts",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "src/components/ui/avatar",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "src/components/ui/dropdown-menu",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "src/components/ui/button",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "src/components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "src/components/ui/badge",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/auth/auth-components.tsx",
-      "target": "./auth-context",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/social-oauth/index.ts",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/social-oauth/index.ts",
-      "target": "./types",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/social-oauth/state.ts",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/lib/social-oauth/types.ts",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/types/channel.type.ts",
-      "target": "src/constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "src/types/idea.type.ts",
-      "target": "./post.type",
-      "relation": "imports"
-    },
-    {
-      "source": "src/types/post.type.ts",
-      "target": "./channel.type",
+      "source": "types/channel.type.ts",
+      "target": "constants/channels",
       "relation": "imports"
     }
   ]

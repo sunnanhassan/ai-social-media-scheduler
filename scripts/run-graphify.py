@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Graphify AST knowledge graph extractor and synchronizer.
-Scans the codebase, extracts nodes, dependencies, and relationships,
+Scans the codebase at root level, extracts nodes, dependencies, and relationships,
 and outputs graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, and graphify-out/wiki/index.md.
 """
 
@@ -16,14 +16,18 @@ OUT_DIR = ROOT / "graphify-out"
 WIKI_DIR = OUT_DIR / "wiki"
 
 def scan_files():
-    src_dir = ROOT / "src"
+    target_dirs = ["app", "components", "constants", "hooks", "inngest", "lib", "types"]
     tracked_files = []
-    for root, dirs, files in os.walk(src_dir):
-        if "node_modules" in root or ".next" in root:
+    for d in target_dirs:
+        dir_path = ROOT / d
+        if not dir_path.exists():
             continue
-        for f in files:
-            if f.endswith((".ts", ".tsx", ".js", ".jsx", ".css")):
-                tracked_files.append(Path(root) / f)
+        for root, dirs, files in os.walk(dir_path):
+            if "node_modules" in root or ".next" in root:
+                continue
+            for f in files:
+                if f.endswith((".ts", ".tsx", ".js", ".jsx", ".css")):
+                    tracked_files.append(Path(root) / f)
     return tracked_files
 
 def extract_nodes_and_edges(files):
@@ -41,11 +45,11 @@ def extract_nodes_and_edges(files):
             continue
             
         lines = len(content.splitlines())
-        node_type = "component" if "/components/" in rel_path else (
-            "route" if "/api/" in rel_path or "/app/" in rel_path else (
-                "lib" if "/lib/" in rel_path else (
-                    "hook" if "/hooks/" in rel_path else (
-                        "type" if "/types/" in rel_path else "file"
+        node_type = "component" if rel_path.startswith("components/") else (
+            "route" if rel_path.startswith("app/api/") or rel_path.startswith("app/") else (
+                "lib" if rel_path.startswith("lib/") else (
+                    "hook" if rel_path.startswith("hooks/") else (
+                        "type" if rel_path.startswith("types/") else "file"
                     )
                 )
             )
@@ -71,9 +75,8 @@ def extract_nodes_and_edges(files):
         # Edges
         imports = import_re.findall(content)
         for imp in imports:
-            if imp.startswith("@/") or imp.startswith("."):
-                # Normalize relative import
-                target = imp.replace("@/", "src/")
+            if imp.startswith("@/"):
+                target = imp.replace("@/", "")
                 edges.append({
                     "source": rel_path,
                     "target": target,
@@ -108,13 +111,13 @@ Generated: {graph_data['timestamp']}
 ## Overview
 - **Total Tracked Code Files**: {len(nodes)}
 - **Total Dependency Edges**: {len(edges)}
-- **Architecture**: Next.js 16 (Turbopack) App Router, React 19, TypeScript, Tailwind CSS v4, shadcn/ui
+- **Architecture**: Next.js 16 (Turbopack) Root App Router, React 19, TypeScript, Tailwind CSS v4, shadcn/ui
 
 ## Key Subsystems
-1. **Schedule Subsystem**: Calendar and list view for multi-channel scheduled publishing (`src/components/schedule/`).
-2. **Idea Subsystem**: Interactive Kanban board and AI-assisted brainstorming (`src/components/idea/`).
-3. **Settings & Channels Subsystem**: Social OAuth account connection and channel configuration (`src/components/settings/`, `src/app/api/channel/`).
-4. **Design System & Primitives**: Octet SaaS Analytics color palette and shadcn/ui components (`src/components/ui/`, `src/app/globals.css`).
+1. **Schedule Subsystem**: Calendar and list view for multi-channel scheduled publishing (`components/schedule/`).
+2. **Idea Subsystem**: Interactive Kanban board and AI-assisted brainstorming (`components/idea/`).
+3. **Settings & Channels Subsystem**: Social OAuth account connection and channel configuration (`components/settings/`, `app/api/channel/`).
+4. **Design System & Primitives**: Octet SaaS Analytics color palette and shadcn/ui components (`components/ui/`, `app/globals.css`).
 
 ## Pre-Commit Verification
 - All custom components are confirmed under 300 lines of code.
