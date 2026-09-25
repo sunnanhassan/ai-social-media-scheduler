@@ -1,4 +1,4 @@
-import { SignUp } from "@clerk/nextjs"
+import { SignUp } from "@/lib/auth/auth-components";
 
 const SignUpPage = () => {
   return (

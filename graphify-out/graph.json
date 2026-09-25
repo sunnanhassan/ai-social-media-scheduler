@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-25T19:29:28.805603+00:00",
-  "total_nodes": 107,
-  "total_edges": 293,
+  "timestamp": "2026-09-25T19:39:40.703453+00:00",
+  "total_nodes": 109,
+  "total_edges": 311,
   "nodes": [
     {
       "id": "src/app/globals.css",
@@ -15,7 +15,7 @@
       "id": "src/app/layout.tsx",
       "label": "layout.tsx",
       "type": "route",
-      "lines": 55,
+      "lines": 53,
       "components": [
         "metadata",
         "RootLayout"
@@ -60,7 +60,7 @@
       "id": "src/app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 117,
+      "lines": 118,
       "components": [],
       "community": 3
     },
@@ -68,7 +68,7 @@
       "id": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 255,
+      "lines": 256,
       "components": [],
       "community": 5
     },
@@ -76,7 +76,7 @@
       "id": "src/app/(routes)/(landing)/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 231,
+      "lines": 232,
       "components": [
         "LandingPage"
       ],
@@ -880,6 +880,34 @@
       "community": 5
     },
     {
+      "id": "src/lib/auth/auth-components.tsx",
+      "label": "auth-components.tsx",
+      "type": "lib",
+      "lines": 267,
+      "components": [
+        "AppUserButton",
+        "AppUserProfile",
+        "AppSignIn",
+        "AppSignUp",
+        "AppPricingTable"
+      ],
+      "community": 5
+    },
+    {
+      "id": "src/lib/auth/auth-context.tsx",
+      "label": "auth-context.tsx",
+      "type": "lib",
+      "lines": 91,
+      "components": [
+        "rawClerkKey",
+        "hasValidClerkKey",
+        "mockUser",
+        "AppAuthProvider",
+        "useAppAuth"
+      ],
+      "community": 5
+    },
+    {
       "id": "src/lib/social-oauth/index.ts",
       "label": "index.ts",
       "type": "lib",
@@ -966,6 +994,11 @@
       "relation": "imports"
     },
     {
+      "source": "src/app/layout.tsx",
+      "target": "src/lib/auth/auth-context",
+      "relation": "imports"
+    },
+    {
       "source": "src/app/(routes)/(dashboard)/layout.tsx",
       "target": "src/components/ui/sidebar",
       "relation": "imports"
@@ -978,6 +1011,11 @@
     {
       "source": "src/app/(routes)/(dashboard)/layout.tsx",
       "target": "./_common/app-sidebar",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(dashboard)/billing/page.tsx",
+      "target": "src/lib/auth/auth-components",
       "relation": "imports"
     },
     {
@@ -1018,6 +1056,16 @@
     {
       "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
       "target": "src/components/ui/tabs",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "src/lib/auth/auth-context",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "src/lib/auth/auth-components",
       "relation": "imports"
     },
     {
@@ -1077,12 +1125,32 @@
     },
     {
       "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "src/lib/auth/auth-context",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "src/lib/auth/auth-components",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "src/components/channel-avatar",
       "relation": "imports"
     },
     {
       "source": "src/app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "src/components/schedule/create-post-dialog",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(landing)/page.tsx",
+      "target": "src/lib/auth/auth-context",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/(landing)/page.tsx",
+      "target": "src/lib/auth/auth-components",
       "relation": "imports"
     },
     {
@@ -1103,6 +1171,16 @@
     {
       "source": "src/app/(routes)/(landing)/page.tsx",
       "target": "src/constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/sign-in/[[...sign-in]]/page.tsx",
+      "target": "src/lib/auth/auth-components",
+      "relation": "imports"
+    },
+    {
+      "source": "src/app/(routes)/sign-up/[[...sign-up]]/page.tsx",
+      "target": "src/lib/auth/auth-components",
       "relation": "imports"
     },
     {
@@ -1312,6 +1390,11 @@
     },
     {
       "source": "src/components/idea/generate-ideas-popover.tsx",
+      "target": "src/lib/auth/auth-context",
+      "relation": "imports"
+    },
+    {
+      "source": "src/components/idea/generate-ideas-popover.tsx",
       "target": "src/components/ui/button",
       "relation": "imports"
     },
@@ -1488,6 +1571,11 @@
     {
       "source": "src/components/schedule/ai-assitant.tsx",
       "target": "../ui/spinner",
+      "relation": "imports"
+    },
+    {
+      "source": "src/components/schedule/ai-assitant.tsx",
+      "target": "src/lib/auth/auth-context",
       "relation": "imports"
     },
     {
@@ -2373,6 +2461,36 @@
     {
       "source": "src/inngest/functions/publish-scheduled-posts.ts",
       "target": "src/constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "src/components/ui/avatar",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "src/components/ui/dropdown-menu",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "src/components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "src/components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "src/components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "src/lib/auth/auth-components.tsx",
+      "target": "./auth-context",
       "relation": "imports"
     },
     {

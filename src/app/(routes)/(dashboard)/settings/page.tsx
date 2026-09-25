@@ -2,7 +2,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { UserProfile, useUser } from "@clerk/nextjs"
+import { useUser } from "@/lib/auth/auth-context";
+import { UserProfile } from "@/lib/auth/auth-components";
 import { Layers, Palette, User } from "lucide-react"
 import ChannelsTab from "@/components/settings/channels-tab"
 import { useTheme } from "next-themes"

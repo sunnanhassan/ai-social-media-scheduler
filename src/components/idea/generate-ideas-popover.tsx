@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { Sparkles, Check, X } from "lucide-react"
-import { useSubscription } from "@clerk/nextjs/experimental"
+import { useSubscription } from "@/lib/auth/auth-context";
 import { Button } from "@/components/ui/button"
 import {
   Popover,

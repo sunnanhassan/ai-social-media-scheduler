@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth, UserButton } from "@clerk/nextjs";
+import { useAuth } from "@/lib/auth/auth-context";
+import { UserButton } from "@/lib/auth/auth-components";
 import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Logo from "@/components/logo";

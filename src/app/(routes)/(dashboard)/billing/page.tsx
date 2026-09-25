@@ -1,4 +1,4 @@
-import { ClerkLoaded, ClerkLoading, PricingTable } from "@clerk/nextjs"
+import { ClerkLoaded, ClerkLoading, PricingTable } from "@/lib/auth/auth-components";
 
 const BillingPage = () => {
   return (
