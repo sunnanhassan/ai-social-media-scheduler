@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
         const { insforge } = await getInsforgeServerClient()
         const result = await insforge.ai.chat.completions.create({
-            model: "google/gemini-2.5-flash-lite",
+            model: "google/gemini-1.5-pro",
             messages: [
                 {
                     role: "system",

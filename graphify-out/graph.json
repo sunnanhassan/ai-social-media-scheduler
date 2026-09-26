@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T18:53:15.621562+00:00",
-  "total_nodes": 120,
-  "total_edges": 245,
+  "timestamp": "2026-09-26T19:25:37.255646+00:00",
+  "total_nodes": 121,
+  "total_edges": 246,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -151,6 +151,14 @@
       "label": "route.ts",
       "type": "route",
       "lines": 37,
+      "components": [],
+      "community": 2
+    },
+    {
+      "id": "app/api/ideas/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 182,
       "components": [],
       "community": 2
     },
@@ -354,7 +362,7 @@
       "id": "components/idea/idea-kanban.tsx",
       "label": "idea-kanban.tsx",
       "type": "component",
-      "lines": 289,
+      "lines": 318,
       "components": [],
       "community": 2
     },
@@ -1338,6 +1346,11 @@
     },
     {
       "source": "app/api/idea/[id]/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/ideas/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
     },

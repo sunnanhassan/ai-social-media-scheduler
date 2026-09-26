@@ -21,7 +21,7 @@ const IdeaKanban = () => {
   const { data: ideaData, isPending } = useQuery({
     queryKey: ["ideas"],
     queryFn: async () => {
-      const res = await fetch("/api/idea");
+      const res = await fetch("/api/ideas");
       if (!res.ok) throw new Error("Failed to fetch ideas");
       return res.json();
     },
@@ -35,18 +35,30 @@ const IdeaKanban = () => {
 
   const saveIdeaMutation = useMutation({
     mutationFn: async (idea: IdeaType) => {
-      const response = await fetch("/api/idea", {
-        method: "POST",
+      const isUpdate = idea.id && !idea.id.startsWith("temp-");
+      const url = "/api/ideas";
+      
+      const payload = isUpdate 
+        ? {
+            id: idea.id,
+            updates: {
+              groupId: idea.columnId,
+              content: idea.title,
+              description: idea.description,
+              sortOrder: idea.sortOrder
+            }
+          }
+        : {
+            groupId: idea.columnId,
+            content: idea.title,
+            description: idea.description
+          };
+
+      const response = await fetch(url, {
+        method: isUpdate ? "PATCH" : "POST",
         keepalive: true,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: idea.id,
-          title: idea.title,
-          description: idea.description,
-          groupId: idea.columnId,
-          images: idea.images,
-          sortOrder: idea.sortOrder,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!response.ok) throw new Error("Failed to save idea");
       return response.json();
@@ -62,8 +74,10 @@ const IdeaKanban = () => {
 
   const deleteIdeaMutation = useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/idea/${id}`, {
+      const res = await fetch(`/api/ideas`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
       });
       if (!res.ok) throw new Error("Failed to delete idea");
       return res.json();
@@ -89,10 +103,23 @@ const IdeaKanban = () => {
 
     if (!sourceColumn || !destinationColumn) return;
 
+    // Helper to calculate new sort order
+    const calculateNewOrder = (items: IdeaType[], index: number) => {
+      if (items.length === 0) return 1000;
+      if (index === 0) return (items[0].sortOrder || 1000) / 2;
+      if (index >= items.length) return (items[items.length - 1].sortOrder || 0) + 1000;
+      const prev = items[index - 1].sortOrder || 0;
+      const next = items[index].sortOrder || 0;
+      return (prev + next) / 2;
+    };
+
     if (source.droppableId === destination.droppableId) {
       const newIdeas = [...sourceColumn.ideas];
       const [movedIdea] = newIdeas.splice(source.index, 1);
-      movedIdea.sortOrder = destination.index;
+      
+      const newOrder = calculateNewOrder(newIdeas, destination.index);
+      movedIdea.sortOrder = newOrder;
+      
       newIdeas.splice(destination.index, 0, movedIdea);
 
       const newColumns = columns.map((col) =>
@@ -102,15 +129,17 @@ const IdeaKanban = () => {
 
       saveIdeaMutation.mutate({
         ...movedIdea,
-        sortOrder: destination.index,
+        sortOrder: newOrder,
       });
     } else {
       const sourceIdeas = [...sourceColumn.ideas];
       const destIdeas = [...destinationColumn.ideas];
       const [movedIdea] = sourceIdeas.splice(source.index, 1);
 
-      movedIdea.sortOrder = destination.index;
+      const newOrder = calculateNewOrder(destIdeas, destination.index);
+      movedIdea.sortOrder = newOrder;
       movedIdea.columnId = destination.droppableId;
+      
       destIdeas.splice(destination.index, 0, movedIdea);
 
       const newColumns = columns.map((col) => {
@@ -123,7 +152,7 @@ const IdeaKanban = () => {
       saveIdeaMutation.mutate({
         ...movedIdea,
         columnId: destination.droppableId,
-        sortOrder: destination.index,
+        sortOrder: newOrder,
       });
     }
   };

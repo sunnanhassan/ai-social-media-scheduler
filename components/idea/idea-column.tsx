@@ -42,7 +42,7 @@ export function IdeaColumn({
   const dotColor = getStatusDotColor(column.title);
 
   return (
-    <div className="shrink-0 w-[300px] flex flex-col h-full min-h-0 rounded-lg border border-border/80 bg-muted/20 backdrop-blur-xs">
+    <div className="shrink-0 w-[300px] flex flex-col h-full min-h-0 rounded-lg border border-border/80 bg-muted/30">
       {/* Sleek column header */}
       <div className="flex items-center justify-between px-3 py-2.5 border-b border-border/60 bg-muted/10">
         <div className="flex items-center gap-2">
