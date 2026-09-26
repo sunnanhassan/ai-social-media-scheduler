@@ -9,12 +9,29 @@ export async function GET() {
     }
 
     // Since idea_groups is global and we use admin client, we fetch all groups
-    const { data: groups, error: groupsError } = await insforge
+    let { data: groups, error: groupsError } = await insforge
       .database.from('idea_groups')
       .select('*')
       .order('sort_order', { ascending: true });
 
     if (groupsError) throw groupsError;
+
+    // Automatically seed default groups if table is empty
+    if (!groups || groups.length === 0) {
+      const defaultGroups = [
+        { name: 'Backlog', sort_order: 1000 },
+        { name: 'In Progress', sort_order: 2000 },
+        { name: 'Done', sort_order: 3000 },
+      ];
+      const { data: seeded, error: seedError } = await insforge
+        .database.from('idea_groups')
+        .insert(defaultGroups)
+        .select('*')
+        .order('sort_order', { ascending: true });
+      if (!seedError && seeded) {
+        groups = seeded;
+      }
+    }
 
     // Fetch ideas only for the current user
     const { data: ideas, error: ideasError } = await insforge
@@ -26,15 +43,16 @@ export async function GET() {
     if (ideasError) throw ideasError;
 
     // Stitch together and map to frontend camelCase expectations
-    const groupedIdeas = groups.map(group => ({
+    const groupedIdeas = (groups || []).map(group => ({
       id: group.id,
       title: group.name,
-      ideas: ideas
+      ideas: (ideas || [])
         .filter(idea => idea.group_id === group.id)
         .map(idea => ({
           ...idea,
           columnId: idea.group_id,
-          sortOrder: idea.sort_order
+          sortOrder: idea.sort_order,
+          images: Array.isArray(idea.images) ? idea.images : []
         })),
     }));
 
@@ -53,9 +71,10 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { groupId, content, description } = body;
+    const { groupId, content, title, description, images } = body;
+    const ideaTitle = title || content;
 
-    if (!groupId || !content) {
+    if (!groupId || !ideaTitle) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -79,8 +98,9 @@ export async function POST(req: Request) {
       .insert({
         user_id: userId,
         group_id: groupId,
-        title: content, // mapping content from frontend to title in DB
+        title: ideaTitle,
         description: description || null,
+        images: Array.isArray(images) ? images : [],
         sort_order: nextSortOrder,
       })
       .select()
@@ -124,7 +144,9 @@ export async function PATCH(req: Request) {
     if (updates.groupId !== undefined) dbUpdates.group_id = updates.groupId;
     if (updates.sortOrder !== undefined) dbUpdates.sort_order = updates.sortOrder;
     if (updates.content !== undefined) dbUpdates.title = updates.content;
+    if (updates.title !== undefined) dbUpdates.title = updates.title;
     if (updates.description !== undefined) dbUpdates.description = updates.description;
+    if (updates.images !== undefined) dbUpdates.images = updates.images;
 
     const { data, error } = await insforge
       .database.from('ideas')

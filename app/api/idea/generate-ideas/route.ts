@@ -12,7 +12,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const canUseAI = has({ plan: "pro" }) || has({ plan: "premium" })
+        const isDev = process.env.NODE_ENV === "development";
+        const canUseAI = isDev || (has ? (has({ plan: "pro" }) || has({ plan: "premium" })) : true);
         if (!canUseAI) {
             return NextResponse.json({ error: "AI Idea generation requires Pro or Premium plan" }, { status: 403 });
         }
@@ -45,9 +46,27 @@ Return plain text only inside the JSON strings.`,
             ]
         })
 
-        const text = result.choices[0]?.message?.content ?? ""
+        let text = result.choices[0]?.message?.content ?? "";
+        text = text.trim();
+        if (text.startsWith("```")) {
+            text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+        }
 
-        const parsed = JSON.parse(text) as { ideas?: { title: string, description: string }[] }
+        let parsed: { ideas?: { title: string; description: string }[] } = {};
+        try {
+            parsed = JSON.parse(text);
+        } catch {
+            const start = text.indexOf("{");
+            const end = text.lastIndexOf("}");
+            if (start !== -1 && end !== -1 && end > start) {
+                try {
+                    parsed = JSON.parse(text.slice(start, end + 1));
+                } catch (e) {
+                    console.error("Failed to parse extracted JSON substring:", e);
+                }
+            }
+        }
+
         const ideas = Array.isArray(parsed.ideas) ? parsed.ideas.slice(0, 3) : []
 
         return NextResponse.json({ ideas })

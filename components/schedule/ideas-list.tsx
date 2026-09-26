@@ -32,7 +32,7 @@ const IdeasList = ({ onSelect }: IdeasListProps) => {
   const { data, isLoading } = useQuery({
     queryKey: ["ideas"],
     queryFn: async () => {
-      const res = await fetch("/api/idea")
+      const res = await fetch("/api/ideas")
       if (!res.ok) throw new Error("Failed to fetch ideas")
       return res.json()
     }

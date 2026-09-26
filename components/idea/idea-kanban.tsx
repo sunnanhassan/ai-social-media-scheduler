@@ -9,6 +9,7 @@ import IdeaDialog from "./idea-dialog";
 import { IdeaType } from "@/types/idea.type";
 import { IdeaColumn, KanbanColumn } from "./idea-column";
 import { IdeaToolbar } from "./idea-toolbar";
+import { calculateNewOrder } from "@/lib/kanban-sort";
 
 const IdeaKanban = () => {
   const queryClient = useQueryClient();
@@ -44,14 +45,18 @@ const IdeaKanban = () => {
             updates: {
               groupId: idea.columnId,
               content: idea.title,
+              title: idea.title,
               description: idea.description,
-              sortOrder: idea.sortOrder
+              sortOrder: idea.sortOrder,
+              images: idea.images || []
             }
           }
         : {
             groupId: idea.columnId,
             content: idea.title,
-            description: idea.description
+            title: idea.title,
+            description: idea.description,
+            images: idea.images || []
           };
 
       const response = await fetch(url, {
@@ -66,9 +71,14 @@ const IdeaKanban = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["ideas"] });
     },
-    onError: (error) => {
+    onError: (error, _variables, context: any) => {
       console.error("Failed to save idea:", error);
       toast.error("Failed to save idea");
+      if (context?.previousColumns) {
+        setColumns(context.previousColumns);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["ideas"] });
+      }
     },
   });
 
@@ -88,6 +98,7 @@ const IdeaKanban = () => {
     onError: (error) => {
       console.error("Failed to delete idea", error);
       toast.error("Failed to delete idea");
+      queryClient.invalidateQueries({ queryKey: ["ideas"] });
     },
   });
 
@@ -103,15 +114,7 @@ const IdeaKanban = () => {
 
     if (!sourceColumn || !destinationColumn) return;
 
-    // Helper to calculate new sort order
-    const calculateNewOrder = (items: IdeaType[], index: number) => {
-      if (items.length === 0) return 1000;
-      if (index === 0) return (items[0].sortOrder || 1000) / 2;
-      if (index >= items.length) return (items[items.length - 1].sortOrder || 0) + 1000;
-      const prev = items[index - 1].sortOrder || 0;
-      const next = items[index].sortOrder || 0;
-      return (prev + next) / 2;
-    };
+    const previousColumnsSnapshot = columns;
 
     if (source.droppableId === destination.droppableId) {
       const newIdeas = [...sourceColumn.ideas];
@@ -127,10 +130,17 @@ const IdeaKanban = () => {
       );
       setColumns(newColumns);
 
-      saveIdeaMutation.mutate({
-        ...movedIdea,
-        sortOrder: newOrder,
-      });
+      saveIdeaMutation.mutate(
+        {
+          ...movedIdea,
+          sortOrder: newOrder,
+        },
+        {
+          onError: () => {
+            setColumns(previousColumnsSnapshot);
+          },
+        }
+      );
     } else {
       const sourceIdeas = [...sourceColumn.ideas];
       const destIdeas = [...destinationColumn.ideas];
@@ -149,11 +159,18 @@ const IdeaKanban = () => {
       });
 
       setColumns(newColumns);
-      saveIdeaMutation.mutate({
-        ...movedIdea,
-        columnId: destination.droppableId,
-        sortOrder: newOrder,
-      });
+      saveIdeaMutation.mutate(
+        {
+          ...movedIdea,
+          columnId: destination.droppableId,
+          sortOrder: newOrder,
+        },
+        {
+          onError: () => {
+            setColumns(previousColumnsSnapshot);
+          },
+        }
+      );
     }
   };
 

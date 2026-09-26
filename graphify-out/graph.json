@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T19:25:37.255646+00:00",
-  "total_nodes": 121,
-  "total_edges": 246,
+  "timestamp": "2026-09-26T19:37:15.817011+00:00",
+  "total_nodes": 122,
+  "total_edges": 247,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -142,7 +142,7 @@
       "id": "app/api/idea/generate-ideas/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 59,
+      "lines": 78,
       "components": [],
       "community": 2
     },
@@ -158,7 +158,7 @@
       "id": "app/api/ideas/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 182,
+      "lines": 204,
       "components": [],
       "community": 2
     },
@@ -362,7 +362,7 @@
       "id": "components/idea/idea-kanban.tsx",
       "label": "idea-kanban.tsx",
       "type": "component",
-      "lines": 318,
+      "lines": 335,
       "components": [],
       "community": 2
     },
@@ -951,6 +951,16 @@
       "components": [
         "useInsforgeClient",
         "insforge"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/kanban-sort.ts",
+      "label": "kanban-sort.ts",
+      "type": "lib",
+      "lines": 31,
+      "components": [
+        "calculateNewOrder"
       ],
       "community": 5
     },
@@ -1602,6 +1612,11 @@
     {
       "source": "components/idea/idea-kanban.tsx",
       "target": "types/idea.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-kanban.tsx",
+      "target": "lib/kanban-sort",
       "relation": "imports"
     },
     {
