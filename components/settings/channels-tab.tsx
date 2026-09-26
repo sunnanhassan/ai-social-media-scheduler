@@ -1,9 +1,8 @@
 
 "use client"
-import { Suspense,useState, useEffect } from 'react'
+import { Suspense } from 'react'
 import { toast } from 'sonner';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation'
 import { ChannelType } from '@/types/channel.type';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
@@ -13,10 +12,11 @@ import { PlusSignIcon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
+import { useSocialConnect } from '@/hooks/use-social-connect';
 
 function ChannelTabContent() {
-    const searchParams = useSearchParams()
     const queryClient = useQueryClient()
+    const { isConnecting, connectingPlatform, connectSocial } = useSocialConnect()
 
     const { data: channelsData, isPending } = useQuery({
         queryKey: ["channels"],
@@ -27,40 +27,6 @@ function ChannelTabContent() {
         }
     })
     const channels = (channelsData?.channels || []) as ChannelType[]
-
-    useEffect(() => {
-        const connected = searchParams.get("connected")
-        const error = searchParams.get("error")
-        const channelType = searchParams.get("channelType")
-
-        if (!connected && !error) return
-        queryClient.invalidateQueries({ queryKey: ["channels"] })
-        if (connected) {
-            toast.success(`Successfully connected to ${channelType}`)
-        }
-        if (error) {
-            toast.error(`Failed to connect to ${channelType}`)
-        }
-    }, [queryClient, searchParams])
-
-    const connectMutation = useMutation({
-        mutationFn: async (channelTypeId: string) => {
-            const res = await fetch("/api/channel/connect", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ channelTypeId }),
-            })
-            const data = await res.json()
-            if (!res.ok) throw new Error(data.error || "Failed to start connection")
-            return data
-        },
-        onSuccess: ({ url }) => {
-            window.location.href = url
-        },
-        onError: (error: Error) => {
-            toast.error(error.message || "Failed to start connection")
-        },
-    })
 
     const disconnectMutation = useMutation({
         mutationFn: async (userChannelId: string) => {
@@ -83,16 +49,17 @@ function ChannelTabContent() {
         },
     })
 
-    const handleConnect = (channelTypeId: string) => {
-        if (!channelTypeId) return
-        if (connectMutation.isPending) return
-        connectMutation.mutate(channelTypeId)
+    const handleConnect = (channel: ChannelType) => {
+        if (!channel?.id) return
+        if (isConnecting) return
+        connectSocial({ channelTypeId: channel.id, platform: channel.type })
     }
     const handleDisconnect = (userChannelId: string) => {
         if (!userChannelId) return
         if (disconnectMutation.isPending) return
         disconnectMutation.mutate(userChannelId)
     }
+
     return (
         <Card>
             <CardHeader>
@@ -149,11 +116,11 @@ function ChannelTabContent() {
                                     </div>
 
                                     <Button variant={channel.connected ? "destructive" : "default"} size="sm"
-                                        disabled={connectMutation.isPending || disconnectMutation.isPending}
-                                        onClick={() => channel.connected ? handleDisconnect(channel.user_channel_id!) : handleConnect(channel.id!)}
+                                        disabled={isConnecting || disconnectMutation.isPending}
+                                        onClick={() => channel.connected ? handleDisconnect(channel.user_channel_id!) : handleConnect(channel)}
                                     >
-                                        {(connectMutation.isPending && connectMutation.variables === channel.id ||
-                                          disconnectMutation.isPending && disconnectMutation.variables === channel.user_channel_id) && (
+                                        {((isConnecting && (connectingPlatform === channel.id || connectingPlatform === channel.type)) ||
+                                          (disconnectMutation.isPending && disconnectMutation.variables === channel.user_channel_id)) && (
                                             <Spinner className='size-4' />
                                         )}
                                         {channel.connected ? "Disconnect" : "Connect"}

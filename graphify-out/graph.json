@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T16:19:31.982473+00:00",
-  "total_nodes": 114,
-  "total_edges": 235,
+  "timestamp": "2026-09-26T17:38:09.794935+00:00",
+  "total_nodes": 117,
+  "total_edges": 237,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -110,7 +110,7 @@
       "id": "app/api/channel/callback/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 136,
+      "lines": 2,
       "components": [],
       "community": 3
     },
@@ -118,7 +118,7 @@
       "id": "app/api/channel/connect/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 70,
+      "lines": 2,
       "components": [],
       "community": 3
     },
@@ -199,6 +199,22 @@
       "label": "route.ts",
       "type": "route",
       "lines": 56,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/social/callback/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 203,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/social/connect/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 110,
       "components": [],
       "community": 5
     },
@@ -572,7 +588,7 @@
       "id": "components/settings/channels-tab.tsx",
       "label": "channels-tab.tsx",
       "type": "component",
-      "lines": 184,
+      "lines": 151,
       "components": [],
       "community": 3
     },
@@ -867,6 +883,16 @@
       "community": 5
     },
     {
+      "id": "hooks/use-social-connect.ts",
+      "label": "use-social-connect.ts",
+      "type": "hook",
+      "lines": 137,
+      "components": [
+        "useSocialConnect"
+      ],
+      "community": 5
+    },
+    {
       "id": "inngest/client.ts",
       "label": "client.ts",
       "type": "file",
@@ -962,8 +988,10 @@
       "id": "lib/social-oauth/index.ts",
       "label": "index.ts",
       "type": "lib",
-      "lines": 184,
+      "lines": 234,
       "components": [
+        "getProviderConfig",
+        "isProviderConfigured",
         "getOAuthProvider"
       ],
       "community": 5
@@ -983,7 +1011,7 @@
       "id": "lib/social-oauth/state.ts",
       "label": "state.ts",
       "type": "lib",
-      "lines": 46,
+      "lines": 48,
       "components": [
         "createOAuthState",
         "verifyOAuthState"
@@ -1246,62 +1274,12 @@
     },
     {
       "source": "app/api/channel/callback/route.ts",
-      "target": "constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/encryption",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/insforge-server",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/social-oauth",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/social-oauth/pkce",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/social-oauth/state",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/callback/route.ts",
-      "target": "lib/social-oauth/types",
+      "target": "app/api/social/callback/route",
       "relation": "imports"
     },
     {
       "source": "app/api/channel/connect/route.ts",
-      "target": "constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/connect/route.ts",
-      "target": "lib/insforge-server",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/connect/route.ts",
-      "target": "lib/social-oauth",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/connect/route.ts",
-      "target": "lib/social-oauth/pkce",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/channel/connect/route.ts",
-      "target": "lib/social-oauth/state",
+      "target": "app/api/social/connect/route",
       "relation": "imports"
     },
     {
@@ -1372,6 +1350,61 @@
     {
       "source": "app/api/post/[id]/publish/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/encryption",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth/pkce",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth/state",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/connect/route.ts",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/connect/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/connect/route.ts",
+      "target": "lib/social-oauth",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/connect/route.ts",
+      "target": "lib/social-oauth/pkce",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/connect/route.ts",
+      "target": "lib/social-oauth/state",
       "relation": "imports"
     },
     {
@@ -1872,6 +1905,11 @@
     {
       "source": "components/settings/channels-tab.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/channels-tab.tsx",
+      "target": "hooks/use-social-connect",
       "relation": "imports"
     },
     {

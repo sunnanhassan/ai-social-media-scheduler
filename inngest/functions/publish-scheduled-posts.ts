@@ -431,7 +431,7 @@ async function saveRefreshedToken(
     userChannelId: string | undefined,
     accessToken: string,
     refreshToken: string,
-    expiresAt: number
+    expiresAt?: string | number | null
 ) {
     if(!userChannelId) {
         throw new Error("User channel ID is missing")

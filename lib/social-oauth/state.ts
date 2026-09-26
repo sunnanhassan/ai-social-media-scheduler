@@ -32,8 +32,10 @@ export function verifyOAuthState(state: string): OAuthStatePayload {
     }
     const expectedSignature = createHmac('sha256', OAUTH_STATE_SECRET).update(encodedState).digest('base64url');
 
-    const isValid = timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
-    if (!isValid) {
+    const sigBuf = Buffer.from(signature);
+    const expectedBuf = Buffer.from(expectedSignature);
+
+    if (sigBuf.length !== expectedBuf.length || !timingSafeEqual(sigBuf, expectedBuf)) {
         throw new Error('Invalid state signature');
     }
     const statePayload = JSON.parse(Buffer.from(encodedState, 'base64url').toString('utf-8'));
