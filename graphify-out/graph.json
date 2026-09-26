@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-26T20:06:35.938517+00:00",
-  "total_nodes": 126,
+  "timestamp": "2026-09-26T20:29:45.758955+00:00",
+  "total_nodes": 127,
   "total_edges": 250,
   "nodes": [
     {
@@ -52,7 +52,7 @@
       "id": "app/(routes)/(dashboard)/schedule/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 115,
+      "lines": 114,
       "components": [],
       "community": 1
     },
@@ -506,7 +506,7 @@
       "id": "components/schedule/schedule-toolbar.tsx",
       "label": "schedule-toolbar.tsx",
       "type": "component",
-      "lines": 159,
+      "lines": 156,
       "components": [],
       "community": 1
     },
@@ -524,7 +524,7 @@
       "id": "components/schedule/post-calendar/index.tsx",
       "label": "index.tsx",
       "type": "component",
-      "lines": 214,
+      "lines": 219,
       "components": [
         "PostCalendar"
       ],
@@ -998,6 +998,20 @@
         "resolveScheduleTime"
       ],
       "community": 5
+    },
+    {
+      "id": "lib/schedule-utils.ts",
+      "label": "schedule-utils.ts",
+      "type": "lib",
+      "lines": 57,
+      "components": [
+        "sanitizeChannelIds",
+        "serializeChannelIds",
+        "normalizeStatusFilter",
+        "calculateCalendarGridBounds",
+        "isPostOverdue"
+      ],
+      "community": 1
     },
     {
       "id": "lib/utils.ts",

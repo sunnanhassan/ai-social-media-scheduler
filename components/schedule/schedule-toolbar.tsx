@@ -53,48 +53,45 @@ const ScheduleToolbar = ({
   return (
     <div className="flex items-center gap-2">
       {/* Status Filter */}
-      {viewType === "calendar" && (
-
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="ghost" size="lg" className="h-8 gap-1">
-              <Copy className="h-3.5 w-3.5" />
-              <span className="font-medium text-sm text-muted-foreground!">
-                {statusOptions.find((s) => s.id === selectedStatus)?.label || "All Posts"}
-              </span>
-              <ChevronDown className="h-3.5 w-3.5" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-48 p-2" align="end">
-            <div className="space-y-1">
-              {statusOptions.map((option) => (
-                <div
-                  key={option.id}
-                  role="button"
-                  tabIndex={0}
-                  className={cn(
-                    "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors cursor-pointer select-none",
-                    selectedStatus === option.id && "bg-muted font-medium"
-                  )}
-                  onClick={() => setSelectedStatus(option.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setSelectedStatus(option.id);
-                    }
-                  }}
-                >
-                  <Checkbox
-                    checked={selectedStatus === option.id}
-                    className="pointer-events-none"
-                  />
-                  <span>{option.label}</span>
-                </div>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-      )}
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="lg" className="h-8 gap-1">
+            <Copy className="h-3.5 w-3.5" />
+            <span className="font-medium text-sm text-muted-foreground!">
+              {statusOptions.find((s) => s.id === (selectedStatus || "all"))?.label || "All Posts"}
+            </span>
+            <ChevronDown className="h-3.5 w-3.5" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-48 p-2" align="end">
+          <div className="space-y-1">
+            {statusOptions.map((option) => (
+              <div
+                key={option.id}
+                role="button"
+                tabIndex={0}
+                className={cn(
+                  "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors cursor-pointer select-none",
+                  (selectedStatus === option.id || (!selectedStatus && option.id === "all")) && "bg-muted font-medium"
+                )}
+                onClick={() => setSelectedStatus(option.id === "all" ? "" : option.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedStatus(option.id === "all" ? "" : option.id);
+                  }
+                }}
+              >
+                <Checkbox
+                  checked={selectedStatus === option.id || (!selectedStatus && option.id === "all")}
+                  className="pointer-events-none"
+                />
+                <span>{option.label}</span>
+              </div>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
 
       {/* Channels Filter */}
       <Popover>

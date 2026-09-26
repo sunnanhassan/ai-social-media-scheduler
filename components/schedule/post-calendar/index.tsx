@@ -123,7 +123,12 @@ export function PostCalendar({
         view={view === "month" ? Views.MONTH : Views.WEEK}
         onView={(v) => onViewChange(v === Views.MONTH ? "month" : "week")}
         onSelectEvent={(event: any) => onPostClick(event)}
-        //onSelectSlot={({ start }) => onCreatePost(start)}
+        selectable
+        onSelectSlot={({ start }) => {
+          if (!isBefore(start, startOfDay(new Date()))) {
+            onCreatePost(start)
+          }
+        }}
       
         // In week view, disable past time slots 
         // and style them differently

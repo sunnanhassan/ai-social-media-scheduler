@@ -53,7 +53,6 @@ const SchedulePageContent = () => {
             value={activeView}
             onValueChange={(value) => {
               if (!value) return;
-              setStatus(null);
               setActiveView(value as ViewType);
             }}
             className="border border-border/80 rounded-md p-0.5 bg-muted/30 h-8"
