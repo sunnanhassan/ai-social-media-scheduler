@@ -7,7 +7,14 @@ export default async function middleware(req: NextRequest) {
   if (secretKey && pubKey && !pubKey.includes('example.com')) {
     try {
       const { clerkMiddleware, createRouteMatcher } = await import('@clerk/nextjs/server');
-      const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/', '/api/inngest(.*)']);
+      const isPublicRoute = createRouteMatcher([
+        '/sign-in(.*)',
+        '/sign-up(.*)',
+        '/',
+        '/api/inngest(.*)',
+        '/api/social/callback(.*)',
+        '/api/channel/callback(.*)',
+      ]);
       return clerkMiddleware(async (auth, request) => {
         if (!isPublicRoute(request)) {
           await auth.protect();

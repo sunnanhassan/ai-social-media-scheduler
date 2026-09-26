@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs/server';
-import { createClient, type InsForgeClient } from '@insforge/sdk';
+import { createClient, createAdminClient, type InsForgeClient } from '@insforge/sdk';
 
 const BASE_URL = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://e5p8ba7h.ap-southeast.insforge.app';
 const ANON_KEY = process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || '';
@@ -24,10 +24,10 @@ export async function getInsforgeServerClient(): Promise<{ insforge: InsForgeCli
       const session = await auth();
       userId = session.userId;
       if (userId) {
-        token = await session.getToken({ template: TEMPLATE });
+        token = await session.getToken({ template: TEMPLATE }).catch(() => null);
       }
-    } catch (err) {
-      console.warn('Failed to retrieve Clerk auth session on server:', err);
+    } catch {
+      // Session retrieval failed; fallback to admin client
     }
   }
 
@@ -55,11 +55,17 @@ export function getInsforgeAdminClient(): InsForgeClient {
   if (!BASE_URL) {
     throw new Error('Missing NEXT_PUBLIC_INSFORGE_BASE_URL environment variable');
   }
-  const key = PROJECT_API_KEY || ANON_KEY;
+  if (PROJECT_API_KEY) {
+    return createAdminClient({
+      baseUrl: BASE_URL,
+      apiKey: PROJECT_API_KEY,
+    });
+  }
   return createClient({
     baseUrl: BASE_URL,
-    anonKey: key,
+    anonKey: ANON_KEY,
   });
 }
 
 export const getInsforgeUploadClient = getInsforgeAdminClient;
+

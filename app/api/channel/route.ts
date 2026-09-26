@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const DEFAULT_MOCK_CHANNELS = [
   {
-    id: "ch-x",
+    id: "833c1b98-4637-4a4d-ab1d-2d8c3fea4e97",
     type: "TWITTER",
     name: "X (Twitter)",
     color: "#1DA1F2",
@@ -12,10 +12,10 @@ const DEFAULT_MOCK_CHANNELS = [
     handle: "@sunnanhassan",
     profile_image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
     profile_url: "https://x.com/sunnanhassan",
-    connected: true,
+    connected: false,
   },
   {
-    id: "ch-linkedin",
+    id: "ef235b28-2201-4dda-9b07-d137a3c7c2f2",
     type: "LINKEDIN",
     name: "LinkedIn",
     color: "#0A66C2",
@@ -24,10 +24,10 @@ const DEFAULT_MOCK_CHANNELS = [
     handle: "Sunnan Hassan",
     profile_image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
     profile_url: "https://linkedin.com/in/sunnanhassan",
-    connected: true,
+    connected: false,
   },
   {
-    id: "ch-instagram",
+    id: "4586c03e-264e-403a-a6ba-deecb49f505e",
     type: "INSTAGRAM",
     name: "Instagram",
     color: "#E1306C",
@@ -39,7 +39,7 @@ const DEFAULT_MOCK_CHANNELS = [
     connected: false,
   },
   {
-    id: "ch-facebook",
+    id: "4e0ce0ab-a935-42f4-a294-b08bfab6f87c",
     type: "FACEBOOK",
     name: "Facebook",
     color: "#1877F2",
@@ -51,7 +51,7 @@ const DEFAULT_MOCK_CHANNELS = [
     connected: false,
   },
   {
-    id: "ch-threads",
+    id: "fc2e2e75-adb1-4f0e-b82b-7147bf382d04",
     type: "THREADS",
     name: "Threads",
     color: "#000000",
@@ -63,7 +63,7 @@ const DEFAULT_MOCK_CHANNELS = [
     connected: false,
   },
   {
-    id: "ch-youtube",
+    id: "2b44ae4d-8d9c-4c3b-a5ba-6c63abd6389c",
     type: "YOUTUBE",
     name: "YouTube",
     color: "#FF0000",
@@ -75,7 +75,7 @@ const DEFAULT_MOCK_CHANNELS = [
     connected: false,
   },
   {
-    id: "ch-bluesky",
+    id: "61b3a519-1085-4bf5-a791-ad0f77f562c5",
     type: "BLUESKY",
     name: "Bluesky",
     color: "#0285FF",
@@ -87,7 +87,7 @@ const DEFAULT_MOCK_CHANNELS = [
     connected: false,
   },
   {
-    id: "ch-tiktok",
+    id: "db5c863f-370b-4ec3-8779-deaa4edea0c4",
     type: "TIKTOK",
     name: "TikTok",
     color: "#000000",

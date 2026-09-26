@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T17:38:09.794935+00:00",
+  "timestamp": "2026-09-26T17:53:36.410676+00:00",
   "total_nodes": 117,
-  "total_edges": 237,
+  "total_edges": 239,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -68,7 +68,7 @@
       "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 256,
+      "lines": 242,
       "components": [],
       "community": 5
     },
@@ -206,7 +206,7 @@
       "id": "app/api/social/callback/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 203,
+      "lines": 247,
       "components": [],
       "community": 5
     },
@@ -214,7 +214,7 @@
       "id": "app/api/social/connect/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 110,
+      "lines": 173,
       "components": [],
       "community": 5
     },
@@ -928,7 +928,7 @@
       "id": "lib/insforge-server.ts",
       "label": "insforge-server.ts",
       "type": "lib",
-      "lines": 65,
+      "lines": 71,
       "components": [
         "getInsforgeAdminClient",
         "getInsforgeUploadClient"
@@ -1225,6 +1225,16 @@
     {
       "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "components/schedule/create-post-dialog",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "hooks/use-social-connect",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/ui/spinner",
       "relation": "imports"
     },
     {

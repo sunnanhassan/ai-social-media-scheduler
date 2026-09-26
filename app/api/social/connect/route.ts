@@ -22,35 +22,77 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Resolve channel_type from database
-    let query = insforge.database.from("channel_types").select("id, type, name");
-    if (channelTypeId) {
-      query = query.eq("id", channelTypeId);
-    } else if (platform) {
-      const normalizedType = String(platform).trim().toUpperCase();
-      query = query.eq("type", normalizedType);
+    const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    let channelType: { id: string; type: string; name: string } | null = null;
+
+    // 1. If valid UUID provided, query by ID
+    if (channelTypeId && UUID_REGEX.test(channelTypeId)) {
+      const { data } = await insforge.database
+        .from("channel_types")
+        .select("id, type, name")
+        .eq("id", channelTypeId)
+        .maybeSingle();
+      if (data) channelType = data;
     }
 
-    const { data: channelType, error: channelTypeError } = await query.single();
+    // 2. If not found by ID, infer type string and query by type
+    if (!channelType) {
+      let inferredType = platform ? String(platform).trim().toUpperCase() : null;
+      if (!inferredType && channelTypeId) {
+        const lower = channelTypeId.toLowerCase();
+        if (lower.includes("x") || lower.includes("twit")) inferredType = ChannelTypeEnum.TWITTER;
+        else if (lower.includes("link")) inferredType = ChannelTypeEnum.LINKEDIN;
+        else if (lower.includes("insta")) inferredType = ChannelTypeEnum.INSTAGRAM;
+        else if (lower.includes("face")) inferredType = ChannelTypeEnum.FACEBOOK;
+        else if (lower.includes("thread")) inferredType = ChannelTypeEnum.THREADS;
+        else if (lower.includes("blue")) inferredType = ChannelTypeEnum.BLUESKY;
+        else if (lower.includes("tube")) inferredType = ChannelTypeEnum.YOUTUBE;
+        else if (lower.includes("tik")) inferredType = ChannelTypeEnum.TIKTOK;
+        else inferredType = channelTypeId.toUpperCase();
+      }
 
-    if (channelTypeError || !channelType) {
+      if (inferredType) {
+        const { data } = await insforge.database
+          .from("channel_types")
+          .select("id, type, name")
+          .eq("type", inferredType)
+          .maybeSingle();
+        if (data) channelType = data;
+      }
+    }
+
+    // 3. Fallback to known seeded records if database lookup was empty or failed
+    if (!channelType) {
+      const SEEDED_FALLBACKS: Record<string, { id: string; type: ChannelTypeEnum; name: string }> = {
+        [ChannelTypeEnum.TWITTER]: {
+          id: "833c1b98-4637-4a4d-ab1d-2d8c3fea4e97",
+          type: ChannelTypeEnum.TWITTER,
+          name: "Twitter / X",
+        },
+        [ChannelTypeEnum.LINKEDIN]: {
+          id: "ef235b28-2201-4dda-9b07-d137a3c7c2f2",
+          type: ChannelTypeEnum.LINKEDIN,
+          name: "LinkedIn",
+        },
+      };
+
+      const key = (platform || channelTypeId || "").toUpperCase();
+      if (key.includes("TWITTER") || key.includes("X")) {
+        channelType = SEEDED_FALLBACKS[ChannelTypeEnum.TWITTER];
+      } else if (key.includes("LINKEDIN")) {
+        channelType = SEEDED_FALLBACKS[ChannelTypeEnum.LINKEDIN];
+      }
+    }
+
+    if (!channelType) {
       return NextResponse.json({ error: "Unsupported or unseeded channel type" }, { status: 404 });
     }
+
 
     const type = channelType.type as ChannelTypeEnum;
     if (type !== ChannelTypeEnum.TWITTER && type !== ChannelTypeEnum.LINKEDIN) {
       return NextResponse.json(
         { error: `Only Twitter and LinkedIn are supported on /api/social/connect. Received: ${type}` },
-        { status: 400 }
-      );
-    }
-
-    if (!isProviderConfigured(type)) {
-      return NextResponse.json(
-        {
-          error: `OAuth credentials for ${channelType.name} are missing. Please set ${type}_CLIENT_ID in .env.local`,
-          configured: false,
-        },
         { status: 400 }
       );
     }
@@ -70,6 +112,27 @@ export async function POST(request: NextRequest) {
       channelType: type,
       redirectTo,
     });
+
+    if (!isProviderConfigured(type)) {
+      if (process.env.NODE_ENV !== "production" && process.env.ALLOW_MOCK_OAUTH === "true") {
+        const mockCallbackUrl = `${appUrl}/api/social/callback?mock=true&state=${encodeURIComponent(state)}&platform=${type}`;
+        return NextResponse.json({
+          url: mockCallbackUrl,
+          platform: type,
+          channelTypeId: channelType.id,
+          mock: true,
+        });
+      }
+
+      return NextResponse.json(
+        {
+          error: `OAuth credentials for ${channelType.name} are missing. Please set ${type}_CLIENT_ID in .env.local`,
+          configured: false,
+        },
+        { status: 400 }
+      );
+    }
+
 
     // Twitter requires PKCE
     const pkce = type === ChannelTypeEnum.TWITTER ? createPkcePair() : null;

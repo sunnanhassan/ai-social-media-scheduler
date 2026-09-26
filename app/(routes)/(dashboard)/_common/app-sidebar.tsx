@@ -19,6 +19,9 @@ import ChannelAvatar from '@/components/channel-avatar';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import CreatePostDialog from '@/components/schedule/create-post-dialog';
+import { useSocialConnect } from '@/hooks/use-social-connect';
+import { Spinner } from '@/components/ui/spinner';
+
 
 const mainNav = [
   { name: "Ideas", href: "/ideas", icon: Lightbulb },
@@ -33,31 +36,9 @@ const AppSidebar = () => {
   const isCollapsed = state === "collapsed"
   const { user } = useUser()
   const [isCreatePostOpen, setIsCreatePostOpen] = useState<boolean>(false)
+  const { isConnecting, connectingPlatform, connectSocial } = useSocialConnect()
 
-   const connectMutation = useMutation({
-    mutationFn: async (channelTypeId: string) => {
-      const res = await fetch("/api/channel/connect", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          channelTypeId,
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to connect channel")
-      }
-      return data
-    },
-    onSuccess: ({url}) => {
-      window.location.href = url
-    },
-    onError: () => {
-      toast.error("Failed to connect channel")
-    }
-  })
-
-  const {data:channelsData, isPending} = useQuery({
+  const { data: channelsData, isPending } = useQuery({
     queryKey: ["channels"],
     queryFn: async () => {
       const res = await fetch("/api/channel");
@@ -74,11 +55,11 @@ const AppSidebar = () => {
   const totalChannels = channelsData?.totalChannels || 0;
   const limitedChannels = unconnectedChannels.slice(0, 4);
 
-
-  const handleConnect = (channelTypeId: string) => {
-    if(connectMutation.isPending) return;
-    connectMutation.mutate(channelTypeId);
+  const handleConnect = (channel: ChannelType) => {
+    if (isConnecting) return;
+    connectSocial({ channelTypeId: channel.id, platform: channel.type });
   }
+
  
 
   return (
@@ -184,11 +165,12 @@ const AppSidebar = () => {
                        tooltip={`Connect ${channel.name}`}
                       >
                        <button
-                        className='w-full flex items-center gap-2'
-                        disabled={connectMutation.isPending}
-                        onClick={() => handleConnect(channel.id)}
+                        className='w-full flex items-center justify-between gap-2'
+                        disabled={isConnecting}
+                        onClick={() => handleConnect(channel)}
                        >
-                          <span>
+                          <div className='flex items-center gap-2 min-w-0'>
+                            <span>
                              <div className='relative'>
                               {icon ? (
                                 <HugeiconsIcon icon={icon} color='currentColor'
@@ -203,8 +185,12 @@ const AppSidebar = () => {
                                   <HugeiconsIcon icon={PlusSignIcon} className="size-2!" />
                                 </div>
                              </div>
-                          </span>
-                          <span className='truncate'>{channel.name}</span>
+                            </span>
+                            <span className='truncate'>{channel.name}</span>
+                          </div>
+                          {isConnecting && (connectingPlatform === channel.id || connectingPlatform === channel.type) && (
+                            <Spinner className='size-3 shrink-0' />
+                          )}
                        </button>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

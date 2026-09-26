@@ -72,6 +72,49 @@ export async function GET(request: NextRequest) {
     return response;
   }
 
+  const isMock = searchParams.get("mock") === "true";
+  if (isMock && process.env.NODE_ENV !== "production" && process.env.ALLOW_MOCK_OAUTH === "true") {
+    try {
+      const { insforge, userId } = await getInsforgeServerClient();
+      const effectiveUserId = userId || state.userId;
+      const mockHandle = state.channelType === ChannelTypeEnum.TWITTER ? "demo_twitter_user" : "demo_linkedin_user";
+      const mockImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop";
+
+      const payload = {
+        user_id: effectiveUserId,
+        channel_type_id: state.channelTypeId,
+        provider_account_id: `mock-${state.channelType.toLowerCase()}-${Date.now()}`,
+        handle: mockHandle,
+        profile_image: mockImage,
+        profile_url: state.channelType === ChannelTypeEnum.TWITTER ? `https://x.com/${mockHandle}` : `https://linkedin.com/in/${mockHandle}`,
+        access_token: encrypt(`mock_token_${Date.now()}`),
+        refresh_token: null,
+        token_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        is_connected: true,
+        is_active: true,
+        updated_at: new Date().toISOString(),
+      };
+
+      await insforge.database.from("user_channels").upsert(payload, { onConflict: "user_id,channel_type_id" });
+
+      const response = buildRedirectUrl(appUrl, redirectTo, {
+        connected: "true",
+        platform: state.channelType,
+        handle: mockHandle,
+      });
+      response.cookies.delete(pkceCookieName);
+      return response;
+    } catch (mockErr: any) {
+      console.error("Mock OAuth callback error:", mockErr);
+      const response = buildRedirectUrl(appUrl, redirectTo, {
+        connected: "false",
+        error: "mock_connect_failed",
+      });
+      response.cookies.delete(pkceCookieName);
+      return response;
+    }
+  }
+
   // Edge Case 4: Missing authorization code
   if (!code) {
     const response = buildRedirectUrl(appUrl, redirectTo, {
@@ -81,6 +124,7 @@ export async function GET(request: NextRequest) {
     response.cookies.delete(pkceCookieName);
     return response;
   }
+
 
   try {
     // Edge Case 5: Verify authenticated user matches state payload to prevent session fixation
