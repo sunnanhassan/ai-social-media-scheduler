@@ -68,20 +68,28 @@ const ScheduleToolbar = ({
           <PopoverContent className="w-48 p-2" align="end">
             <div className="space-y-1">
               {statusOptions.map((option) => (
-                <button
+                <div
                   key={option.id}
+                  role="button"
+                  tabIndex={0}
                   className={cn(
-                    "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors",
+                    "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted transition-colors cursor-pointer select-none",
                     selectedStatus === option.id && "bg-muted font-medium"
                   )}
                   onClick={() => setSelectedStatus(option.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedStatus(option.id);
+                    }
+                  }}
                 >
                   <Checkbox
                     checked={selectedStatus === option.id}
                     className="pointer-events-none"
                   />
                   <span>{option.label}</span>
-                </button>
+                </div>
               ))}
             </div>
           </PopoverContent>

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-26T19:53:51.999440+00:00",
+  "timestamp": "2026-09-26T20:06:35.938517+00:00",
   "total_nodes": 126,
   "total_edges": 250,
   "nodes": [
@@ -506,7 +506,7 @@
       "id": "components/schedule/schedule-toolbar.tsx",
       "label": "schedule-toolbar.tsx",
       "type": "component",
-      "lines": 151,
+      "lines": 159,
       "components": [],
       "community": 1
     },
