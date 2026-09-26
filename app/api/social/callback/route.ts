@@ -1,26 +1,18 @@
 import { ChannelTypeEnum } from "@/constants/channels";
 import { encrypt } from "@/lib/encryption";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
-import { getOAuthProvider } from "@/lib/social-oauth";
+import { getOAuthProvider, getProviderConfig } from "@/lib/social-oauth";
+import {
+  exchangeForLongLivedToken,
+  fetchMetaAccounts,
+  extractPrimaryFacebookPage,
+  extractPrimaryInstagramAccount,
+} from "@/lib/social-oauth/meta";
+import { handleMockOAuthCallback } from "@/lib/social-oauth/mock-callback";
 import { getPkceCookieName } from "@/lib/social-oauth/pkce";
+import { buildRedirectUrl } from "@/lib/social-oauth/redirect";
 import { verifyOAuthState, type OAuthStatePayload } from "@/lib/social-oauth/state";
-import { NextRequest, NextResponse } from "next/server";
-
-function buildRedirectUrl(appUrl: string, redirectTo: string, params: Record<string, string>) {
-  try {
-    const url = new URL(redirectTo, appUrl);
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-    return NextResponse.redirect(url);
-  } catch {
-    const fallback = new URL("/settings", appUrl);
-    Object.entries(params).forEach(([key, value]) => {
-      fallback.searchParams.set(key, value);
-    });
-    return NextResponse.redirect(fallback);
-  }
-}
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -72,50 +64,18 @@ export async function GET(request: NextRequest) {
     return response;
   }
 
+  // Edge Case 4: Simulated local development mock OAuth callback
   const isMock = searchParams.get("mock") === "true";
   if (isMock && process.env.NODE_ENV !== "production" && process.env.ALLOW_MOCK_OAUTH === "true") {
-    try {
-      const { insforge, userId } = await getInsforgeServerClient();
-      const effectiveUserId = userId || state.userId;
-      const mockHandle = state.channelType === ChannelTypeEnum.TWITTER ? "demo_twitter_user" : "demo_linkedin_user";
-      const mockImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop";
-
-      const payload = {
-        user_id: effectiveUserId,
-        channel_type_id: state.channelTypeId,
-        provider_account_id: `mock-${state.channelType.toLowerCase()}-${Date.now()}`,
-        handle: mockHandle,
-        profile_image: mockImage,
-        profile_url: state.channelType === ChannelTypeEnum.TWITTER ? `https://x.com/${mockHandle}` : `https://linkedin.com/in/${mockHandle}`,
-        access_token: encrypt(`mock_token_${Date.now()}`),
-        refresh_token: null,
-        token_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        is_connected: true,
-        is_active: true,
-        updated_at: new Date().toISOString(),
-      };
-
-      await insforge.database.from("user_channels").upsert(payload, { onConflict: "user_id,channel_type_id" });
-
-      const response = buildRedirectUrl(appUrl, redirectTo, {
-        connected: "true",
-        platform: state.channelType,
-        handle: mockHandle,
-      });
-      response.cookies.delete(pkceCookieName);
-      return response;
-    } catch (mockErr: any) {
-      console.error("Mock OAuth callback error:", mockErr);
-      const response = buildRedirectUrl(appUrl, redirectTo, {
-        connected: "false",
-        error: "mock_connect_failed",
-      });
-      response.cookies.delete(pkceCookieName);
-      return response;
-    }
+    return handleMockOAuthCallback({
+      state,
+      appUrl,
+      redirectTo,
+      pkceCookieName,
+    });
   }
 
-  // Edge Case 4: Missing authorization code
+  // Edge Case 5: Missing authorization code
   if (!code) {
     const response = buildRedirectUrl(appUrl, redirectTo, {
       connected: "false",
@@ -125,9 +85,8 @@ export async function GET(request: NextRequest) {
     return response;
   }
 
-
   try {
-    // Edge Case 5: Verify authenticated user matches state payload to prevent session fixation
+    // Edge Case 6: Verify authenticated user matches state payload to prevent session fixation
     const { insforge, userId } = await getInsforgeServerClient();
     if (!userId || userId !== state.userId) {
       const response = buildRedirectUrl(appUrl, redirectTo, {
@@ -138,7 +97,7 @@ export async function GET(request: NextRequest) {
       return response;
     }
 
-    // Edge Case 6: Twitter PKCE code verifier validation
+    // Edge Case 7: Twitter PKCE code verifier validation
     const codeVerifier =
       state.channelType === ChannelTypeEnum.TWITTER
         ? request.cookies.get(pkceCookieName)?.value
@@ -156,23 +115,66 @@ export async function GET(request: NextRequest) {
     const provider = getOAuthProvider(state.channelType);
     const redirectUri = `${appUrl}/api/social/callback`;
 
-    // Step 7: Exchange authorization code for Access & Refresh Tokens
+    // Step 8: Exchange authorization code for tokens
     const token = await provider.exchangeCodeForToken({
       code,
       redirectUri,
       codeVerifier,
     });
 
-    // Step 8: Fetch user profile from social network
-    const profile = await provider.getProfile({
-      accessToken: token.accessToken,
-    });
+    let activeAccessToken = token.accessToken;
+    let activeRefreshToken = token.refreshToken;
+    let activeExpiresAt = token.expiresAt;
+    let providerAccountId: string | null = null;
+    let handle: string | null = null;
+    let profileImage: string | null = null;
+    let profileUrl: string | null = null;
 
-    // Step 9: Encrypt sensitive tokens via AES-256-GCM before DB insertion
-    const encryptedAccessToken = encrypt(token.accessToken);
-    let encryptedRefreshToken = token.refreshToken ? encrypt(token.refreshToken) : null;
+    // Step 9: Resolve channel-specific identity (Meta Pages/IG Business vs Twitter/LinkedIn)
+    if (state.channelType === ChannelTypeEnum.FACEBOOK || state.channelType === ChannelTypeEnum.INSTAGRAM) {
+      const config = getProviderConfig(state.channelType);
+      const longLived = await exchangeForLongLivedToken({
+        userToken: token.accessToken,
+        clientId: config.clientId,
+        clientSecret: config.clientSecret,
+      }).catch(() => ({ accessToken: token.accessToken, expiresIn: undefined }));
 
-    // Edge Case 10: If provider omitted refresh token on re-auth, preserve existing refresh token
+      const accounts = await fetchMetaAccounts(longLived.accessToken);
+
+      if (state.channelType === ChannelTypeEnum.FACEBOOK) {
+        const page = extractPrimaryFacebookPage(accounts);
+        activeAccessToken = page.pageAccessToken;
+        providerAccountId = page.pageId;
+        handle = page.pageName;
+        profileImage = page.pagePictureUrl;
+        profileUrl = `https://facebook.com/${page.pageId}`;
+      } else {
+        const ig = extractPrimaryInstagramAccount(accounts);
+        activeAccessToken = ig.pageAccessToken;
+        providerAccountId = ig.instagramAccountId;
+        handle = ig.username;
+        profileImage = ig.profilePictureUrl;
+        profileUrl = `https://instagram.com/${ig.username}`;
+      }
+    } else {
+      const profile = await provider.getProfile({ accessToken: token.accessToken });
+      providerAccountId = profile.providerAccountId ?? null;
+      handle = profile.handle ?? null;
+      profileImage = profile.profileImage ?? null;
+      profileUrl = handle
+        ? state.channelType === ChannelTypeEnum.TWITTER
+          ? `https://x.com/${handle.replace(/^@/, "")}`
+          : state.channelType === ChannelTypeEnum.LINKEDIN
+          ? `https://linkedin.com/in/${handle}`
+          : null
+        : null;
+    }
+
+    // Step 10: Encrypt sensitive tokens via AES-256-GCM before DB insertion
+    const encryptedAccessToken = encrypt(activeAccessToken);
+    let encryptedRefreshToken = activeRefreshToken ? encrypt(activeRefreshToken) : null;
+
+    // Edge Case 11: If provider omitted refresh token on re-auth, preserve existing refresh token
     if (!encryptedRefreshToken) {
       const { data: existingChannel } = await insforge.database
         .from("user_channels")
@@ -186,25 +188,17 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const profileUrl = profile.handle
-      ? state.channelType === ChannelTypeEnum.TWITTER
-        ? `https://x.com/${profile.handle.replace(/^@/, "")}`
-        : state.channelType === ChannelTypeEnum.LINKEDIN
-        ? `https://linkedin.com/in/${profile.handle}`
-        : null
-      : null;
-
-    // Step 11: Upsert into database table
+    // Step 12: Upsert into user_channels table
     const payload = {
       user_id: state.userId,
       channel_type_id: state.channelTypeId,
-      provider_account_id: profile.providerAccountId ?? null,
-      handle: profile.handle ?? null,
-      profile_image: profile.profileImage ?? null,
+      provider_account_id: providerAccountId,
+      handle,
+      profile_image: profileImage,
       profile_url: profileUrl,
       access_token: encryptedAccessToken,
       refresh_token: encryptedRefreshToken,
-      token_expires_at: token.expiresAt ?? null,
+      token_expires_at: activeExpiresAt ?? null,
       is_connected: true,
       is_active: true,
       updated_at: new Date().toISOString(),
@@ -226,20 +220,33 @@ export async function GET(request: NextRequest) {
       return response;
     }
 
-    // Step 12: Clean up PKCE cookies and redirect with success
+    // Step 13: Clean up PKCE cookies and redirect with success
     const response = buildRedirectUrl(appUrl, redirectTo, {
       connected: "true",
       platform: state.channelType,
-      handle: profile.handle || "",
+      handle: handle || "",
     });
     response.cookies.delete(pkceCookieName);
     return response;
   } catch (error: any) {
     console.error("Unexpected OAuth callback error:", error);
+    const isMissingFb = error?.message === "no_facebook_pages_found";
+    const isMissingIg = error?.message === "no_instagram_business_linked";
+    const errorCode = isMissingFb
+      ? "no_facebook_pages_found"
+      : isMissingIg
+      ? "no_instagram_business_linked"
+      : "oauth_callback_failed";
+    const description = isMissingFb
+      ? "No Facebook Page found. Please create a Facebook Page first."
+      : isMissingIg
+      ? "No Instagram Business account linked to your Facebook Page."
+      : error?.message || "Internal token exchange error";
+
     const response = buildRedirectUrl(appUrl, redirectTo, {
       connected: "false",
-      error: "oauth_callback_failed",
-      description: error?.message || "Internal token exchange error",
+      error: errorCode,
+      description,
     });
     response.cookies.delete(pkceCookieName);
     return response;

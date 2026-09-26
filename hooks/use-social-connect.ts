@@ -27,7 +27,11 @@ const ERROR_MESSAGES: Record<string, string> = {
   state_expired: "Connection session timed out. Please try again.",
   user_mismatch: "User account mismatch detected.",
   missing_pkce_verifier: "Security verifier missing. Please try again.",
+  missing_code: "Authorization code was missing from provider response.",
+  no_facebook_pages_found: "No Facebook Page found. A published Facebook Page is required to connect.",
+  no_instagram_business_linked: "No Instagram Business account found linked to your Facebook Page.",
   failed_to_save_channel: "Database error while saving account details.",
+  mock_connect_failed: "Failed to simulate channel connection.",
   oauth_callback_failed: "Failed to complete social account connection.",
 };
 

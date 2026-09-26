@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T17:53:36.410676+00:00",
-  "total_nodes": 117,
-  "total_edges": 239,
+  "timestamp": "2026-09-26T18:03:27.873207+00:00",
+  "total_nodes": 120,
+  "total_edges": 245,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -206,7 +206,7 @@
       "id": "app/api/social/callback/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 247,
+      "lines": 254,
       "components": [],
       "community": 5
     },
@@ -214,7 +214,7 @@
       "id": "app/api/social/connect/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 173,
+      "lines": 194,
       "components": [],
       "community": 5
     },
@@ -886,7 +886,7 @@
       "id": "hooks/use-social-connect.ts",
       "label": "use-social-connect.ts",
       "type": "hook",
-      "lines": 137,
+      "lines": 141,
       "components": [
         "useSocialConnect"
       ],
@@ -988,12 +988,31 @@
       "id": "lib/social-oauth/index.ts",
       "label": "index.ts",
       "type": "lib",
-      "lines": 234,
+      "lines": 251,
       "components": [
         "getProviderConfig",
         "isProviderConfigured",
         "getOAuthProvider"
       ],
+      "community": 5
+    },
+    {
+      "id": "lib/social-oauth/meta.ts",
+      "label": "meta.ts",
+      "type": "lib",
+      "lines": 125,
+      "components": [
+        "extractPrimaryFacebookPage",
+        "extractPrimaryInstagramAccount"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/social-oauth/mock-callback.ts",
+      "label": "mock-callback.ts",
+      "type": "lib",
+      "lines": 78,
+      "components": [],
       "community": 5
     },
     {
@@ -1004,6 +1023,16 @@
       "components": [
         "createPkcePair",
         "getPkceCookieName"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/social-oauth/redirect.ts",
+      "label": "redirect.ts",
+      "type": "lib",
+      "lines": 21,
+      "components": [
+        "buildRedirectUrl"
       ],
       "community": 5
     },
@@ -1384,7 +1413,22 @@
     },
     {
       "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth/meta",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth/mock-callback",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
       "target": "lib/social-oauth/pkce",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/social-oauth/redirect",
       "relation": "imports"
     },
     {
@@ -2230,6 +2274,21 @@
     {
       "source": "lib/social-oauth/index.ts",
       "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/social-oauth/mock-callback.ts",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/social-oauth/mock-callback.ts",
+      "target": "lib/encryption",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/social-oauth/mock-callback.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {

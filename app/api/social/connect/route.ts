@@ -74,6 +74,16 @@ export async function POST(request: NextRequest) {
           type: ChannelTypeEnum.LINKEDIN,
           name: "LinkedIn",
         },
+        [ChannelTypeEnum.INSTAGRAM]: {
+          id: "4586c03e-264e-403a-a6ba-deecb49f505e",
+          type: ChannelTypeEnum.INSTAGRAM,
+          name: "Instagram",
+        },
+        [ChannelTypeEnum.FACEBOOK]: {
+          id: "4e0ce0ab-a935-42f4-a294-b08bfab6f87c",
+          type: ChannelTypeEnum.FACEBOOK,
+          name: "Facebook",
+        },
       };
 
       const key = (platform || channelTypeId || "").toUpperCase();
@@ -81,6 +91,10 @@ export async function POST(request: NextRequest) {
         channelType = SEEDED_FALLBACKS[ChannelTypeEnum.TWITTER];
       } else if (key.includes("LINKEDIN")) {
         channelType = SEEDED_FALLBACKS[ChannelTypeEnum.LINKEDIN];
+      } else if (key.includes("INSTAGRAM") || key.includes("INSTA")) {
+        channelType = SEEDED_FALLBACKS[ChannelTypeEnum.INSTAGRAM];
+      } else if (key.includes("FACEBOOK") || key.includes("FB")) {
+        channelType = SEEDED_FALLBACKS[ChannelTypeEnum.FACEBOOK];
       }
     }
 
@@ -88,14 +102,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unsupported or unseeded channel type" }, { status: 404 });
     }
 
-
     const type = channelType.type as ChannelTypeEnum;
-    if (type !== ChannelTypeEnum.TWITTER && type !== ChannelTypeEnum.LINKEDIN) {
+    const SUPPORTED_PLATFORMS = [
+      ChannelTypeEnum.TWITTER,
+      ChannelTypeEnum.LINKEDIN,
+      ChannelTypeEnum.FACEBOOK,
+      ChannelTypeEnum.INSTAGRAM,
+    ];
+
+    if (!SUPPORTED_PLATFORMS.includes(type)) {
       return NextResponse.json(
-        { error: `Only Twitter and LinkedIn are supported on /api/social/connect. Received: ${type}` },
+        { error: `Channel type ${type} is not yet supported on /api/social/connect.` },
         { status: 400 }
       );
     }
+
 
     const appUrl =
       process.env.NEXT_PUBLIC_APP_URL ||

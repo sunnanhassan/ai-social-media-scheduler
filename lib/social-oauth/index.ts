@@ -23,11 +23,12 @@ const DEFAULT_PROVIDER_CONFIGS: Record<
     defaultScopes: ["openid", "profile", "email", "w_member_social"],
   },
   [ChannelTypeEnum.INSTAGRAM]: {
-    authUrl: "https://api.instagram.com/oauth/authorize",
-    tokenUrl: "https://api.instagram.com/oauth/access_token",
-    profileUrl: "https://graph.instagram.com/me?fields=id,username",
-    defaultScopes: ["user_profile", "user_media"],
+    authUrl: "https://www.facebook.com/v19.0/dialog/oauth",
+    tokenUrl: "https://graph.facebook.com/v19.0/oauth/access_token",
+    profileUrl: "https://graph.facebook.com/v19.0/me?fields=id,username",
+    defaultScopes: ["instagram_basic", "instagram_content_publish", "pages_show_list"],
   },
+
   [ChannelTypeEnum.FACEBOOK]: {
     authUrl: "https://www.facebook.com/v19.0/dialog/oauth",
     tokenUrl: "https://graph.facebook.com/v19.0/oauth/access_token",
@@ -67,12 +68,25 @@ export function getProviderConfig(type: ChannelTypeEnum) {
     ? customScope.split(",").map((s) => s.trim()).filter(Boolean)
     : defaults?.defaultScopes ?? [];
 
+  let clientId = process.env[`${type}_CLIENT_ID`] || "";
+  let clientSecret = process.env[`${type}_CLIENT_SECRET`] || "";
+
+  // Meta App ID can power both Facebook and Instagram
+  if (type === ChannelTypeEnum.FACEBOOK || type === ChannelTypeEnum.INSTAGRAM) {
+    if (!clientId) {
+      clientId = process.env.META_APP_ID || process.env.FACEBOOK_CLIENT_ID || process.env.INSTAGRAM_CLIENT_ID || "";
+    }
+    if (!clientSecret) {
+      clientSecret = process.env.META_APP_SECRET || process.env.FACEBOOK_CLIENT_SECRET || process.env.INSTAGRAM_CLIENT_SECRET || "";
+    }
+  }
+
   return {
     authUrl: process.env[`${type}_AUTH_URL`] || defaults?.authUrl || "",
     tokenUrl: process.env[`${type}_TOKEN_URL`] || defaults?.tokenUrl || "",
     profileUrl: process.env[`${type}_PROFILE_URL`] || defaults?.profileUrl || "",
-    clientId: process.env[`${type}_CLIENT_ID`] || "",
-    clientSecret: process.env[`${type}_CLIENT_SECRET`] || "",
+    clientId,
+    clientSecret,
     scope: scopes,
   };
 }
@@ -80,9 +94,12 @@ export function getProviderConfig(type: ChannelTypeEnum) {
 export function isProviderConfigured(type: ChannelTypeEnum): boolean {
   const config = getProviderConfig(type);
   if (!config.clientId) return false;
-  if (type === ChannelTypeEnum.LINKEDIN && !config.clientSecret) return false;
+  if ((type === ChannelTypeEnum.LINKEDIN || type === ChannelTypeEnum.FACEBOOK || type === ChannelTypeEnum.INSTAGRAM) && !config.clientSecret) {
+    return false;
+  }
   return true;
 }
+
 
 async function requestToken(type: ChannelTypeEnum, body: URLSearchParams) {
   const config = getProviderConfig(type);
