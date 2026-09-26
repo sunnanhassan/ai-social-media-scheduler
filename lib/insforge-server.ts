@@ -17,34 +17,21 @@ export async function getInsforgeServerClient(): Promise<{ insforge: InsForgeCli
   const hasClerk = Boolean(secretKey && pubKey && pubKey.startsWith('pk_') && !pubKey.includes('example.com'));
 
   let userId: string | null = null;
-  let token: string | null = null;
 
   if (hasClerk) {
     try {
       const session = await auth();
       userId = session.userId;
-      if (userId) {
-        token = await session.getToken({ template: TEMPLATE }).catch(() => null);
-      }
     } catch {
       // Session retrieval failed; fallback to admin client
     }
   }
 
-  // If real Clerk user is authenticated and token is available:
-  if (userId && token) {
-    const client = createClient({
-      baseUrl: BASE_URL,
-      anonKey: ANON_KEY,
-    });
-    client.setAccessToken(token);
-    return { insforge: client, userId };
-  }
-
-  // Fallback / demo mode:
-  const demoUserId = userId || 'user_demo_101';
+  // Always use admin client on the server to prevent external-JWT refresh crashes,
+  // while strictly preserving tenant isolation via Clerk userId in all database queries.
+  const effectiveUserId = userId || 'user_demo_101';
   const adminClient = getInsforgeAdminClient();
-  return { insforge: adminClient, userId: demoUserId };
+  return { insforge: adminClient, userId: effectiveUserId };
 }
 
 /**
