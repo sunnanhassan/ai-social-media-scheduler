@@ -42,14 +42,14 @@ export function BillingQuotas() {
       <div className="p-3.5 rounded-lg border border-border/80 bg-card shadow-2xs">
         <div className="flex items-center justify-between text-muted-foreground mb-2">
           <span className="text-[11px] font-mono uppercase tracking-wider">Post Queue</span>
-          <Clock className="w-3.5 h-3.5 text-secondary" />
+          <Clock className="w-3.5 h-3.5 text-primary" />
         </div>
         <div className="flex items-baseline justify-between mb-1.5">
           <span className="text-xl font-semibold font-mono tracking-tight text-foreground">18</span>
           <span className="text-[11px] font-mono text-muted-foreground">/ Unlimited</span>
         </div>
         <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-          <div className="bg-secondary h-full rounded-full" style={{ width: "24%" }} />
+          <div className="bg-primary/80 h-full rounded-full" style={{ width: "18%" }} />
         </div>
         <span className="text-[10px] font-mono text-muted-foreground mt-1.5 block">18 posts scheduled</span>
       </div>

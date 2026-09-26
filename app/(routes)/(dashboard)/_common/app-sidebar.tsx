@@ -126,10 +126,10 @@ const AppSidebar = () => {
             <SidebarMenu>
                {isPending ? (
                 <div className='flex flex-col gap-2'>
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
                 </div>
               ) : (
                 connectedChannels?.map((channel: ChannelType) => {
@@ -169,10 +169,10 @@ const AppSidebar = () => {
             <SidebarMenu>
               {isPending ? (
                 <div className='flex flex-col gap-2'>
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
-                  <Skeleton className='h-8 w-full bg-secondary' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
+                  <Skeleton className='h-8 w-full bg-muted/60' />
                 </div>
               ) : (
                 <>

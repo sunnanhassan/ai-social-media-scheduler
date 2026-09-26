@@ -108,10 +108,10 @@ function ChannelTabContent() {
                         Array.from({ length: 6 }).map((_, index) => (
                             <div key={index} className='flex items-center justify-between rounded-xl border p-4'>
                                 <div className='flex items-center gap-3'>
-                                    <Skeleton className='size-6 rounded-sm bg-secondary' />
-                                    <Skeleton className='h-5 w-24 bg-secondary' />
+                                    <Skeleton className='size-6 rounded-sm bg-muted/60' />
+                                    <Skeleton className='h-5 w-24 bg-muted/60' />
                                 </div>
-                                <Skeleton className='h-8 w-20 bg-secondary' />
+                                <Skeleton className='h-8 w-20 bg-muted/60' />
                             </div>
                         ))
                     ) : (

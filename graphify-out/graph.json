@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-26T15:25:39.578282+00:00",
+  "timestamp": "2026-09-26T15:30:35.563411+00:00",
   "total_nodes": 113,
   "total_edges": 235,
   "nodes": [
@@ -7,7 +7,7 @@
       "id": "app/globals.css",
       "label": "globals.css",
       "type": "route",
-      "lines": 188,
+      "lines": 187,
       "components": [],
       "community": 5
     },

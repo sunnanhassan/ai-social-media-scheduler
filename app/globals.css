@@ -46,7 +46,6 @@
   --color-obsidian: #1f1f1f;
   --color-surface: #1b1b1b;
   --color-amber: #f59e0b;
-  --color-cyan: #4cc2ff;
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -69,8 +68,8 @@
   --primary: #10b981;          /* Emerald Mint */
   --primary-foreground: #ffffff;
   
-  --secondary: #0ea5e9;        /* Sky Cyan */
-  --secondary-foreground: #ffffff;
+  --secondary: #f4f4f5;        /* Neutral Surface Gray */
+  --secondary-foreground: #121212;
   
   --muted: #f3f4f6;
   --muted-foreground: #6b7280;
@@ -86,7 +85,7 @@
   --ring: #10b981;
   
   --chart-1: #10b981;
-  --chart-2: #0ea5e9;
+  --chart-2: #34d399;
   --chart-3: #f59e0b;
   --chart-4: #9ca3af;
   --chart-5: #111827;
@@ -114,8 +113,8 @@
   --primary: #8ae5b8;          /* Electric Mint */
   --primary-foreground: #0d1512; /* Deep Charcoal High-Contrast Text */
   
-  --secondary: #4cc2ff;        /* Developer Cyan */
-  --secondary-foreground: #0d1512;
+  --secondary: #242424;        /* Elevated Neutral Charcoal Surface */
+  --secondary-foreground: #ededed;
   
   --muted: #262626;            /* Muted Surface */
   --muted-foreground: #8e8e93; /* Metallic Gray */
@@ -131,7 +130,7 @@
   --ring: #8ae5b8;
   
   --chart-1: #8ae5b8;          /* Mint */
-  --chart-2: #4cc2ff;          /* Cyan */
+  --chart-2: #a7f3d0;          /* Soft Mint */
   --chart-3: #f59e0b;          /* Amber */
   --chart-4: #8e8e93;
   --chart-5: #ededed;
