@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, useAuth as useClerkAuth, useUser as useClerkUser } from "@clerk/nextjs";
 
 export const rawClerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "";
 export const hasValidClerkKey =
@@ -9,7 +9,7 @@ export const hasValidClerkKey =
   !rawClerkKey.includes("Y2xlcmsuZXhhbXBsZS5jb20k") &&
   !rawClerkKey.includes("example.com");
 
-export interface MockUser {
+export interface AppUserType {
   id: string;
   fullName: string;
   firstName: string;
@@ -18,7 +18,7 @@ export interface MockUser {
   imageUrl: string;
 }
 
-export const mockUser: MockUser = {
+export const mockUser: AppUserType = {
   id: "user_demo_101",
   fullName: "Sunnan Hassan",
   firstName: "Sunnan",
@@ -31,7 +31,9 @@ interface AuthContextType {
   isSignedIn: boolean;
   isLoaded: boolean;
   userId: string | null;
-  user: MockUser | null;
+  user: AppUserType | null;
+  getToken: (options?: { template?: string }) => Promise<string | null>;
+  signOut: () => Promise<void> | void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -39,11 +41,50 @@ const AuthContext = createContext<AuthContextType>({
   isLoaded: true,
   userId: mockUser.id,
   user: mockUser,
+  getToken: async () => null,
+  signOut: () => {},
 });
+
+function ClerkBridge({ children }: { children: React.ReactNode }) {
+  const clerkAuth = useClerkAuth();
+  const clerkUser = useClerkUser();
+
+  const user: AppUserType | null = clerkUser.user
+    ? {
+        id: clerkUser.user.id,
+        fullName: clerkUser.user.fullName || clerkUser.user.username || "User",
+        firstName: clerkUser.user.firstName || "User",
+        lastName: clerkUser.user.lastName || "",
+        primaryEmailAddress: {
+          emailAddress: clerkUser.user.primaryEmailAddress?.emailAddress || "",
+        },
+        imageUrl: clerkUser.user.imageUrl || "",
+      }
+    : null;
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isSignedIn: Boolean(clerkAuth.isSignedIn),
+        isLoaded: Boolean(clerkAuth.isLoaded && clerkUser.isLoaded),
+        userId: clerkAuth.userId || null,
+        user,
+        getToken: (options) => clerkAuth.getToken(options),
+        signOut: () => clerkAuth.signOut(),
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
 export function AppAuthProvider({ children }: { children: React.ReactNode }) {
   if (hasValidClerkKey) {
-    return <ClerkProvider publishableKey={rawClerkKey}>{children}</ClerkProvider>;
+    return (
+      <ClerkProvider publishableKey={rawClerkKey}>
+        <ClerkBridge>{children}</ClerkBridge>
+      </ClerkProvider>
+    );
   }
 
   return (
@@ -53,6 +94,8 @@ export function AppAuthProvider({ children }: { children: React.ReactNode }) {
         isLoaded: true,
         userId: mockUser.id,
         user: mockUser,
+        getToken: async () => null,
+        signOut: () => console.log("Demo sign out"),
       }}
     >
       {children}
@@ -66,7 +109,8 @@ export function useAppAuth() {
     isSignedIn: context.isSignedIn,
     userId: context.userId,
     isLoaded: context.isLoaded,
-    signOut: () => console.log("Demo sign out"),
+    getToken: context.getToken,
+    signOut: context.signOut,
   };
 }
 

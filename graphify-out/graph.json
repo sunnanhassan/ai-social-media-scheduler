@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-26T15:34:32.555558+00:00",
-  "total_nodes": 113,
+  "timestamp": "2026-09-26T16:02:21.576146+00:00",
+  "total_nodes": 114,
   "total_edges": 235,
   "nodes": [
     {
@@ -134,7 +134,7 @@
       "id": "app/api/idea/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 197,
+      "lines": 218,
       "components": [],
       "community": 2
     },
@@ -166,7 +166,7 @@
       "id": "app/api/post/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 248,
+      "lines": 281,
       "components": [],
       "community": 5
     },
@@ -206,7 +206,7 @@
       "id": "app/api/upload-image/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 46,
+      "lines": 53,
       "components": [],
       "community": 5
     },
@@ -902,10 +902,21 @@
       "id": "lib/insforge-server.ts",
       "label": "insforge-server.ts",
       "type": "lib",
-      "lines": 134,
+      "lines": 65,
       "components": [
         "getInsforgeAdminClient",
         "getInsforgeUploadClient"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/insforge.ts",
+      "label": "insforge.ts",
+      "type": "lib",
+      "lines": 82,
+      "components": [
+        "useInsforgeClient",
+        "insforge"
       ],
       "community": 5
     },
@@ -923,7 +934,7 @@
       "id": "lib/auth/auth-components.tsx",
       "label": "auth-components.tsx",
       "type": "lib",
-      "lines": 267,
+      "lines": 313,
       "components": [
         "AppUserButton",
         "AppUserProfile",
@@ -937,7 +948,7 @@
       "id": "lib/auth/auth-context.tsx",
       "label": "auth-context.tsx",
       "type": "lib",
-      "lines": 91,
+      "lines": 135,
       "components": [
         "rawClerkKey",
         "hasValidClerkKey",

@@ -159,7 +159,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { has, userId } = await auth();
     const { posts, scheduledAt, status } = await request.json();
 
     if (!Array.isArray(posts) || posts.length === 0) {
@@ -167,6 +166,7 @@ export async function POST(request: NextRequest) {
     }
 
     const postStatus = status === POST_STATUS.DRAFT ? POST_STATUS.DRAFT : POST_STATUS.QUEUE;
+    const { insforge, userId } = await getInsforgeServerClient();
 
     if (!userId) {
       const mockCreated = posts.map((p, index) => ({
@@ -179,34 +179,66 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ posts: mockCreated }, { status: 201 });
     }
 
-    const { insforge } = await getInsforgeServerClient();
-    const isPaidPlan = has?.({ plan: "pro" }) || has?.({ plan: "premium" });
-    if (!isPaidPlan) {
-      const canCreate = await checkCreatePostLimit(insforge, userId).catch(() => true);
-      if (!canCreate) {
-        return NextResponse.json({ error: "Post limit reached. Upgrade to Pro." }, { status: 403 });
+    const channelTypeIds = [...new Set(posts.map((post) => post.channelTypeId))].filter(Boolean);
+    let userChannels: Array<{ id: string; channel_type_id: string }> = [];
+
+    if (channelTypeIds.length > 0) {
+      const { data } = await insforge.database
+        .from("user_channels")
+        .select("id, channel_type_id")
+        .eq("user_id", userId)
+        .in("channel_type_id", channelTypeIds);
+      userChannels = data || [];
+    }
+
+    // If no matching channel found, check if user has any existing channel
+    let fallbackChannelId = userChannels[0]?.id;
+    if (!fallbackChannelId) {
+      const { data: anyChannel } = await insforge.database
+        .from("user_channels")
+        .select("id, channel_type_id")
+        .eq("user_id", userId)
+        .limit(1)
+        .single();
+      fallbackChannelId = anyChannel?.id;
+    }
+
+    // If still no channel exists, create one with the first available channel_type
+    if (!fallbackChannelId) {
+      const { data: firstType } = await insforge.database
+        .from("channel_types")
+        .select("id")
+        .limit(1)
+        .single();
+
+      if (firstType?.id) {
+        const { data: createdChannel } = await insforge.database
+          .from("user_channels")
+          .insert([{
+            user_id: userId,
+            channel_type_id: firstType.id,
+            handle: "@user",
+            is_connected: true,
+            is_active: true,
+          }])
+          .select("id")
+          .single();
+        fallbackChannelId = createdChannel?.id;
       }
     }
 
-    const channelTypeIds = [...new Set(posts.map((post) => post.channelTypeId))];
-    const { data: userChannels } = await insforge.database
-      .from("user_channels")
-      .select("id, channel_type_id")
-      .eq("user_id", userId)
-      .in("channel_type_id", channelTypeIds);
-
     const connectedMap = new Map(
-      (userChannels || []).map((uc) => [uc.channel_type_id, uc.id])
+      userChannels.map((uc) => [uc.channel_type_id, uc.id])
     );
 
     const payload = posts.map((post) => ({
       user_id: userId,
-      user_channel_id: connectedMap.get(post.channelTypeId) || "mock-channel-id",
+      user_channel_id: connectedMap.get(post.channelTypeId) || fallbackChannelId,
       content: post.content,
       images: post.images || [],
       scheduled_at: scheduledAt || new Date().toISOString(),
       status: postStatus,
-    }));
+    })).filter((p) => p.user_channel_id);
 
     const { data, error } = await insforge.database
       .from("scheduled_posts")
@@ -214,6 +246,7 @@ export async function POST(request: NextRequest) {
       .select();
 
     if (error || !data) {
+      console.warn("Insert post database warning:", error);
       return NextResponse.json({ posts: payload }, { status: 201 });
     }
 

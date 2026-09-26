@@ -2,6 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
+import {
+  UserButton as ClerkUserButton,
+  SignIn as ClerkSignIn,
+  SignUp as ClerkSignUp,
+  UserProfile as ClerkUserProfile,
+  ClerkLoaded as RealClerkLoaded,
+  ClerkLoading as RealClerkLoading,
+} from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,7 +23,7 @@ import { LogOut, Settings, Sparkles, Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useAppUser } from "./auth-context";
+import { useAppUser, hasValidClerkKey } from "./auth-context";
 
 export function AppUserButton({
   showName,
@@ -25,6 +33,10 @@ export function AppUserButton({
   appearance?: any;
 } = {}) {
   const { user } = useAppUser();
+
+  if (hasValidClerkKey) {
+    return <ClerkUserButton showName={showName} appearance={appearance} />;
+  }
 
   return (
     <DropdownMenu>
@@ -84,6 +96,10 @@ export function AppUserButton({
 export function AppUserProfile({ appearance }: { appearance?: any } = {}) {
   const { user } = useAppUser();
 
+  if (hasValidClerkKey) {
+    return <ClerkUserProfile appearance={appearance} />;
+  }
+
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-xs max-w-xl">
       <div className="flex items-center gap-4 mb-6">
@@ -117,7 +133,19 @@ export function AppUserProfile({ appearance }: { appearance?: any } = {}) {
   );
 }
 
-export function AppSignIn({ path = "/sign-in", signUpUrl = "/sign-up" }: { path?: string; signUpUrl?: string; forceRedirectUrl?: string }) {
+export function AppSignIn({
+  path = "/sign-in",
+  signUpUrl = "/sign-up",
+  forceRedirectUrl = "/",
+}: {
+  path?: string;
+  signUpUrl?: string;
+  forceRedirectUrl?: string;
+}) {
+  if (hasValidClerkKey) {
+    return <ClerkSignIn path={path} signUpUrl={signUpUrl} forceRedirectUrl={forceRedirectUrl} />;
+  }
+
   return (
     <Card className="w-full max-w-md border-border bg-card shadow-lg">
       <CardHeader className="text-center">
@@ -146,7 +174,19 @@ export function AppSignIn({ path = "/sign-in", signUpUrl = "/sign-up" }: { path?
   );
 }
 
-export function AppSignUp({ path = "/sign-up", signInUrl = "/sign-in" }: { path?: string; signInUrl?: string; forceRedirectUrl?: string }) {
+export function AppSignUp({
+  path = "/sign-up",
+  signInUrl = "/sign-in",
+  forceRedirectUrl = "/",
+}: {
+  path?: string;
+  signInUrl?: string;
+  forceRedirectUrl?: string;
+}) {
+  if (hasValidClerkKey) {
+    return <ClerkSignUp path={path} signInUrl={signInUrl} forceRedirectUrl={forceRedirectUrl} />;
+  }
+
   return (
     <Card className="w-full max-w-md border-border bg-card shadow-lg">
       <CardHeader className="text-center">
@@ -249,10 +289,16 @@ export function AppPricingTable({ for: target = "user" }: { for?: string; newSub
 }
 
 export function AppClerkLoaded({ children }: { children: React.ReactNode }) {
+  if (hasValidClerkKey) {
+    return <RealClerkLoaded>{children}</RealClerkLoaded>;
+  }
   return <>{children}</>;
 }
 
 export function AppClerkLoading({ children }: { children: React.ReactNode }) {
+  if (hasValidClerkKey) {
+    return <RealClerkLoading>{children}</RealClerkLoading>;
+  }
   return null;
 }
 

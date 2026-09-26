@@ -98,15 +98,15 @@ export async function GET() {
       insforge.database
         .from("idea_groups")
         .select("*")
-        .order("created_at", { ascending: false }),
+        .order("created_at", { ascending: true }),
     ]);
 
-    if (ideasRes.error || groupsRes.error || !groupsRes.data?.length) {
+    if (groupsRes.error || !groupsRes.data?.length) {
       return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS });
     }
 
     const ideas = ideasRes.data ?? [];
-    const groups = (groupsRes.data ?? []).map((group) => ({
+    const groups = groupsRes.data.map((group) => ({
       id: group.id,
       title: group.name,
       ideas: ideas
@@ -127,6 +127,8 @@ export async function GET() {
     return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS });
   }
 }
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function POST(request: NextRequest) {
   try {
@@ -152,15 +154,28 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      const isUpdate = !!id && !id.startsWith("temp-");
+      let resolvedGroupId = groupId;
+      if (!resolvedGroupId || !UUID_REGEX.test(resolvedGroupId)) {
+        const { data: defaultGroup } = await insforge.database
+          .from("idea_groups")
+          .select("id")
+          .order("created_at", { ascending: true })
+          .limit(1)
+          .single();
+        if (defaultGroup?.id) {
+          resolvedGroupId = defaultGroup.id;
+        }
+      }
+
+      const isUpdate = !!id && !id.startsWith("temp-") && UUID_REGEX.test(id);
       if (isUpdate) {
         const { data, error } = await insforge.database
           .from("ideas")
           .update({
             title,
             description,
-            images,
-            group_id: groupId,
+            images: images || [],
+            group_id: resolvedGroupId,
             sort_order: sortOrder,
           })
           .eq("id", id)
@@ -168,24 +183,30 @@ export async function POST(request: NextRequest) {
           .select()
           .single();
 
-        if (error) return NextResponse.json({ idea: body });
+        if (error) {
+          console.warn("Update idea database warning:", error);
+          return NextResponse.json({ idea: body });
+        }
         return NextResponse.json({ idea: data });
       }
 
       const { data, error } = await insforge.database
         .from("ideas")
-        .insert({
+        .insert([{
           user_id: userId,
           title,
-          description,
-          images,
-          group_id: groupId,
+          description: description || "",
+          images: images || [],
+          group_id: resolvedGroupId,
           sort_order: sortOrder || 0,
-        })
+        }])
         .select()
         .single();
 
-      if (error) return NextResponse.json({ idea: body });
+      if (error) {
+        console.warn("Insert idea database warning:", error);
+        return NextResponse.json({ idea: body });
+      }
       return NextResponse.json({ idea: data });
     } catch {
       return NextResponse.json({ idea: body });
