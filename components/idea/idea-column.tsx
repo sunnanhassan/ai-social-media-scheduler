@@ -24,11 +24,11 @@ interface IdeaColumnProps {
 
 const getStatusDotColor = (title: string) => {
   const lower = title.toLowerCase();
-  if (lower.includes("backlog")) return "bg-slate-400 dark:bg-slate-500";
-  if (lower.includes("progress")) return "bg-primary ring-2 ring-primary/20";
-  if (lower.includes("ready")) return "bg-[#f9b095] ring-2 ring-[#f9b095]/30";
+  if (lower.includes("backlog")) return "bg-muted-foreground/60";
+  if (lower.includes("progress")) return "bg-primary ring-2 ring-primary/30 animate-pulse";
+  if (lower.includes("ready")) return "bg-amber-500 ring-2 ring-amber-500/25";
   if (lower.includes("published") || lower.includes("done"))
-    return "bg-emerald-500 ring-2 ring-emerald-500/20";
+    return "bg-primary ring-2 ring-primary/30";
   return "bg-muted-foreground";
 };
 

@@ -1,21 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Check,
-  CreditCard,
-  Download,
-  Sparkles,
-  Zap,
-  Radio,
-  Clock,
-  Users,
-  ShieldCheck,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { BillingQuotas } from "./billing-quotas";
+import { BillingInvoices } from "./billing-invoices";
 
 interface BillingTier {
   id: string;
@@ -77,18 +67,8 @@ const TIERS: BillingTier[] = [
   },
 ];
 
-const INVOICE_HISTORY = [
-  { id: "INV-2026-003", date: "Sep 26, 2026", amount: "$49.00", status: "Paid" },
-  { id: "INV-2026-002", date: "Aug 26, 2026", amount: "$49.00", status: "Paid" },
-  { id: "INV-2026-001", date: "Jul 26, 2026", amount: "$49.00", status: "Paid" },
-];
-
 export function BillingView() {
   const [annualBilling, setAnnualBilling] = useState<boolean>(false);
-
-  const handleDownloadInvoice = (invoiceId: string) => {
-    toast.success(`Downloading invoice receipt for ${invoiceId}`);
-  };
 
   return (
     <div className="flex flex-col gap-6 max-w-6xl mx-auto w-full py-2">
@@ -105,8 +85,8 @@ export function BillingView() {
             </h1>
           </div>
           <div className="flex items-center gap-2 mt-1">
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20" />
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-primary">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary ring-2 ring-primary/25" />
               Pro Plan Active
             </span>
             <span className="text-muted-foreground/30">•</span>
@@ -146,67 +126,7 @@ export function BillingView() {
       </div>
 
       {/* Quotas & Usage Data-Dense Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="p-3.5 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider">AI Generation</span>
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-          </div>
-          <div className="flex items-baseline justify-between mb-1.5">
-            <span className="text-xl font-semibold font-mono tracking-tight text-foreground">14,250</span>
-            <span className="text-[11px] font-mono text-muted-foreground">/ 25,000 cr</span>
-          </div>
-          <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-            <div className="bg-primary h-full rounded-full" style={{ width: "57%" }} />
-          </div>
-          <span className="text-[10px] font-mono text-muted-foreground mt-1.5 block">57% utilized</span>
-        </div>
-
-        <div className="p-3.5 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider">Channels</span>
-            <Radio className="w-3.5 h-3.5 text-emerald-500" />
-          </div>
-          <div className="flex items-baseline justify-between mb-1.5">
-            <span className="text-xl font-semibold font-mono tracking-tight text-foreground">4</span>
-            <span className="text-[11px] font-mono text-muted-foreground">/ 8 active</span>
-          </div>
-          <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-            <div className="bg-emerald-500 h-full rounded-full" style={{ width: "50%" }} />
-          </div>
-          <span className="text-[10px] font-mono text-muted-foreground mt-1.5 block">4 platforms synced</span>
-        </div>
-
-        <div className="p-3.5 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider">Post Queue</span>
-            <Clock className="w-3.5 h-3.5 text-primary" />
-          </div>
-          <div className="flex items-baseline justify-between mb-1.5">
-            <span className="text-xl font-semibold font-mono tracking-tight text-foreground">18</span>
-            <span className="text-[11px] font-mono text-muted-foreground">/ Unlimited</span>
-          </div>
-          <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-            <div className="bg-primary/70 h-full rounded-full" style={{ width: "18%" }} />
-          </div>
-          <span className="text-[10px] font-mono text-muted-foreground mt-1.5 block">18 posts scheduled</span>
-        </div>
-
-        <div className="p-3.5 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider">Team Seats</span>
-            <Users className="w-3.5 h-3.5 text-muted-foreground" />
-          </div>
-          <div className="flex items-baseline justify-between mb-1.5">
-            <span className="text-xl font-semibold font-mono tracking-tight text-foreground">1</span>
-            <span className="text-[11px] font-mono text-muted-foreground">/ 3 assigned</span>
-          </div>
-          <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-            <div className="bg-muted-foreground h-full rounded-full" style={{ width: "33%" }} />
-          </div>
-          <span className="text-[10px] font-mono text-muted-foreground mt-1.5 block">Admin seat active</span>
-        </div>
-      </div>
+      <BillingQuotas />
 
       {/* Tier Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -264,58 +184,7 @@ export function BillingView() {
       </div>
 
       {/* Payment Method & Invoicing History */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Payment Card */}
-        <div className="p-4 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center gap-2 mb-3">
-            <CreditCard className="w-4 h-4 text-primary" />
-            <h4 className="text-xs font-semibold text-foreground tracking-tight">Payment Method</h4>
-          </div>
-          <div className="p-3 rounded-md bg-muted/30 border border-border/60">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-mono text-foreground font-medium">Mastercard •••• 4242</span>
-              <Badge variant="outline" className="text-[10px] font-mono">Default</Badge>
-            </div>
-            <p className="text-[11px] font-mono text-muted-foreground mt-1">Expires 08/2028</p>
-          </div>
-          <Button variant="outline" size="sm" className="w-full mt-3 h-8 text-xs font-mono">
-            Update Payment Card
-          </Button>
-        </div>
-
-        {/* Invoice Table */}
-        <div className="md:col-span-2 p-4 rounded-lg border border-border/80 bg-card shadow-2xs">
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-xs font-semibold text-foreground tracking-tight">Invoice History</h4>
-            <span className="text-[11px] font-mono text-muted-foreground">3 invoices recorded</span>
-          </div>
-          <div className="divide-y divide-border/60 text-xs">
-            {INVOICE_HISTORY.map((invoice) => (
-              <div key={invoice.id} className="py-2.5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-foreground font-medium">{invoice.id}</span>
-                  <span className="text-muted-foreground font-mono text-[11px]">{invoice.date}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="font-mono font-medium text-foreground">{invoice.amount}</span>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                    {invoice.status}
-                  </span>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="size-6 text-muted-foreground hover:text-foreground cursor-pointer"
-                    onClick={() => handleDownloadInvoice(invoice.id)}
-                    title="Download Receipt"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <BillingInvoices />
     </div>
   );
 }

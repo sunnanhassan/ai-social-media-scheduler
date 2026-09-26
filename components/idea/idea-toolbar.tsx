@@ -40,7 +40,7 @@ export function IdeaToolbar({
             </div>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary ring-2 ring-primary/25" />
                 Live Sync
               </span>
               <span className="text-muted-foreground/30">•</span>

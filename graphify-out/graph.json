@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-09-25T20:17:07.740034+00:00",
-  "total_nodes": 111,
-  "total_edges": 234,
+  "timestamp": "2026-09-26T15:25:39.578282+00:00",
+  "total_nodes": 113,
+  "total_edges": 235,
   "nodes": [
     {
       "id": "app/globals.css",
       "label": "globals.css",
       "type": "route",
-      "lines": 189,
+      "lines": 188,
       "components": [],
       "community": 5
     },
@@ -267,10 +267,30 @@
       "community": 5
     },
     {
+      "id": "components/billing/billing-invoices.tsx",
+      "label": "billing-invoices.tsx",
+      "type": "component",
+      "lines": 74,
+      "components": [
+        "BillingInvoices"
+      ],
+      "community": 5
+    },
+    {
+      "id": "components/billing/billing-quotas.tsx",
+      "label": "billing-quotas.tsx",
+      "type": "component",
+      "lines": 74,
+      "components": [
+        "BillingQuotas"
+      ],
+      "community": 5
+    },
+    {
       "id": "components/billing/billing-view.tsx",
       "label": "billing-view.tsx",
       "type": "component",
-      "lines": 321,
+      "lines": 190,
       "components": [
         "BillingView"
       ],
@@ -1394,6 +1414,16 @@
       "relation": "imports"
     },
     {
+      "source": "components/billing/billing-invoices.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/billing/billing-invoices.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
       "source": "components/billing/billing-view.tsx",
       "target": "components/ui/button",
       "relation": "imports"
@@ -1401,11 +1431,6 @@
     {
       "source": "components/billing/billing-view.tsx",
       "target": "components/ui/card",
-      "relation": "imports"
-    },
-    {
-      "source": "components/billing/billing-view.tsx",
-      "target": "components/ui/badge",
       "relation": "imports"
     },
     {

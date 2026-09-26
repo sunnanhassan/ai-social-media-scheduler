@@ -133,7 +133,7 @@ const ScheduleToolbar = ({
 
                       <Checkbox
                         checked={channelIds.includes(channel.user_channel_id!)}
-                        className="border-black!"
+                        className="border-border data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
                       />
                     </CommandItem>
                   ))
