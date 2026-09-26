@@ -91,17 +91,21 @@ export function useCreatePostState(
       scheduledAt: string;
       status?: PostStatus;
     }) => {
-      const response = await fetch("/api/post", {
+      const response = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ posts, scheduledAt, status }),
       });
-      if (!response.ok) throw new Error("Failed to create posts");
+      if (!response.ok) {
+        const errJson = await response.json().catch(() => ({}));
+        throw new Error(errJson.error || "Failed to create posts");
+      }
       return response.json();
     },
     onSuccess: (resData, variables) => {
+      const count = resData.posts?.length || 1;
       toast.success(
-        `${resData.posts.length} post(s) ${
+        `${count} post(s) ${
           variables.status === POST_STATUS.DRAFT ? "saved to draft" : "scheduled"
         } successfully`
       );
@@ -112,7 +116,7 @@ export function useCreatePostState(
     },
     onError: (error: any) => {
       console.error("failed to create post", error);
-      toast.error("Failed to save post");
+      toast.error(error.message || "Failed to save post");
     },
   });
 
@@ -228,31 +232,67 @@ export function useCreatePostState(
       toast.error("Select at least one channel");
       return;
     }
+
     const postToCreate = selectedChannelsList.map((channel) => {
       const content = channelContent[channel.id] ?? { text: "", images: [] };
       return {
         channelTypeId: channel.id,
-        content: content.text,
-        images: content.images,
+        content: content.text?.trim() || "",
+        images: content.images || [],
       };
     });
+
     if (postToCreate.some((post) => !post.content)) {
       toast.error("Each selected channel must have content");
       return;
     }
 
-    const parsedTime = parse(timeSlot, "h:mm a", new Date());
-    const scheduleAt = set(date || new Date(), {
-      hours: parsedTime.getHours(),
-      minutes: parsedTime.getMinutes(),
-      seconds: 0,
-      milliseconds: 0,
-    });
+    // Validate per-channel character limits
+    for (const channel of selectedChannelsList) {
+      const textLen = (channelContent[channel.id]?.text || "").length;
+      const limit = Number(channel.character_limit || 280);
+      if (textLen > limit) {
+        toast.error(`${channel.name} content exceeds the ${limit} character limit`);
+        return;
+      }
+    }
+
+    const isDraft = status === POST_STATUS.DRAFT;
+    let scheduleAt: Date;
+
+    if (timeSlot && timeSlot.trim()) {
+      try {
+        const parsedTime = parse(timeSlot, "h:mm a", new Date());
+        scheduleAt = set(date || new Date(), {
+          hours: parsedTime.getHours(),
+          minutes: parsedTime.getMinutes(),
+          seconds: 0,
+          milliseconds: 0,
+        });
+      } catch {
+        scheduleAt = new Date();
+      }
+    } else {
+      // Default to current time for drafts without timeslots
+      scheduleAt = new Date();
+    }
+
+    // Scheduled posts (queue) require future date
+    if (!isDraft) {
+      if (!timeSlot || !timeSlot.trim()) {
+        toast.error("Please select a time slot for scheduling");
+        return;
+      }
+      if (scheduleAt.getTime() <= Date.now() + 60000) {
+        toast.error("Scheduled time must be at least 1 minute in the future");
+        return;
+      }
+    }
 
     createPostMutation.mutate({
       posts: postToCreate,
       scheduledAt: scheduleAt.toISOString(),
-      status,
+      status: status || POST_STATUS.QUEUE,
     });
   };
 

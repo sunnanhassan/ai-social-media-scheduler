@@ -132,17 +132,26 @@ export function PostChannelAccordions({
                         onImagesChange={(images) => onImagesChange(channel.id, images)}
                         renderToolbarRight={
                           <div className="flex items-center gap-3">
-                            <span
-                              className={cn(
-                                "text-[10px] font-medium px-2 py-0.5 rounded-full border",
-                                (content?.text?.length || 0) >=
-                                  Number(channel.character_limit) * 0.9
-                                  ? "bg-primary/10 text-primary border-primary/20"
-                                  : "bg-muted text-muted-foreground border-border/50"
-                              )}
-                            >
-                              {content?.text?.length || 0} / {channel.character_limit}
-                            </span>
+                            {(() => {
+                              const textLen = content?.text?.length || 0;
+                              const limit = Number(channel.character_limit || 280);
+                              const isOver = textLen > limit;
+                              const isNear = textLen >= limit * 0.9;
+                              return (
+                                <span
+                                  className={cn(
+                                    "text-[10px] font-mono px-2 py-0.5 rounded-full border transition-colors",
+                                    isOver
+                                      ? "bg-destructive/15 text-destructive font-semibold border-destructive/40 animate-pulse"
+                                      : isNear
+                                      ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30 font-medium"
+                                      : "bg-muted text-muted-foreground border-border/50"
+                                  )}
+                                >
+                                  {textLen} / {limit}
+                                </span>
+                              );
+                            })()}
                           </div>
                         }
                       />

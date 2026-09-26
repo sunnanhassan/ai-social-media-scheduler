@@ -13,6 +13,7 @@ export type PostType = {
     scheduled_at: string
     status: string
     published_url?: string | null
+    error_message?: string | null
     user_channel_id?: string | null
     user_channels?: {
         id: string;

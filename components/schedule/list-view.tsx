@@ -48,7 +48,7 @@ const ListView = ({
           params.append("group_by_date", "true");
           if (activeTab) params.append("status", activeTab);
           if (channelIds.length > 0) params.append("channelIds", channelIds.join(","));
-          const res = await fetch(`/api/post?${params.toString()}`);
+          const res = await fetch(`/api/posts?${params.toString()}`);
           if (!res.ok) throw new Error("Failed to fetch posts");
           return res.json();
         },
@@ -73,7 +73,7 @@ const ListView = ({
 
   const publishPostMutation = useMutation({
     mutationFn: async (postId: string) => {
-      const res = await fetch(`/api/post/${postId}/publish`, {
+      const res = await fetch(`/api/posts/${postId}/publish`, {
         method: "POST",
       });
       if (!res.ok) throw new Error("Failed to publish post");

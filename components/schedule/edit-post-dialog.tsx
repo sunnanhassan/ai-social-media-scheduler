@@ -63,7 +63,7 @@ export function EditPostDialog({ open, onOpenChange, post }: EditPostDialogProps
       status?: PostStatus;
       userChannelId: string;
     }) => {
-      const response = await fetch(`/api/post/${postId}`, {
+      const response = await fetch(`/api/posts/${postId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

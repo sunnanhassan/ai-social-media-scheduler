@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T19:37:15.817011+00:00",
-  "total_nodes": 122,
-  "total_edges": 247,
+  "timestamp": "2026-09-26T19:53:51.999440+00:00",
+  "total_nodes": 126,
+  "total_edges": 250,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -174,7 +174,7 @@
       "id": "app/api/post/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 281,
+      "lines": 1,
       "components": [],
       "community": 5
     },
@@ -198,12 +198,36 @@
       "id": "app/api/post/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 47,
+      "lines": 1,
       "components": [],
       "community": 5
     },
     {
       "id": "app/api/post/[id]/publish/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 1,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 288,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/[id]/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 95,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/[id]/publish/route.ts",
       "label": "route.ts",
       "type": "route",
       "lines": 56,
@@ -424,7 +448,7 @@
       "id": "components/schedule/list-view-item.tsx",
       "label": "list-view-item.tsx",
       "type": "component",
-      "lines": 142,
+      "lines": 152,
       "components": [
         "ListViewItem"
       ],
@@ -442,7 +466,7 @@
       "id": "components/schedule/post-channel-accordions.tsx",
       "label": "post-channel-accordions.tsx",
       "type": "component",
-      "lines": 159,
+      "lines": 168,
       "components": [
         "PostChannelAccordions"
       ],
@@ -490,7 +514,7 @@
       "id": "components/schedule/use-create-post-state.ts",
       "label": "use-create-post-state.ts",
       "type": "component",
-      "lines": 292,
+      "lines": 332,
       "components": [
         "useCreatePostState"
       ],
@@ -914,7 +938,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 487,
+      "lines": 499,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -961,6 +985,17 @@
       "lines": 31,
       "components": [
         "calculateNewOrder"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/post-validator.ts",
+      "label": "post-validator.ts",
+      "type": "lib",
+      "lines": 68,
+      "components": [
+        "validatePostContent",
+        "resolveScheduleTime"
       ],
       "community": 5
     },
@@ -1093,7 +1128,7 @@
       "id": "types/post.type.ts",
       "label": "post.type.ts",
       "type": "type",
-      "lines": 42,
+      "lines": 43,
       "components": [],
       "community": 5
     }
@@ -1376,12 +1411,7 @@
     },
     {
       "source": "app/api/post/route.ts",
-      "target": "constants/post",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/post/route.ts",
-      "target": "lib/insforge-server",
+      "target": "app/api/posts/route",
       "relation": "imports"
     },
     {
@@ -1396,21 +1426,41 @@
     },
     {
       "source": "app/api/post/[id]/route.ts",
+      "target": "app/api/posts/[id]/route",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/post/[id]/publish/route.ts",
+      "target": "app/api/posts/[id]/publish/route",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/route.ts",
       "target": "constants/post",
       "relation": "imports"
     },
     {
-      "source": "app/api/post/[id]/route.ts",
+      "source": "app/api/posts/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
-      "source": "app/api/post/[id]/publish/route.ts",
+      "source": "app/api/posts/[id]/route.ts",
+      "target": "constants/post",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/[id]/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/[id]/publish/route.ts",
       "target": "inngest/client",
       "relation": "imports"
     },
     {
-      "source": "app/api/post/[id]/publish/route.ts",
+      "source": "app/api/posts/[id]/publish/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
     },

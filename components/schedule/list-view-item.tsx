@@ -6,7 +6,7 @@ import { format, formatDistanceToNow, isPast, parseISO } from "date-fns";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import ChannelAvatar from "../channel-avatar";
 import { Button } from "../ui/button";
-import { AlarmClockCheck, ExternalLink, Pin, Send } from "lucide-react";
+import { AlarmClockCheck, ExternalLink, Pencil, Pin, RotateCcw, Send } from "lucide-react";
 import { Spinner } from "../ui/spinner";
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,9 @@ export function ListViewItem({
               ? "Overdue"
               : post.status === "draft"
               ? "Draft"
-              : "Custom"}
+              : post.status === "failed"
+              ? "Failed"
+              : "Scheduled"}
           </span>
         </div>
       </div>
@@ -67,6 +69,12 @@ export function ListViewItem({
             <p className="whitespace-pre-wrap text-sm leading-6 line-clamp-4 text-foreground/90">
               {post.content}
             </p>
+
+            {post.error_message && post.status === "failed" && (
+              <div className="rounded-md bg-destructive/10 border border-destructive/20 p-2 text-xs text-destructive">
+                <strong>Error:</strong> {post.error_message}
+              </div>
+            )}
           </div>
 
           <div className="max-h-[165px] min-h-[120px] overflow-hidden rounded-xl border border-border/60 bg-muted/30 flex items-center justify-center">
@@ -113,23 +121,25 @@ export function ListViewItem({
             ) : (
               <>
                 <Button variant="outline" size="sm" onClick={() => onEdit(post)}>
-                  <AlarmClockCheck className="size-3.5 mr-1" />
-                  Reschedule
+                  <Pencil className="size-3.5 mr-1" />
+                  Edit
                 </Button>
 
-                {post.status === "draft" && (
+                {post.status !== "published" && (
                   <Button
-                    variant="outline"
+                    variant={post.status === "failed" ? "destructive" : "outline"}
                     size="sm"
                     disabled={isPublishing}
                     onClick={() => onPublishNow(post)}
                   >
                     {isPublishing ? (
                       <Spinner className="size-3 mr-1" />
+                    ) : post.status === "failed" ? (
+                      <RotateCcw className="size-3.5 mr-1" />
                     ) : (
                       <Send className="size-3.5 mr-1" />
                     )}
-                    Publish Now
+                    {post.status === "failed" ? "Retry Publish" : "Publish Now"}
                   </Button>
                 )}
               </>

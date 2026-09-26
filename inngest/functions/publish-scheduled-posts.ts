@@ -18,7 +18,7 @@ export const publishScheduledPostsCron = inngest.createFunction(
         name:"Publish Scheduled Posts",
         triggers:[
             {
-                cron:"*/10 * * * *"
+                cron:"*/5 * * * *"
             }
         ]
     },
@@ -191,6 +191,12 @@ async function publishToTwitter({
     images?: ImageObject[]
     logger: any;
 }){
+    // Support simulation in development when using mock tokens
+    if (accessToken.startsWith("mock_") || (process.env.ALLOW_MOCK_OAUTH === "true" && (!process.env.TWITTER_CLIENT_SECRET || accessToken.startsWith("mock_")))) {
+        logger?.info("Simulated Twitter publishing for dev/mock token", { handle });
+        return `https://x.com/${handle || "user"}/status/sim_${Date.now()}`;
+    }
+
     const mediaIds = images?.length ? 
     await uploadImagesToTwitter({
         accessToken,
@@ -313,6 +319,12 @@ async function publishToLinkedIn({
   images?: { url: string; key: string }[]
   logger: any
 }) {
+  // Support simulation in development when using mock tokens
+  if (accessToken.startsWith("mock_") || (process.env.ALLOW_MOCK_OAUTH === "true" && (!process.env.LINKEDIN_CLIENT_SECRET || accessToken.startsWith("mock_")))) {
+    logger?.info("Simulated LinkedIn publishing for dev/mock token", { authorId });
+    return `https://www.linkedin.com/feed/update/urn:li:activity:sim_${Date.now()}`;
+  }
+
   if (!authorId) throw new Error("Missing LinkedIn provider account id.")
   const imageUrn = images?.[0]?.url
     ? await uploadLinkedInImage({

@@ -40,7 +40,7 @@ const CalendarView = () => {
       if (channelIds.length > 0) {
         params.append("channelIds", channelIds.join(","))
       }
-      const res = await fetch(`/api/post?${params.toString()}`);
+      const res = await fetch(`/api/posts?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to fetch posts");
       return res.json();
     },
