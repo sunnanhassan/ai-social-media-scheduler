@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-03T18:30:40.610464+00:00",
-  "total_nodes": 134,
-  "total_edges": 256,
+  "timestamp": "2026-10-03T19:20:44.101840+00:00",
+  "total_nodes": 141,
+  "total_edges": 274,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -52,7 +52,7 @@
       "id": "app/(routes)/(dashboard)/schedule/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 114,
+      "lines": 129,
       "components": [],
       "community": 1
     },
@@ -419,6 +419,16 @@
       "community": 1
     },
     {
+      "id": "components/schedule/board-view.tsx",
+      "label": "board-view.tsx",
+      "type": "component",
+      "lines": 217,
+      "components": [
+        "BoardView"
+      ],
+      "community": 1
+    },
+    {
       "id": "components/schedule/calendar-view.tsx",
       "label": "calendar-view.tsx",
       "type": "component",
@@ -471,6 +481,16 @@
       "community": 1
     },
     {
+      "id": "components/schedule/live-mobile-preview.tsx",
+      "label": "live-mobile-preview.tsx",
+      "type": "component",
+      "lines": 137,
+      "components": [
+        "LiveMobilePreview"
+      ],
+      "community": 1
+    },
+    {
       "id": "components/schedule/post-channel-accordions.tsx",
       "label": "post-channel-accordions.tsx",
       "type": "component",
@@ -511,11 +531,51 @@
       "community": 1
     },
     {
+      "id": "components/schedule/schedule-kanban-card.tsx",
+      "label": "schedule-kanban-card.tsx",
+      "type": "component",
+      "lines": 219,
+      "components": [
+        "ScheduleKanbanCard"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/schedule-kanban-column.tsx",
+      "label": "schedule-kanban-column.tsx",
+      "type": "component",
+      "lines": 119,
+      "components": [
+        "ScheduleKanbanColumn"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/schedule-kanban.tsx",
+      "label": "schedule-kanban.tsx",
+      "type": "component",
+      "lines": 142,
+      "components": [
+        "ScheduleKanban"
+      ],
+      "community": 1
+    },
+    {
       "id": "components/schedule/schedule-toolbar.tsx",
       "label": "schedule-toolbar.tsx",
       "type": "component",
       "lines": 156,
       "components": [],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/schedule-view-switcher.tsx",
+      "label": "schedule-view-switcher.tsx",
+      "type": "component",
+      "lines": 55,
+      "components": [
+        "ScheduleViewSwitcher"
+      ],
       "community": 1
     },
     {
@@ -581,6 +641,16 @@
       "lines": 130,
       "components": [
         "InstagramPreview"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/preview/iphone-frame.tsx",
+      "label": "iphone-frame.tsx",
+      "type": "component",
+      "lines": 68,
+      "components": [
+        "IPhoneFrame"
       ],
       "community": 1
     },
@@ -1266,11 +1336,6 @@
     },
     {
       "source": "app/(routes)/(dashboard)/schedule/page.tsx",
-      "target": "components/ui/toggle-group",
-      "relation": "imports"
-    },
-    {
-      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
       "target": "components/schedule/list-view",
       "relation": "imports"
     },
@@ -1281,7 +1346,22 @@
     },
     {
       "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/board-view",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
       "target": "components/schedule/create-post-dialog",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/schedule-view-switcher",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/schedule/page.tsx",
+      "target": "components/schedule/schedule-toolbar",
       "relation": "imports"
     },
     {
@@ -1785,6 +1865,26 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/board-view.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/board-view.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/board-view.tsx",
+      "target": "components/ui/sheet",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/board-view.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/calendar-view.tsx",
       "target": "types/post.type",
       "relation": "imports"
@@ -1875,6 +1975,21 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/live-mobile-preview.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/live-mobile-preview.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/live-mobile-preview.tsx",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/post-channel-accordions.tsx",
       "target": "types/channel.type",
       "relation": "imports"
@@ -1940,6 +2055,46 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/schedule-kanban-card.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-card.tsx",
+      "target": "components/ui/avatar",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-card.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-card.tsx",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-column.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-column.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban.tsx",
+      "target": "constants/post",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/schedule-toolbar.tsx",
       "target": "lib/utils",
       "relation": "imports"
@@ -1972,6 +2127,11 @@
     {
       "source": "components/schedule/schedule-toolbar.tsx",
       "target": "types/channel.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-view-switcher.tsx",
+      "target": "components/ui/toggle-group",
       "relation": "imports"
     },
     {

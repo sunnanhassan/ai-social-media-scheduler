@@ -42,7 +42,7 @@ export async function POST(
     }
 
     await inngest.send({
-      name: "post/publish.requested",
+      name: "post.publish.requested",
       data: {
         postId: id,
       },

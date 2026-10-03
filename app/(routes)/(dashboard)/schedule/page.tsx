@@ -1,29 +1,47 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useMemo } from "react";
 import { useQueryState } from "nuqs";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { CalendarIcon, LayoutList, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import ListView from "@/components/schedule/list-view";
 import CalendarView from "@/components/schedule/calendar-view";
+import BoardView from "@/components/schedule/board-view";
 import CreatePostDialog from "@/components/schedule/create-post-dialog";
-
-type ViewType = "calendar" | "list";
+import { ScheduleViewSwitcher, ScheduleViewType } from "@/components/schedule/schedule-view-switcher";
+import ScheduleToolbar from "@/components/schedule/schedule-toolbar";
 
 const SchedulePageContent = () => {
   const [activeView, setActiveView] = useQueryState("view", {
-    defaultValue: "calendar",
+    defaultValue: "board",
   });
-  const [_, setStatus] = useQueryState("status", {
+  const [selectedStatus, setSelectedStatus] = useQueryState("status", {
+    defaultValue: "all",
+  });
+  const [rawChannelIds, setRawChannelIds] = useQueryState("channel_id", {
     defaultValue: "",
   });
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
 
+  // Parse comma-separated channels
+  const channelIds = useMemo(() => {
+    return rawChannelIds ? rawChannelIds.split(",").filter(Boolean) : [];
+  }, [rawChannelIds]);
+
+  const toggleChannel = (id: string) => {
+    if (channelIds.includes(id)) {
+      const next = channelIds.filter((c) => c !== id);
+      setRawChannelIds(next.length ? next.join(",") : null);
+    } else {
+      const next = [...channelIds, id];
+      setRawChannelIds(next.join(","));
+    }
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden">
-      {/* Vercel/Supabase Data-Dense Header */}
+      {/* Top Header: Breadcrumb + Toolbar Filters + View Switcher + CTA */}
       <header className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-2 border-b border-border/70">
         <div>
           <div className="flex items-center gap-2">
@@ -47,36 +65,27 @@ const SchedulePageContent = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <ToggleGroup
-            type="single"
-            value={activeView}
-            onValueChange={(value) => {
-              if (!value) return;
-              setActiveView(value as ViewType);
-            }}
-            className="border border-border/80 rounded-md p-0.5 bg-muted/30 h-8"
-          >
-            <ToggleGroupItem
-              value="calendar"
-              className="gap-1.5 h-7 px-2.5 text-xs font-mono data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-2xs cursor-pointer"
-            >
-              <CalendarIcon className="size-3.5" />
-              <span>Calendar</span>
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="list"
-              className="gap-1.5 h-7 px-2.5 text-xs font-mono data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-2xs cursor-pointer"
-            >
-              <LayoutList className="size-3.5" />
-              <span>List</span>
-            </ToggleGroupItem>
-          </ToggleGroup>
+        <div className="flex items-center gap-2.5">
+          {/* Channel Multi-Select & Status Filter */}
+          <ScheduleToolbar
+            viewType={activeView as ScheduleViewType}
+            channelIds={channelIds}
+            toggleChannel={toggleChannel}
+            selectedStatus={selectedStatus || "all"}
+            setSelectedStatus={setSelectedStatus}
+          />
 
+          {/* Segmented View Switcher: Board | Calendar | List */}
+          <ScheduleViewSwitcher
+            activeView={(activeView as ScheduleViewType) || "board"}
+            onViewChange={(view) => setActiveView(view)}
+          />
+
+          {/* Add Post Button */}
           <Button
             size="sm"
             onClick={() => setCreatePostModalOpen(true)}
-            className="h-8 gap-1.5 px-3 text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 shadow-2xs cursor-pointer"
+            className="h-8 gap-1.5 px-3 text-xs font-medium bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm cursor-pointer"
           >
             <Plus className="size-3.5" />
             <span>Add Post</span>
@@ -84,12 +93,18 @@ const SchedulePageContent = () => {
         </div>
       </header>
 
-      {/* Main Content View */}
+      {/* Main Content Workspace */}
       <div className="flex-1 min-h-0 overflow-hidden">
         {activeView === "list" ? (
           <ListView setCreatePostModalOpen={setCreatePostModalOpen} />
-        ) : (
+        ) : activeView === "calendar" ? (
           <CalendarView />
+        ) : (
+          <BoardView
+            channelIds={channelIds}
+            selectedStatus={selectedStatus || "all"}
+            setCreatePostModalOpen={setCreatePostModalOpen}
+          />
         )}
       </div>
 
@@ -103,7 +118,7 @@ const SchedulePageContent = () => {
 
 const SchedulePage = () => {
   return (
-    <Suspense fallback={<div className="p-4 text-xs font-mono text-muted-foreground">Loading schedule...</div>}>
+    <Suspense fallback={<div className="p-4 text-xs font-mono text-muted-foreground">Loading pipeline...</div>}>
       <NuqsAdapter>
         <SchedulePageContent />
       </NuqsAdapter>

@@ -18,7 +18,7 @@ import { ChannelType } from "@/types/channel.type";
 import ChannelAvatar from "../channel-avatar";
 
 interface ScheduleToolbarProps {
-  viewType?: "calendar" | "list";
+  viewType?: "board" | "calendar" | "list";
   channelIds: string[];
   toggleChannel: (id: string) => void;
   selectedStatus: string;
@@ -34,7 +34,7 @@ const statusOptions = [
 ];
 
 const ScheduleToolbar = ({
-  viewType = "calendar",
+  viewType = "board",
   channelIds,
   toggleChannel,
   selectedStatus,
