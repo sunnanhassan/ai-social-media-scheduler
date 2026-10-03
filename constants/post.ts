@@ -1,6 +1,7 @@
 export const POST_STATUS = {
   DRAFT: "draft",
   QUEUE: "queue",
+  PROCESSING: "processing",
   PUBLISHED: "published",
   FAILED: "failed"
 } as const;

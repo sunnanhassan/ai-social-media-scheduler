@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-03T17:30:53.456512+00:00",
-  "total_nodes": 129,
-  "total_edges": 251,
+  "timestamp": "2026-10-03T17:51:21.136102+00:00",
+  "total_nodes": 134,
+  "total_edges": 256,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -905,7 +905,7 @@
       "id": "constants/post.ts",
       "label": "post.ts",
       "type": "file",
-      "lines": 10,
+      "lines": 11,
       "components": [
         "POST_STATUS",
         "POST_STATUSES"
@@ -946,7 +946,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 499,
+      "lines": 225,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -971,7 +971,7 @@
       "id": "lib/encryption.ts",
       "label": "encryption.ts",
       "type": "lib",
-      "lines": 41,
+      "lines": 46,
       "components": [
         "encrypt",
         "decrypt"
@@ -1071,6 +1071,50 @@
         "AppAuthProvider",
         "useAppAuth"
       ],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/lifecycle.ts",
+      "label": "lifecycle.ts",
+      "type": "lib",
+      "lines": 103,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/linkedin.ts",
+      "label": "linkedin.ts",
+      "type": "lib",
+      "lines": 167,
+      "components": [
+        "formatLinkedInText"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/token-utils.ts",
+      "label": "token-utils.ts",
+      "type": "lib",
+      "lines": 10,
+      "components": [
+        "shouldRefreshToken"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/twitter.ts",
+      "label": "twitter.ts",
+      "type": "lib",
+      "lines": 119,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/types.ts",
+      "label": "types.ts",
+      "type": "lib",
+      "lines": 15,
+      "components": [],
       "community": 5
     },
     {
@@ -2366,6 +2410,21 @@
       "relation": "imports"
     },
     {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/publish-handlers/lifecycle",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/publish-handlers/twitter",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/publish-handlers/linkedin",
+      "relation": "imports"
+    },
+    {
       "source": "lib/auth/auth-components.tsx",
       "target": "components/ui/avatar",
       "relation": "imports"
@@ -2388,6 +2447,16 @@
     {
       "source": "lib/auth/auth-components.tsx",
       "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/twitter.ts",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/types.ts",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {

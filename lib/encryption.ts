@@ -20,22 +20,27 @@ export function encrypt(text: string | null | undefined){
     return result
 }
 
-export function decrypt(encrypted: string | null | undefined){
-    if(!encrypted) return null;
+export function decrypt(encrypted: string | null | undefined): string | null {
+    if (!encrypted) return null;
 
-    const [iv, tag, encryted] = encrypted.split(".")
+    try {
+        const parts = encrypted.split(".");
+        if (parts.length !== 3) return null;
+        const [iv, tag, encryted] = parts;
 
-    if(!iv || !tag || !encryted) return null;
+        if (!iv || !tag || !encryted) return null;
 
-    const encryptionKey = createHash("sha256").update(ENCRYPTION_KEY).digest()
+        const encryptionKey = createHash("sha256").update(ENCRYPTION_KEY).digest();
+        const decipher = createDecipheriv("aes-256-gcm", encryptionKey, Buffer.from(iv, "base64url"));
 
-    const decipher = createDecipheriv("aes-256-gcm", encryptionKey, Buffer.from(iv, "base64url"))
-
-    decipher.setAuthTag(Buffer.from(tag, "base64url"))
-    
-    const decrypted = Buffer.concat([
-        decipher.update(Buffer.from(encryted, "base64url")),
-        decipher.final()
-    ])
-    return decrypted.toString("utf-8")
+        decipher.setAuthTag(Buffer.from(tag, "base64url"));
+        
+        const decrypted = Buffer.concat([
+            decipher.update(Buffer.from(encryted, "base64url")),
+            decipher.final()
+        ]);
+        return decrypted.toString("utf-8");
+    } catch {
+        return null;
+    }
 }
