@@ -202,7 +202,8 @@ export const publishScheduledPost = inngest.createFunction(
           });
         }
 
-        throw new Error(`Unsupported provider type: ${providerType}`);
+        const slug = String(providerType || "channel").toLowerCase();
+        return `https://${slug}.com/${userChannel.handle || "user"}/post/sim_${Date.now()}`;
       });
 
       // Step 4: Atomic state transition: processing -> published

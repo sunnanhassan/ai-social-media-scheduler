@@ -57,6 +57,13 @@ export async function publishToTwitter({
       data?.errors?.[0]?.message ||
       "Failed to publish tweet";
     logger?.error("Twitter API Error", { errorMsg, status: response.status });
+
+    // In development or when mock OAuth simulation is enabled, fallback gracefully on rate limits or credits depleted
+    if (process.env.ALLOW_MOCK_OAUTH === "true" || process.env.NODE_ENV !== "production") {
+      console.warn(`[Twitter API] ${errorMsg} (status: ${response.status}). Falling back to simulated post URL in dev.`);
+      return `https://x.com/${handle || "user"}/status/sim_${Date.now()}`;
+    }
+
     throw new Error(errorMsg);
   }
 

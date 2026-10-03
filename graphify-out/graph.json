@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-03T19:52:28.657386+00:00",
+  "timestamp": "2026-10-03T19:58:28.272609+00:00",
   "total_nodes": 142,
   "total_edges": 280,
   "nodes": [
@@ -1016,7 +1016,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 226,
+      "lines": 227,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1147,7 +1147,7 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 133,
+      "lines": 135,
       "components": [],
       "community": 5
     },
@@ -1163,7 +1163,7 @@
       "id": "lib/publish-handlers/linkedin.ts",
       "label": "linkedin.ts",
       "type": "lib",
-      "lines": 167,
+      "lines": 173,
       "components": [
         "formatLinkedInText"
       ],
@@ -1183,7 +1183,7 @@
       "id": "lib/publish-handlers/twitter.ts",
       "label": "twitter.ts",
       "type": "lib",
-      "lines": 119,
+      "lines": 126,
       "components": [],
       "community": 5
     },
