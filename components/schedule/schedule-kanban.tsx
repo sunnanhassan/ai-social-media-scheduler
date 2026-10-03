@@ -79,23 +79,31 @@ export function ScheduleKanban({
 
     if (sourceCol === destCol) return;
 
-    if (destCol === "drafts") {
-      toast.success("Moved post to Drafts");
-      await onUpdatePostStatus?.(draggedPost.id, POST_STATUS.DRAFT, null);
-    } else if (destCol === "queue") {
-      // If moving from draft to queue, default to tomorrow at 10 AM if not set
-      let scheduledAt = draggedPost.scheduled_at;
-      if (!scheduledAt || new Date(scheduledAt) <= new Date()) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(10, 0, 0, 0);
-        scheduledAt = tomorrow.toISOString();
+    try {
+      if (destCol === "drafts") {
+        toast.success("Moved post to Drafts");
+        await onUpdatePostStatus?.(
+          draggedPost.id,
+          POST_STATUS.DRAFT,
+          draggedPost.scheduled_at || new Date().toISOString()
+        );
+      } else if (destCol === "queue") {
+        // If moving from draft to queue, default to tomorrow at 10 AM if not set
+        let scheduledAt = draggedPost.scheduled_at;
+        if (!scheduledAt || new Date(scheduledAt) <= new Date()) {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setHours(10, 0, 0, 0);
+          scheduledAt = tomorrow.toISOString();
+        }
+        toast.success("Post queued for publication!");
+        await onUpdatePostStatus?.(draggedPost.id, POST_STATUS.QUEUE, scheduledAt);
+      } else if (destCol === "published") {
+        toast.info("Triggering instant publish...");
+        onPublishNow?.(draggedPost);
       }
-      toast.success("Post queued for publication!");
-      await onUpdatePostStatus?.(draggedPost.id, POST_STATUS.QUEUE, scheduledAt);
-    } else if (destCol === "published") {
-      toast.info("Triggering instant publish...");
-      onPublishNow?.(draggedPost);
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to move post");
     }
   };
 

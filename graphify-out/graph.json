@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-03T19:20:44.101840+00:00",
+  "timestamp": "2026-10-03T19:35:55.245876+00:00",
   "total_nodes": 141,
   "total_edges": 274,
   "nodes": [
@@ -230,7 +230,7 @@
       "id": "app/api/posts/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 95,
+      "lines": 97,
       "components": [],
       "community": 5
     },
@@ -422,7 +422,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 217,
+      "lines": 224,
       "components": [
         "BoardView"
       ],
@@ -554,7 +554,7 @@
       "id": "components/schedule/schedule-kanban.tsx",
       "label": "schedule-kanban.tsx",
       "type": "component",
-      "lines": 142,
+      "lines": 150,
       "components": [
         "ScheduleKanban"
       ],

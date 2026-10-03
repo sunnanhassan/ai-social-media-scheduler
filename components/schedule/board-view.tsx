@@ -78,17 +78,20 @@ export default function BoardView({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           status: newStatus,
-          scheduledAt,
+          scheduledAt: scheduledAt || undefined,
         }),
       });
-      if (!res.ok) throw new Error("Failed to update post");
-      return res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update post");
+      }
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
-    onError: () => {
-      toast.error("Failed to move post. Reverting state.");
+    onError: (err: any) => {
+      toast.error(err?.message || "Failed to move post. Reverting state.");
       refetch();
     },
   });
@@ -160,7 +163,11 @@ export default function BoardView({
           onPublishNow={handlePublishNow}
           onAddNew={() => setCreatePostOpen(true)}
           onUpdatePostStatus={async (postId, newStatus, scheduledAt) => {
-            await updateStatusMutation.mutateAsync({ postId, newStatus, scheduledAt });
+            try {
+              await updateStatusMutation.mutateAsync({ postId, newStatus, scheduledAt });
+            } catch {
+              // Handled by mutation onError and toast
+            }
           }}
         />
       </div>

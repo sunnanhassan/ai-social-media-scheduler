@@ -44,7 +44,9 @@ export async function PATCH(
     const updateData: Record<string, any> = { updated_at: new Date().toISOString() };
     if (content !== undefined) updateData.content = content.trim();
     if (Array.isArray(images)) updateData.images = images;
-    if (scheduledAt !== undefined) updateData.scheduled_at = scheduledAt;
+    if (scheduledAt !== undefined && scheduledAt !== null && scheduledAt !== "") {
+      updateData.scheduled_at = scheduledAt;
+    }
     if (status !== undefined) updateData.status = status;
     if (userChannelId !== undefined) updateData.user_channel_id = userChannelId;
 
@@ -58,13 +60,13 @@ export async function PATCH(
 
     if (error) {
       console.error("[PATCH /api/posts/[id]]", error);
-      return NextResponse.json({ error: "Failed to update post" }, { status: 500 });
+      return NextResponse.json({ error: error.message || "Failed to update post" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, post: data });
   } catch (error: any) {
     console.error("[PATCH /api/posts/[id]]", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }
 
