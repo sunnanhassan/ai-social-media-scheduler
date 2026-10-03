@@ -21,7 +21,7 @@ type DuePost = {
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 /**
- * Recurring cron job checking for due scheduled posts every 5 minutes.
+ * Recurring cron job checking for due scheduled posts every 10 minutes.
  */
 export const publishScheduledPostsCron = inngest.createFunction(
   {
@@ -29,7 +29,7 @@ export const publishScheduledPostsCron = inngest.createFunction(
     name: "Publish Scheduled Posts",
     triggers: [
       {
-        cron: "*/5 * * * *",
+        cron: "*/10 * * * *",
       },
     ],
   },
@@ -40,7 +40,7 @@ export const publishScheduledPostsCron = inngest.createFunction(
       const { data, error } = await insforge.database
         .from("scheduled_posts")
         .select("id, status, scheduled_at")
-        .eq("status", "queue")
+        .in("status", ["queue", "queued"])
         .lte("scheduled_at", now)
         .order("scheduled_at", { ascending: true });
 
@@ -62,7 +62,7 @@ export const publishScheduledPostsCron = inngest.createFunction(
     await step.sendEvent(
       "send-out-post-for-publish",
       duePosts.map((post) => ({
-        name: "post/publish.requested",
+        name: "post.publish.requested",
         data: {
           postId: post.id,
         },
@@ -80,9 +80,10 @@ export const publishScheduledPost = inngest.createFunction(
   {
     id: "publish-scheduled-post",
     name: "Publish Scheduled Post",
-    triggers: {
-      event: "post/publish.requested",
-    },
+    triggers: [
+      { event: "post.publish.requested" },
+      { event: "post/publish.requested" },
+    ],
   },
   async ({ event, step, logger }) => {
     const post = await step.run("load-post", async () => {

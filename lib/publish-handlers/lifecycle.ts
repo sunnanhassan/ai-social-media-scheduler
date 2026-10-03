@@ -21,7 +21,7 @@ export async function markPostProcessing(postId: string): Promise<boolean> {
         updated_at: new Date().toISOString(),
       })
       .eq("id", postId)
-      .eq("status", POST_STATUS.QUEUE);
+      .in("status", [POST_STATUS.QUEUE, "queued"]);
 
     if (error) {
       // If DB has old check constraint without 'processing', log and allow flow to proceed
