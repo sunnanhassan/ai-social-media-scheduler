@@ -12,6 +12,7 @@ export default async function middleware(req: NextRequest) {
         '/sign-up(.*)',
         '/',
         '/api/inngest(.*)',
+        '/api/posts/cron(.*)',
         '/api/social/callback(.*)',
         '/api/channel/callback(.*)',
       ]);

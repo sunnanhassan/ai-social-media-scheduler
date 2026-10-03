@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-03T20:06:11.851494+00:00",
-  "total_nodes": 142,
-  "total_edges": 280,
+  "timestamp": "2026-10-03T20:09:13.379881+00:00",
+  "total_nodes": 143,
+  "total_edges": 282,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -215,6 +215,14 @@
       "label": "route.ts",
       "type": "route",
       "lines": 288,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/cron/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 76,
       "components": [],
       "community": 5
     },
@@ -1615,6 +1623,16 @@
     {
       "source": "app/api/posts/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/cron/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/cron/route.ts",
+      "target": "lib/publish-handlers/direct-publisher",
       "relation": "imports"
     },
     {
