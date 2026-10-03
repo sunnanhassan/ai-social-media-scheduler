@@ -128,13 +128,13 @@ const CreatePostDialog = ({ open, onOpenChange, selectedDate }: PropsType) => {
               previewContent={previewContent}
               onIdeaSelect={handleIdeaSelect}
               onAIGenerate={(content) => {
-                if (globalContent?.text) {
-                  setGlobalContent((prev) => ({ ...prev, text: content }));
+                setGlobalContent((prev) => ({ ...prev, text: content }));
+                if (activeAccordion) {
+                  setChannelContent((prev) => ({
+                    ...prev,
+                    [activeAccordion]: { ...prev[activeAccordion], text: content },
+                  }));
                 }
-                setChannelContent((prev) => ({
-                  ...prev,
-                  [activeAccordion]: { ...prev[activeAccordion], text: content },
-                }));
               }}
             />
           </div>

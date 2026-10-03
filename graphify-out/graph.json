@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-26T20:29:45.758955+00:00",
-  "total_nodes": 127,
-  "total_edges": 250,
+  "timestamp": "2026-10-03T17:30:53.456512+00:00",
+  "total_nodes": 129,
+  "total_edges": 251,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -182,7 +182,7 @@
       "id": "app/api/post/generate-post/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 108,
+      "lines": 123,
       "components": [],
       "community": 5
     },
@@ -215,6 +215,14 @@
       "label": "route.ts",
       "type": "route",
       "lines": 288,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/generate-post/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 1,
       "components": [],
       "community": 5
     },
@@ -404,7 +412,7 @@
       "id": "components/schedule/ai-assitant.tsx",
       "label": "ai-assitant.tsx",
       "type": "component",
-      "lines": 173,
+      "lines": 177,
       "components": [
         "AIAssistant"
       ],
@@ -946,6 +954,20 @@
       "community": 5
     },
     {
+      "id": "lib/ai-prompt-builders.ts",
+      "label": "ai-prompt-builders.ts",
+      "type": "lib",
+      "lines": 158,
+      "components": [
+        "AI_ACTIONS",
+        "normalizeAction",
+        "buildSystemPrompt",
+        "buildUserPrompt",
+        "sanitizeAIGeneratedText"
+      ],
+      "community": 5
+    },
+    {
       "id": "lib/encryption.ts",
       "label": "encryption.ts",
       "type": "lib",
@@ -1431,6 +1453,11 @@
     {
       "source": "app/api/post/generate-post/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/post/generate-post/route.ts",
+      "target": "lib/ai-prompt-builders",
       "relation": "imports"
     },
     {

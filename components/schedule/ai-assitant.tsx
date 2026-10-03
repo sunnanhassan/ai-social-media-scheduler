@@ -27,7 +27,9 @@ interface AIAssistantProps {
 export function AIAssistant({ className, content, channelId, onGenerate }: AIAssistantProps) {
   const [prompt, setPrompt] = React.useState("")
     const { data: subscription, isLoading } = useSubscription()
+  const isDev = process.env.NODE_ENV === "development"
   const canUseAI =
+    isDev ||
     !!subscription?.subscriptionItems?.some((item) => {
       const planSlug = item.plan.slug
       return planSlug === "pro" || planSlug === "premium"
@@ -46,14 +48,16 @@ export function AIAssistant({ className, content, channelId, onGenerate }: AIAss
         }),
       })
       if (!res.ok) {
-        throw new Error("Failed to generate post")
+        const errJson = await res.json().catch(() => ({}))
+        throw new Error(errJson.error || "Failed to generate post")
       }
       return res.json()
     },
-    onSuccess: (data) => {
-      // setGeneratedContent(data.content)
+    onSuccess: (data, variables) => {
       onGenerate?.(data.content)
       setPrompt("")
+      const actionName = variables.action.charAt(0).toUpperCase() + variables.action.slice(1)
+      toast.success(`${actionName} applied successfully!`)
     },
     onError: (error: unknown) => {
       console.error("Generation error:", error)
