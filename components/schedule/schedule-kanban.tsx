@@ -109,7 +109,7 @@ export function ScheduleKanban({
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className={`flex items-start gap-4 h-full overflow-x-auto pb-2 scrollbar-none ${className}`}>
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 h-full w-full overflow-hidden pb-1 ${className}`}>
         <ScheduleKanbanColumn
           columnId="drafts"
           title="Drafts & Ideas"

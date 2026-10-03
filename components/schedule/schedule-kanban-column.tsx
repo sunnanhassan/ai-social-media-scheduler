@@ -44,7 +44,7 @@ export function ScheduleKanbanColumn({
   };
 
   return (
-    <div className="flex flex-col flex-1 min-w-[280px] max-w-[380px] bg-muted/20 border border-border/70 rounded-2xl p-3 h-full select-none">
+    <div className="flex flex-col flex-1 min-w-0 bg-muted/20 border border-border/70 rounded-2xl p-3 h-full select-none overflow-hidden">
       {/* Column Header */}
       <div className="flex items-center justify-between pb-3 mb-2 border-b border-border/50 shrink-0">
         <div className="flex items-center gap-2">
@@ -70,12 +70,12 @@ export function ScheduleKanbanColumn({
       </div>
 
       {/* Droppable Card List */}
-      <Droppable droppableId={columnId}>
+      <Droppable droppableId={columnId} ignoreContainerClipping={true}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`flex-1 overflow-y-auto pr-1 transition-colors rounded-xl scrollbar-none ${
+            className={`flex-1 overflow-y-auto pr-1 transition-colors rounded-xl scrollbar-none min-h-0 ${
               snapshot.isDraggingOver ? "bg-accent/20 ring-1 ring-primary/30" : ""
             }`}
           >

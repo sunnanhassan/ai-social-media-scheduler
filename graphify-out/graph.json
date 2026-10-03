@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-03T19:35:55.245876+00:00",
-  "total_nodes": 141,
-  "total_edges": 274,
+  "timestamp": "2026-10-03T19:52:28.657386+00:00",
+  "total_nodes": 142,
+  "total_edges": 280,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -230,7 +230,7 @@
       "id": "app/api/posts/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 97,
+      "lines": 138,
       "components": [],
       "community": 5
     },
@@ -238,7 +238,7 @@
       "id": "app/api/posts/[id]/publish/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 56,
+      "lines": 82,
       "components": [],
       "community": 5
     },
@@ -422,7 +422,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 224,
+      "lines": 228,
       "components": [
         "BoardView"
       ],
@@ -1144,6 +1144,14 @@
       "community": 5
     },
     {
+      "id": "lib/publish-handlers/direct-publisher.ts",
+      "label": "direct-publisher.ts",
+      "type": "lib",
+      "lines": 133,
+      "components": [],
+      "community": 5
+    },
+    {
       "id": "lib/publish-handlers/lifecycle.ts",
       "label": "lifecycle.ts",
       "type": "lib",
@@ -1627,6 +1635,11 @@
     {
       "source": "app/api/posts/[id]/publish/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/[id]/publish/route.ts",
+      "target": "lib/publish-handlers/direct-publisher",
       "relation": "imports"
     },
     {
@@ -2607,6 +2620,31 @@
     {
       "source": "lib/auth/auth-components.tsx",
       "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "lib/encryption",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "lib/social-oauth",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {

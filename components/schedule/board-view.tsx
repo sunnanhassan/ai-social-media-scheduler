@@ -108,8 +108,12 @@ export default function BoardView({
       }
       return res.json();
     },
-    onSuccess: () => {
-      toast.success("Post dispatched for publishing!");
+    onSuccess: (data: any) => {
+      const msg =
+        data?.mode === "direct_published"
+          ? "Post published live to connected channel!"
+          : data?.message || "Post dispatched for publishing!";
+      toast.success(msg);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (err: any) => {

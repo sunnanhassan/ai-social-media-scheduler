@@ -67,7 +67,7 @@ export function IdeaColumn({
       </div>
 
       {/* Droppable list */}
-      <Droppable droppableId={column.id}>
+      <Droppable droppableId={column.id} ignoreContainerClipping={true}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
