@@ -51,13 +51,19 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
   await markPostProcessing(post.id);
 
   const userChannel = post.user_channels;
-  if (!userChannel) {
-    const errorMsg = "No connected social channel found for this post";
+  if (!userChannel || !userChannel.is_connected) {
+    const errorMsg = "Cannot publish: Social channel is not connected. Connect in Channels settings.";
     await markPostFailed(post.id, errorMsg);
     return { success: false, error: errorMsg };
   }
 
   const providerType = userChannel.channel_types?.type;
+  if (providerType !== ChannelTypeEnum.TWITTER && providerType !== ChannelTypeEnum.LINKEDIN) {
+    const errorMsg = `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter/X and LinkedIn are available.`;
+    await markPostFailed(post.id, errorMsg);
+    return { success: false, error: errorMsg, provider: providerType };
+  }
+
   const encryptedAccessToken = userChannel.access_token;
   const encryptedRefreshToken = userChannel.refresh_token;
 
@@ -67,8 +73,8 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
     ? new Date(userChannel.token_expires_at).getTime()
     : null;
 
-  if (!providerType || !accessToken) {
-    const errorMsg = "Missing provider credentials or valid decrypted access token";
+  if (!accessToken) {
+    const errorMsg = "Missing valid decrypted access token. Please reconnect the channel.";
     await markPostFailed(post.id, errorMsg);
     return { success: false, error: errorMsg };
   }
@@ -115,9 +121,7 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
         images: post.images,
       });
     } else {
-      // In development or when direct social adapter is pending, support simulated publishing
-      const slug = String(providerType || "channel").toLowerCase();
-      publishedUrl = `https://${slug}.com/${userChannel.handle || "user"}/post/sim_${Date.now()}`;
+      throw new Error(`Unsupported provider: ${providerType}`);
     }
 
     await markPostPublished(post.id, publishedUrl);

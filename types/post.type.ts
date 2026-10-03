@@ -25,6 +25,8 @@ export type PostType = {
         access_token?: string | null
         refresh_token?: string | null
         token_expires_at?: string | null
+        is_connected?: boolean | null
+        is_active?: boolean | null
         channel_types?: ChannelType
     },
     created_at: string;

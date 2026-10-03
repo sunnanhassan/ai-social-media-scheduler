@@ -99,6 +99,22 @@ export function ScheduleKanban({
         toast.success("Post queued for publication!");
         await onUpdatePostStatus?.(draggedPost.id, POST_STATUS.QUEUE, scheduledAt);
       } else if (destCol === "published") {
+        const userChannel = draggedPost.user_channels;
+        const providerType = userChannel?.channel_types?.type;
+        const isConnected = userChannel?.is_connected;
+
+        if (!userChannel || !isConnected) {
+          toast.error("Cannot publish: Channel is not connected. Connect in Channels settings.");
+          return;
+        }
+
+        if (providerType !== "TWITTER" && providerType !== "LINKEDIN") {
+          toast.error(
+            `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet.`
+          );
+          return;
+        }
+
         toast.info("Triggering instant publish...");
         onPublishNow?.(draggedPost);
       }

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-03T19:58:28.272609+00:00",
+  "timestamp": "2026-10-03T20:06:11.851494+00:00",
   "total_nodes": 142,
   "total_edges": 280,
   "nodes": [
@@ -422,7 +422,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 228,
+      "lines": 244,
       "components": [
         "BoardView"
       ],
@@ -554,7 +554,7 @@
       "id": "components/schedule/schedule-kanban.tsx",
       "label": "schedule-kanban.tsx",
       "type": "component",
-      "lines": 150,
+      "lines": 166,
       "components": [
         "ScheduleKanban"
       ],
@@ -1016,7 +1016,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 227,
+      "lines": 234,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1147,7 +1147,7 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 135,
+      "lines": 139,
       "components": [],
       "community": 5
     },
@@ -1286,7 +1286,7 @@
       "id": "types/post.type.ts",
       "label": "post.type.ts",
       "type": "type",
-      "lines": 43,
+      "lines": 45,
       "components": [],
       "community": 5
     }

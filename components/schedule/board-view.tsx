@@ -127,6 +127,22 @@ export default function BoardView({
   };
 
   const handlePublishNow = (post: PostType) => {
+    const userChannel = post.user_channels;
+    const providerType = userChannel?.channel_types?.type;
+    const isConnected = userChannel?.is_connected;
+
+    if (!userChannel || !isConnected) {
+      toast.error("Cannot publish: Channel is not connected. Connect in Channels settings.");
+      return;
+    }
+
+    if (providerType !== "TWITTER" && providerType !== "LINKEDIN") {
+      toast.error(
+        `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet.`
+      );
+      return;
+    }
+
     publishNowMutation.mutate(post.id);
   };
 

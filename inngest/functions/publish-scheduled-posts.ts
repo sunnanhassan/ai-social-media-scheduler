@@ -119,12 +119,20 @@ export const publishScheduledPost = inngest.createFunction(
     });
 
     const userChannel = post.user_channels;
-    if (!userChannel) {
-      await markPostFailed(post.id, "No connected social channel found for this post");
-      return { skipped: true, reason: "user_channel_not_found" };
+    if (!userChannel || !userChannel.is_connected) {
+      await markPostFailed(post.id, "Social channel is not connected. Please connect in Channels settings.");
+      return { skipped: true, reason: "user_channel_disconnected" };
     }
 
     const providerType = userChannel.channel_types?.type;
+    if (providerType !== ChannelTypeEnum.TWITTER && providerType !== ChannelTypeEnum.LINKEDIN) {
+      await markPostFailed(
+        post.id,
+        `Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet.`
+      );
+      return { skipped: true, reason: "unsupported_provider" };
+    }
+
     const encryptedAccessToken = userChannel.access_token;
     const encryptedRefreshToken = userChannel.refresh_token;
 
@@ -134,11 +142,11 @@ export const publishScheduledPost = inngest.createFunction(
       ? new Date(userChannel.token_expires_at).getTime()
       : null;
 
-    if (!providerType || !accessToken) {
-      const errMsg = "Missing provider type or valid decrypted access token";
-      logger.error("[publish:auth]", { providerType, hasAccessToken: !!accessToken });
+    if (!accessToken) {
+      const errMsg = "Missing valid decrypted access token";
+      logger.error("[publish:auth]", { providerType, hasAccessToken: false });
       await markPostFailed(post.id, errMsg);
-      return { skipped: true, reason: "missing_provider_or_token" };
+      return { skipped: true, reason: "missing_token" };
     }
 
     let currentAccessToken = accessToken;
@@ -202,8 +210,7 @@ export const publishScheduledPost = inngest.createFunction(
           });
         }
 
-        const slug = String(providerType || "channel").toLowerCase();
-        return `https://${slug}.com/${userChannel.handle || "user"}/post/sim_${Date.now()}`;
+        throw new Error(`Unsupported provider type: ${providerType}`);
       });
 
       // Step 4: Atomic state transition: processing -> published
