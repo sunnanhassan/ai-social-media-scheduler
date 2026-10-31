@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T11:51:30.633171+00:00",
-  "total_nodes": 145,
-  "total_edges": 286,
+  "timestamp": "2026-10-31T11:57:02.568752+00:00",
+  "total_nodes": 150,
+  "total_edges": 292,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -99,6 +99,14 @@
       "community": 5
     },
     {
+      "id": "app/api/agent/chat/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 49,
+      "components": [],
+      "community": 5
+    },
+    {
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
@@ -142,7 +150,7 @@
       "id": "app/api/idea/generate-ideas/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 78,
+      "lines": 116,
       "components": [],
       "community": 2
     },
@@ -166,7 +174,7 @@
       "id": "app/api/inngest/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 13,
+      "lines": 15,
       "components": [],
       "community": 5
     },
@@ -215,6 +223,14 @@
       "label": "route.ts",
       "type": "route",
       "lines": 264,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/posts/adapt-all/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 161,
       "components": [],
       "community": 5
     },
@@ -1021,6 +1037,16 @@
       "community": 5
     },
     {
+      "id": "inngest/functions/agent-weekly-planner.ts",
+      "label": "agent-weekly-planner.ts",
+      "type": "file",
+      "lines": 56,
+      "components": [
+        "agentWeeklyPlannerCron"
+      ],
+      "community": 5
+    },
+    {
       "id": "inngest/functions/publish-at-time.ts",
       "label": "publish-at-time.ts",
       "type": "file",
@@ -1141,6 +1167,25 @@
       "lines": 6,
       "components": [
         "cn"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/agent/engine.ts",
+      "label": "engine.ts",
+      "type": "lib",
+      "lines": 139,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "lib/agent/tools.ts",
+      "label": "tools.ts",
+      "type": "lib",
+      "lines": 201,
+      "components": [
+        "AGENT_TOOL_DEFINITIONS",
+        "toolExecutors"
       ],
       "community": 5
     },
@@ -1557,6 +1602,11 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/agent/chat/route.ts",
+      "target": "lib/agent/engine",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/channel/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
@@ -1612,6 +1662,11 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/inngest/route.ts",
+      "target": "inngest/functions/agent-weekly-planner",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/post/route.ts",
       "target": "app/api/posts/route",
       "relation": "imports"
@@ -1659,6 +1714,16 @@
     {
       "source": "app/api/posts/route.ts",
       "target": "lib/schedule-utils",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/adapt-all/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/adapt-all/route.ts",
+      "target": "lib/ai-prompt-builders",
       "relation": "imports"
     },
     {
@@ -2614,6 +2679,16 @@
     {
       "source": "components/ui/tooltip.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/agent-weekly-planner.ts",
+      "target": "lib/agent/engine",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/agent-weekly-planner.ts",
+      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
