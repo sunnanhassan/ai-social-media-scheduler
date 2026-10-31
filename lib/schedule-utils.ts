@@ -55,3 +55,40 @@ export function isPostOverdue(scheduledAt: string | Date, status: string): boole
   if (isNaN(parsed.getTime())) return false;
   return isPast(parsed);
 }
+
+/**
+ * Groups an array of posts by scheduled calendar day (YYYY-MM-DD).
+ */
+export function buildGroupPosts(posts: any[]) {
+  const groupMap = new Map<string, { label: string; posts: any[] }>();
+
+  posts.forEach((post) => {
+    const date = new Date(post.scheduled_at || Date.now());
+    const key = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    if (!groupMap.has(key)) {
+      groupMap.set(key, { label: formatDayLabel(date), posts: [] });
+    }
+    groupMap.get(key)!.posts.push(post);
+  });
+
+  return Array.from(groupMap.entries()).map(([key, value]) => ({
+    key,
+    ...value,
+  }));
+}
+
+export function formatDayLabel(date: Date): string {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  if (date.toDateString() === today.toDateString()) return "Today";
+  if (date.toDateString() === tomorrow.toDateString()) return "Tomorrow";
+  return date.toLocaleDateString();
+}
+

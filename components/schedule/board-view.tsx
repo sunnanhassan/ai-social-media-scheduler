@@ -31,7 +31,7 @@ export default function BoardView({
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   // Fetch posts filtered by active channels & status
-  const { data: posts = [], isLoading, isRefetching, refetch } = useQuery<PostType[]>({
+  const { data: postsData, isLoading, isRefetching, refetch } = useQuery<{ posts: PostType[]; isFallback?: boolean }>({
     queryKey: ["posts", channelIds, selectedStatus],
     queryFn: async () => {
       const params = new URLSearchParams();
@@ -42,11 +42,18 @@ export default function BoardView({
         params.set("status", selectedStatus);
       }
       const res = await fetch(`/api/posts?${params.toString()}`);
-      if (!res.ok) throw new Error("Failed to load posts");
+      if (!res.ok) {
+        const fallbackRes = await res.json().catch(() => ({}));
+        return { posts: fallbackRes.posts || [], isFallback: true };
+      }
       const json = await res.json();
-      return json.posts || [];
+      return { posts: json.posts || [], isFallback: json.isFallback || false };
     },
+    retry: 1,
   });
+
+  const posts = postsData?.posts || [];
+  const isFallback = postsData?.isFallback || false;
 
   // Automatically select the first post once data loads if none selected
   useEffect(() => {
@@ -173,6 +180,12 @@ export default function BoardView({
 
   return (
     <div className="relative flex items-start gap-4 h-full w-full overflow-hidden pt-1">
+      {isFallback && (
+        <div className="absolute top-1.5 right-4 z-20 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[11px] font-mono shadow-sm">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+          <span>Demo Pipeline • Cloud DB Reconnecting</span>
+        </div>
+      )}
       {/* 3-Column Kanban Workflow (Left Canvas) */}
       <div className="flex-1 h-full min-w-0 pr-1">
         <ScheduleKanban

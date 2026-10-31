@@ -1,4 +1,4 @@
-import { ChannelType } from "./channel.type";
+import type { ChannelType } from "./channel.type";
 
 export type ImageObject = {
   url: string;
@@ -8,10 +8,12 @@ export type ImageObject = {
 
 export type PostType = {
     id: string
+    user_id?: string | null
     content: string
     images?: ImageObject[]
     scheduled_at: string
     status: string
+    published_at?: string | null
     published_url?: string | null
     error_message?: string | null
     user_channel_id?: string | null

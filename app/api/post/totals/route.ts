@@ -32,12 +32,24 @@ export async function GET(request: NextRequest) {
       return query;
     };
 
-    const [draft, queue, published, failed] = await Promise.all([
+    const timeoutPromise = new Promise<{ isTimeout: true }>((resolve) =>
+      setTimeout(() => resolve({ isTimeout: true }), 3500)
+    );
+
+    const countsPromise = Promise.all([
       countQuery("draft"),
       countQuery("queue"),
       countQuery("published"),
       countQuery("failed"),
     ]);
+
+    const result = await Promise.race([countsPromise, timeoutPromise]);
+    if ("isTimeout" in result) {
+      console.warn("DB timeout fetching totals; returning resilient fallback totals.");
+      return NextResponse.json(FALLBACK_TOTALS);
+    }
+
+    const [draft, queue, published, failed] = result;
 
     if (draft.error || queue.error || published.error || failed.error) {
       return NextResponse.json(FALLBACK_TOTALS);

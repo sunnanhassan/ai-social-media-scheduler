@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T10:12:48.037126+00:00",
-  "total_nodes": 143,
-  "total_edges": 282,
+  "timestamp": "2026-10-31T10:36:37.263950+00:00",
+  "total_nodes": 144,
+  "total_edges": 285,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -190,7 +190,7 @@
       "id": "app/api/post/totals/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 56,
+      "lines": 68,
       "components": [],
       "community": 5
     },
@@ -214,7 +214,7 @@
       "id": "app/api/posts/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 288,
+      "lines": 246,
       "components": [],
       "community": 5
     },
@@ -238,7 +238,7 @@
       "id": "app/api/posts/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 138,
+      "lines": 151,
       "components": [],
       "community": 5
     },
@@ -430,7 +430,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 244,
+      "lines": 257,
       "components": [
         "BoardView"
       ],
@@ -1046,6 +1046,17 @@
       "community": 5
     },
     {
+      "id": "lib/demo-posts.ts",
+      "label": "demo-posts.ts",
+      "type": "lib",
+      "lines": 178,
+      "components": [
+        "DEMO_FALLBACK_POSTS",
+        "filterDemoPosts"
+      ],
+      "community": 5
+    },
+    {
       "id": "lib/encryption.ts",
       "label": "encryption.ts",
       "type": "lib",
@@ -1103,7 +1114,7 @@
       "id": "lib/schedule-utils.ts",
       "label": "schedule-utils.ts",
       "type": "lib",
-      "lines": 57,
+      "lines": 94,
       "components": [
         "sanitizeChannelIds",
         "serializeChannelIds",
@@ -1294,7 +1305,7 @@
       "id": "types/post.type.ts",
       "label": "post.type.ts",
       "type": "type",
-      "lines": 45,
+      "lines": 47,
       "components": [],
       "community": 5
     }
@@ -1626,6 +1637,16 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/posts/route.ts",
+      "target": "lib/demo-posts",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/route.ts",
+      "target": "lib/schedule-utils",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/posts/cron/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
@@ -1643,6 +1664,11 @@
     {
       "source": "app/api/posts/[id]/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/[id]/route.ts",
+      "target": "lib/demo-posts",
       "relation": "imports"
     },
     {
