@@ -229,6 +229,17 @@ export const publishScheduledPost = inngest.createFunction(
         });
       });
 
+      // Step 5: Emit post.published to trigger 24h & 7d analytics ingestion
+      await step.sendEvent("trigger-analytics-ingestion", {
+        name: "post.published",
+        data: {
+          postId: post.id,
+          provider: providerType,
+          userChannelId: post.user_channel_id,
+          publishedUrl,
+        },
+      });
+
       return { published: true, provider: providerType, publishedUrl };
     } catch (error: any) {
       const errorMessage = error instanceof Error ? error.message : "Social platform publishing failed";

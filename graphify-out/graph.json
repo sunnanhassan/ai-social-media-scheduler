@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T12:06:18.033238+00:00",
-  "total_nodes": 153,
-  "total_edges": 305,
+  "timestamp": "2026-10-31T12:22:39.439026+00:00",
+  "total_nodes": 163,
+  "total_edges": 330,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -29,6 +29,16 @@
       "lines": 29,
       "components": [
         "DashboardLayout"
+      ],
+      "community": 5
+    },
+    {
+      "id": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "label": "page.tsx",
+      "type": "route",
+      "lines": 120,
+      "components": [
+        "AnalyticsPage"
       ],
       "community": 5
     },
@@ -68,7 +78,7 @@
       "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 259,
+      "lines": 260,
       "components": [],
       "community": 5
     },
@@ -103,6 +113,22 @@
       "label": "route.ts",
       "type": "route",
       "lines": 50,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/analytics/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 118,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/analytics/refresh/[id]/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 61,
       "components": [],
       "community": 5
     },
@@ -174,7 +200,7 @@
       "id": "app/api/inngest/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 15,
+      "lines": 19,
       "components": [],
       "community": 5
     },
@@ -347,6 +373,36 @@
       "community": 5
     },
     {
+      "id": "components/analytics/analytics-charts.tsx",
+      "label": "analytics-charts.tsx",
+      "type": "component",
+      "lines": 145,
+      "components": [
+        "AnalyticsCharts"
+      ],
+      "community": 5
+    },
+    {
+      "id": "components/analytics/analytics-summary-cards.tsx",
+      "label": "analytics-summary-cards.tsx",
+      "type": "component",
+      "lines": 84,
+      "components": [
+        "AnalyticsSummaryCards"
+      ],
+      "community": 5
+    },
+    {
+      "id": "components/analytics/top-posts-table.tsx",
+      "label": "top-posts-table.tsx",
+      "type": "component",
+      "lines": 178,
+      "components": [
+        "TopPostsTable"
+      ],
+      "community": 5
+    },
+    {
       "id": "components/billing/billing-invoices.tsx",
       "label": "billing-invoices.tsx",
       "type": "component",
@@ -380,7 +436,7 @@
       "id": "components/copilot/copilot-chat-sheet.tsx",
       "label": "copilot-chat-sheet.tsx",
       "type": "component",
-      "lines": 239,
+      "lines": 240,
       "components": [
         "CopilotChatSheet"
       ],
@@ -400,7 +456,7 @@
       "id": "components/idea/idea-angles-dialog.tsx",
       "label": "idea-angles-dialog.tsx",
       "type": "component",
-      "lines": 163,
+      "lines": 164,
       "components": [
         "IdeaAnglesDialog"
       ],
@@ -456,7 +512,7 @@
       "id": "components/schedule/adapt-channels-button.tsx",
       "label": "adapt-channels-button.tsx",
       "type": "component",
-      "lines": 88,
+      "lines": 89,
       "components": [
         "AdaptChannelsButton"
       ],
@@ -486,7 +542,7 @@
       "id": "components/schedule/calendar-view.tsx",
       "label": "calendar-view.tsx",
       "type": "component",
-      "lines": 129,
+      "lines": 170,
       "components": [],
       "community": 1
     },
@@ -646,7 +702,7 @@
       "id": "components/schedule/post-calendar/index.tsx",
       "label": "index.tsx",
       "type": "component",
-      "lines": 219,
+      "lines": 243,
       "components": [
         "PostCalendar"
       ],
@@ -1077,6 +1133,17 @@
       "community": 5
     },
     {
+      "id": "inngest/functions/fetch-post-analytics.ts",
+      "label": "fetch-post-analytics.ts",
+      "type": "file",
+      "lines": 172,
+      "components": [
+        "fetchPostAnalyticsDurable",
+        "syncRecentPostMetricsCron"
+      ],
+      "community": 5
+    },
+    {
       "id": "inngest/functions/publish-at-time.ts",
       "label": "publish-at-time.ts",
       "type": "file",
@@ -1090,7 +1157,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 240,
+      "lines": 251,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1217,6 +1284,39 @@
         "AGENT_TOOL_DEFINITIONS",
         "toolExecutors"
       ],
+      "community": 5
+    },
+    {
+      "id": "lib/analytics/calculator.ts",
+      "label": "calculator.ts",
+      "type": "lib",
+      "lines": 191,
+      "components": [
+        "calculateEngagementRate",
+        "calculateSummaryTotals",
+        "bucketHourlyEngagement",
+        "rankTopPosts",
+        "buildTimeseriesData"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/analytics/demo-analytics.ts",
+      "label": "demo-analytics.ts",
+      "type": "lib",
+      "lines": 98,
+      "components": [
+        "DEMO_ANALYTICS_POSTS",
+        "getDemoAnalyticsData"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/analytics/types.ts",
+      "label": "types.ts",
+      "type": "lib",
+      "lines": 63,
+      "components": [],
       "community": 5
     },
     {
@@ -1432,6 +1532,36 @@
       "relation": "imports"
     },
     {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "components/analytics/analytics-summary-cards",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "components/analytics/analytics-charts",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "components/analytics/top-posts-table",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "components/ui/skeleton",
+      "relation": "imports"
+    },
+    {
       "source": "app/(routes)/(dashboard)/billing/page.tsx",
       "target": "components/billing/billing-view",
       "relation": "imports"
@@ -1642,6 +1772,36 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/analytics/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/route.ts",
+      "target": "lib/analytics/demo-analytics",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/route.ts",
+      "target": "lib/analytics/calculator",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/route.ts",
+      "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/refresh/[id]/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/refresh/[id]/route.ts",
+      "target": "lib/analytics/calculator",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/channel/route.ts",
       "target": "lib/insforge-server",
       "relation": "imports"
@@ -1699,6 +1859,11 @@
     {
       "source": "app/api/inngest/route.ts",
       "target": "inngest/functions/agent-weekly-planner",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/inngest/route.ts",
+      "target": "inngest/functions/fetch-post-analytics",
       "relation": "imports"
     },
     {
@@ -1919,6 +2084,56 @@
     {
       "source": "components/logo.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-charts.tsx",
+      "target": "components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-charts.tsx",
+      "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-charts.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-summary-cards.tsx",
+      "target": "components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-summary-cards.tsx",
+      "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/analytics-summary-cards.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/top-posts-table.tsx",
+      "target": "components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/top-posts-table.tsx",
+      "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/top-posts-table.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "components/analytics/top-posts-table.tsx",
+      "target": "components/ui/button",
       "relation": "imports"
     },
     {
@@ -2784,6 +2999,16 @@
     {
       "source": "inngest/functions/agent-weekly-planner.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/fetch-post-analytics.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/fetch-post-analytics.ts",
+      "target": "lib/analytics/calculator",
       "relation": "imports"
     },
     {

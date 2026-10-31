@@ -1,12 +1,16 @@
 "use client"
 import * as React from "react"
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar"
+// @ts-ignore
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
 import { format, parse, startOfWeek, getDay, addHours, isBefore, startOfDay } from "date-fns"
 import { enUS } from "date-fns/locale"
 import { ChevronLeft, ChevronRight, Plus, } from "lucide-react"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { toast } from "sonner"
 
 import "react-big-calendar/lib/css/react-big-calendar.css"
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css"
 import "./post-calendar.css"
 
 import { cn } from "@/lib/utils"
@@ -25,6 +29,8 @@ const localizer = dateFnsLocalizer({
 })
 
 
+const DnDCalendar = withDragAndDrop(Calendar as any)
+
 interface PostCalendarProps {
   posts: PostType[]
   isPending: boolean
@@ -34,6 +40,7 @@ interface PostCalendarProps {
   onDateChange: (date: Date) => void
   onPostClick: (post: PostType) => void
   onCreatePost: (date: Date) => void
+  onEventDrop?: (event: PostType, newStart: Date) => void
   rightActions?: React.ReactNode
 }
 
@@ -46,6 +53,7 @@ export function PostCalendar({
   onDateChange,
   onPostClick,
   onCreatePost,
+  onEventDrop,
   rightActions,
 }: PostCalendarProps) {
 
@@ -110,7 +118,7 @@ export function PostCalendar({
 
   return (
     <div className={cn("h-full relative flex flex-col min-h-[600px] bg-background")}>
-      <Calendar
+      <DnDCalendar
         localizer={localizer}
         events={events}
         date={currentDate}
@@ -121,10 +129,25 @@ export function PostCalendar({
         max={new Date(2026, 0, 1, 22, 0)}
         onNavigate={onDateChange}
         view={view === "month" ? Views.MONTH : Views.WEEK}
-        onView={(v) => onViewChange(v === Views.MONTH ? "month" : "week")}
+        onView={(v: any) => onViewChange(v === Views.MONTH ? "month" : "week")}
         onSelectEvent={(event: any) => onPostClick(event)}
         selectable
-        onSelectSlot={({ start }) => {
+        resizable={false}
+        draggableAccessor={(e: any) => e.status !== "published" && e.status !== "processing"}
+        onEventDrop={({ event, start }: any) => {
+          if (!onEventDrop) return;
+          const targetDate = new Date(start);
+          if (isBefore(targetDate, startOfDay(new Date()))) {
+            toast.error("Cannot reschedule to a past date or time.");
+            return;
+          }
+          if (event.status === "published" || event.status === "processing") {
+            toast.error("Cannot reschedule an already published post.");
+            return;
+          }
+          onEventDrop(event as PostType, targetDate);
+        }}
+        onSelectSlot={({ start }: any) => {
           if (!isBefore(start, startOfDay(new Date()))) {
             onCreatePost(start)
           }
@@ -155,16 +178,17 @@ export function PostCalendar({
         components={{
           toolbar: CustomToolbar,
           // Customize event rendering to show channel icons and better styling
-          event: ({ event }) => {
+          event: ({ event }: any) => {
             const channel = event.user_channels?.channel_types
             const Icon = getChannelIcon(channel?.type || undefined)
             const color = channel?.color || "#000000"
+            const scheduledDate = event.scheduled_at ? new Date(event.scheduled_at) : (event.start || new Date());
             return (
               <>
                 <div
                   className="flex items-center gap-2 px-2 py-1 h-full"
                   style={{ backgroundColor: color + "20", borderLeft: `3px solid ${color}` }}
-                  onClick={() => onPostClick(event)}
+                  onClick={() => onPostClick(event as PostType)}
                 >
                   {Icon && <HugeiconsIcon
                     icon={Icon}
@@ -173,7 +197,7 @@ export function PostCalendar({
                       background: color
                     }} />}
                   <span className="text-xs truncate max-w-[100px]">{event?.title}</span>
-                  <span className="font-semibold">{format(event.scheduled_at, "h:mm a")}</span>
+                  <span className="font-semibold">{format(scheduledDate, "h:mm a")}</span>
                 </div>
               </>
             )

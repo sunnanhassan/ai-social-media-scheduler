@@ -237,3 +237,4 @@ export function CopilotChatSheet({ open, onOpenChange }: CopilotChatSheetProps) 
     </Sheet>
   );
 }
+

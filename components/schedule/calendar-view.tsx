@@ -2,13 +2,15 @@
 "use client"
 
 import { PostType } from "@/types/post.type"
-import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useQueryState } from "nuqs"
 import { useState } from "react"
 import { PostCalendar } from "./post-calendar"
 import ScheduleToolbar from "./schedule-toolbar"
 import CreatePostDialog from "./create-post-dialog"
 import { EditPostDialog } from "./edit-post-dialog"
+import { toast } from "sonner"
+import { format } from "date-fns"
 
 type ViewType = "month" | "week"
 
@@ -70,6 +72,44 @@ const CalendarView = () => {
     })
   }
 
+  const queryClient = useQueryClient();
+
+  const handleEventDrop = async (post: PostType, newDate: Date) => {
+    try {
+      const original = new Date(post.scheduled_at);
+      if (!isNaN(original.getTime())) {
+        newDate.setHours(original.getHours(), original.getMinutes(), 0, 0);
+      }
+    } catch {}
+
+    const newIso = newDate.toISOString();
+
+    queryClient.setQueryData(["posts", selectedStatus, channelIds], (old: any) => {
+      if (!old?.posts) return old;
+      return {
+        ...old,
+        posts: old.posts.map((p: PostType) =>
+          p.id === post.id ? { ...p, scheduled_at: newIso } : p
+        ),
+      };
+    });
+
+    try {
+      const res = await fetch(`/api/posts/${post.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scheduledAt: newIso }),
+      });
+      if (!res.ok) throw new Error("Failed to reschedule post");
+
+      toast.success(`Rescheduled to ${format(newDate, "MMM d, h:mm a")}`);
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to reschedule post. Reverting.");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    }
+  };
+
   const handleCreatePost = (date: Date) => {
     setSelectedDate(date)
     setIsCreateDialogOpen(true)
@@ -87,6 +127,7 @@ const CalendarView = () => {
           onDateChange={setCurrentDate}
           onPostClick={handlePostClick}
           onCreatePost={handleCreatePost}
+          onEventDrop={handleEventDrop}
           rightActions={
             <ScheduleToolbar
               channelIds={channelIds}
