@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-03T20:09:13.379881+00:00",
+  "timestamp": "2026-10-31T10:12:48.037126+00:00",
   "total_nodes": 143,
   "total_edges": 282,
   "nodes": [
@@ -1014,7 +1014,7 @@
       "id": "inngest/client.ts",
       "label": "client.ts",
       "type": "file",
-      "lines": 3,
+      "lines": 6,
       "components": [
         "inngest"
       ],
