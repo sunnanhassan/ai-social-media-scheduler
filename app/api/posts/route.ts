@@ -150,6 +150,24 @@ export async function POST(request: NextRequest) {
 
       if (insertError) throw insertError;
 
+      if (postStatus === POST_STATUS.QUEUE) {
+        try {
+          const { inngest } = await import("@/inngest/client");
+          const postsToSchedule = insertedPosts || payload;
+          await inngest.send(
+            postsToSchedule.map((p: any) => ({
+              name: "post.scheduled",
+              data: {
+                postId: p.id,
+                scheduledAt: p.scheduled_at,
+              },
+            }))
+          );
+        } catch (inngestErr) {
+          console.warn("[POST /api/posts] Inngest dispatch notice:", inngestErr);
+        }
+      }
+
       return NextResponse.json(
         {
           success: true,

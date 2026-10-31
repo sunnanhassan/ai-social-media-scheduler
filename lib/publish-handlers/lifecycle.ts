@@ -14,21 +14,21 @@ export { shouldRefreshToken } from "./token-utils";
 export async function markPostProcessing(postId: string): Promise<boolean> {
   try {
     const insforge = await getAdmin();
-    const { error } = await insforge.database
+    const { data, error } = await insforge.database
       .from("scheduled_posts")
       .update({
         status: POST_STATUS.PROCESSING,
         updated_at: new Date().toISOString(),
       })
       .eq("id", postId)
-      .in("status", [POST_STATUS.QUEUE, "queued"]);
+      .in("status", [POST_STATUS.QUEUE, "queued"])
+      .select("id");
 
     if (error) {
-      // If DB has old check constraint without 'processing', log and allow flow to proceed
       console.warn("[lifecycle:markPostProcessing] Notice:", error.message);
       return false;
     }
-    return true;
+    return Boolean(data && data.length > 0);
   } catch (err) {
     console.warn("[lifecycle:markPostProcessing] Error:", err);
     return false;

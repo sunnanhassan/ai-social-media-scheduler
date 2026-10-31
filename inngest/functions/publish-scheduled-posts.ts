@@ -113,10 +113,16 @@ export const publishScheduledPost = inngest.createFunction(
     }
 
     // Step 1: Atomic state transition: queue -> processing
-    await step.run("mark-post-processing", async () => {
-      await markPostProcessing(post.id);
-      logger.info("[publish:processing] Post status transitioned to processing", { postId: post.id });
+    const isClaimed = await step.run("mark-post-processing", async () => {
+      const claimed = await markPostProcessing(post.id);
+      logger.info("[publish:processing] Post status transition", { postId: post.id, claimed });
+      return claimed;
     });
+
+    if (!isClaimed) {
+      logger.warn("[publish:skip] Post already claimed, processing, or cancelled", { postId: post.id });
+      return { skipped: true, reason: "already_claimed_or_cancelled" };
+    }
 
     const userChannel = post.user_channels;
     if (!userChannel || !userChannel.is_connected) {

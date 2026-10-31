@@ -89,6 +89,23 @@ export async function PATCH(
           .maybeSingle();
 
         if (error) throw error;
+
+        // Cancel previous timer and reschedule if still queued
+        try {
+          const { inngest } = await import("@/inngest/client");
+          await inngest.send({ name: "post.cancelled", data: { postId: id } });
+          const finalStatus = status !== undefined ? status : data?.status;
+          const finalScheduledAt = updateData.scheduled_at || data?.scheduled_at;
+          if (finalStatus === POST_STATUS.QUEUE && finalScheduledAt) {
+            await inngest.send({
+              name: "post.scheduled",
+              data: { postId: id, scheduledAt: finalScheduledAt },
+            });
+          }
+        } catch (inngestErr) {
+          console.warn("[PATCH /api/posts/[id]] Inngest reschedule notice:", inngestErr);
+        }
+
         return NextResponse.json({ success: true, post: data });
       }
     } catch (patchErr: any) {
@@ -140,6 +157,13 @@ export async function DELETE(
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    try {
+      const { inngest } = await import("@/inngest/client");
+      await inngest.send({ name: "post.cancelled", data: { postId: id } });
+    } catch (inngestErr) {
+      console.warn("[DELETE /api/posts/[id]] Inngest cancel notice:", inngestErr);
     }
 
     return NextResponse.json({ success: true, message: "Post deleted successfully" });
