@@ -5,7 +5,7 @@ import { Draggable } from "@hello-pangea/dnd";
 import { PostType } from "@/types/post.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Clock, ExternalLink, AlertCircle, Edit2, Send, Image as ImageIcon, CheckCircle2 } from "lucide-react";
+import { Clock, ExternalLink, AlertCircle, Edit2, Send, Image as ImageIcon, CheckCircle2, RefreshCw } from "lucide-react";
 import { format, isPast } from "date-fns";
 import { ChannelTypeEnum } from "@/constants/channels";
 
@@ -206,10 +206,28 @@ export function ScheduleKanbanCard({
             )}
 
             {post.status === "failed" && (
-              <span className="inline-flex items-center gap-1 font-mono text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20">
-                <AlertCircle className="size-3" />
-                Failed
-              </span>
+              <div className="flex items-center justify-between w-full gap-2">
+                <span
+                  title={post.error_message || "Social platform dispatch failed"}
+                  className="inline-flex items-center gap-1 font-mono text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 max-w-[150px] truncate"
+                >
+                  <AlertCircle className="size-3 shrink-0" />
+                  <span className="truncate">{post.error_message ? post.error_message : "Failed"}</span>
+                </span>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  title="Retry publishing this post"
+                  className="h-6 px-2 text-[10px] font-mono gap-1 text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 border border-rose-500/30"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onPublishNow?.(post);
+                  }}
+                >
+                  <RefreshCw className="size-2.5" />
+                  Retry
+                </Button>
+              </div>
             )}
           </div>
         </div>

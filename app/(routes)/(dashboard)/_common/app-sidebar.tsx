@@ -21,6 +21,8 @@ import { useState } from 'react';
 import CreatePostDialog from '@/components/schedule/create-post-dialog';
 import { useSocialConnect } from '@/hooks/use-social-connect';
 import { Spinner } from '@/components/ui/spinner';
+import { CopilotChatSheet } from '@/components/copilot/copilot-chat-sheet';
+import { Sparkles } from 'lucide-react';
 
 
 const mainNav = [
@@ -36,6 +38,7 @@ const AppSidebar = () => {
   const isCollapsed = state === "collapsed"
   const { user } = useUser()
   const [isCreatePostOpen, setIsCreatePostOpen] = useState<boolean>(false)
+  const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false)
   const { isConnecting, connectingPlatform, connectSocial } = useSocialConnect()
 
   const { data: channelsData, isPending } = useQuery({
@@ -76,6 +79,16 @@ const AppSidebar = () => {
         >
             <Plus className="size-4" />
            {!isCollapsed && <span>New Post</span>}
+        </Button>
+        <Button
+          variant="outline"
+          className="mt-2 w-full gap-2 border-primary/40 text-primary hover:bg-primary/10 shadow-2xs"
+          size={isCollapsed ? "icon" : "default"}
+          onClick={() => setIsCopilotOpen(true)}
+          title="Open Autopilot AI Copilot"
+        >
+          <Sparkles className="size-4 animate-pulse text-primary shrink-0" />
+          {!isCollapsed && <span className="text-xs font-semibold">Autopilot Copilot</span>}
         </Button>
       </SidebarHeader>
       <SidebarContent className={cn(!isCollapsed && "px-2")}>
@@ -234,6 +247,10 @@ const AppSidebar = () => {
      <CreatePostDialog
         open={isCreatePostOpen}
         onOpenChange={setIsCreatePostOpen}
+      />
+      <CopilotChatSheet
+        open={isCopilotOpen}
+        onOpenChange={setIsCopilotOpen}
       />
     </>
   )

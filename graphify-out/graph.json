@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T11:57:02.568752+00:00",
-  "total_nodes": 150,
-  "total_edges": 292,
+  "timestamp": "2026-10-31T12:06:18.033238+00:00",
+  "total_nodes": 153,
+  "total_edges": 305,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -68,7 +68,7 @@
       "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 242,
+      "lines": 259,
       "components": [],
       "community": 5
     },
@@ -102,7 +102,7 @@
       "id": "app/api/agent/chat/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 49,
+      "lines": 50,
       "components": [],
       "community": 5
     },
@@ -230,7 +230,7 @@
       "id": "app/api/posts/adapt-all/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 161,
+      "lines": 162,
       "components": [],
       "community": 5
     },
@@ -377,6 +377,16 @@
       "community": 5
     },
     {
+      "id": "components/copilot/copilot-chat-sheet.tsx",
+      "label": "copilot-chat-sheet.tsx",
+      "type": "component",
+      "lines": 239,
+      "components": [
+        "CopilotChatSheet"
+      ],
+      "community": 5
+    },
+    {
       "id": "components/idea/generate-ideas-popover.tsx",
       "label": "generate-ideas-popover.tsx",
       "type": "component",
@@ -387,10 +397,20 @@
       "community": 2
     },
     {
+      "id": "components/idea/idea-angles-dialog.tsx",
+      "label": "idea-angles-dialog.tsx",
+      "type": "component",
+      "lines": 163,
+      "components": [
+        "IdeaAnglesDialog"
+      ],
+      "community": 2
+    },
+    {
       "id": "components/idea/idea-card.tsx",
       "label": "idea-card.tsx",
       "type": "component",
-      "lines": 132,
+      "lines": 195,
       "components": [
         "IdeaCard"
       ],
@@ -431,6 +451,16 @@
         "IdeaToolbar"
       ],
       "community": 2
+    },
+    {
+      "id": "components/schedule/adapt-channels-button.tsx",
+      "label": "adapt-channels-button.tsx",
+      "type": "component",
+      "lines": 88,
+      "components": [
+        "AdaptChannelsButton"
+      ],
+      "community": 1
     },
     {
       "id": "components/schedule/ai-assitant.tsx",
@@ -518,7 +548,7 @@
       "id": "components/schedule/post-channel-accordions.tsx",
       "label": "post-channel-accordions.tsx",
       "type": "component",
-      "lines": 168,
+      "lines": 194,
       "components": [
         "PostChannelAccordions"
       ],
@@ -558,7 +588,7 @@
       "id": "components/schedule/schedule-kanban-card.tsx",
       "label": "schedule-kanban-card.tsx",
       "type": "component",
-      "lines": 219,
+      "lines": 237,
       "components": [
         "ScheduleKanbanCard"
       ],
@@ -1174,7 +1204,7 @@
       "id": "lib/agent/engine.ts",
       "label": "engine.ts",
       "type": "lib",
-      "lines": 139,
+      "lines": 140,
       "components": [],
       "community": 5
     },
@@ -1562,6 +1592,11 @@
       "relation": "imports"
     },
     {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/copilot/copilot-chat-sheet",
+      "relation": "imports"
+    },
+    {
       "source": "app/(routes)/(landing)/page.tsx",
       "target": "lib/auth/auth-context",
       "relation": "imports"
@@ -1907,6 +1942,31 @@
       "relation": "imports"
     },
     {
+      "source": "components/copilot/copilot-chat-sheet.tsx",
+      "target": "components/ui/sheet",
+      "relation": "imports"
+    },
+    {
+      "source": "components/copilot/copilot-chat-sheet.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/copilot/copilot-chat-sheet.tsx",
+      "target": "components/ui/input",
+      "relation": "imports"
+    },
+    {
+      "source": "components/copilot/copilot-chat-sheet.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "components/copilot/copilot-chat-sheet.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
       "source": "components/idea/generate-ideas-popover.tsx",
       "target": "lib/auth/auth-context",
       "relation": "imports"
@@ -1924,6 +1984,31 @@
     {
       "source": "components/idea/generate-ideas-popover.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-angles-dialog.tsx",
+      "target": "components/ui/dialog",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-angles-dialog.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-angles-dialog.tsx",
+      "target": "components/ui/badge",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-angles-dialog.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/idea-angles-dialog.tsx",
+      "target": "types/idea.type",
       "relation": "imports"
     },
     {
@@ -1979,6 +2064,16 @@
     {
       "source": "components/idea/idea-toolbar.tsx",
       "target": "components/ui/input",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/adapt-channels-button.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/adapt-channels-button.tsx",
+      "target": "components/ui/spinner",
       "relation": "imports"
     },
     {

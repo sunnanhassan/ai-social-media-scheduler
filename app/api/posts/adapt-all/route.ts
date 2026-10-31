@@ -159,3 +159,4 @@ function createOfflineAdaptation(content: string, type: string, limit: number): 
 
   return clean.slice(0, limit);
 }
+

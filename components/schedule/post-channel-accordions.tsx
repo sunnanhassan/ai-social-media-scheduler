@@ -10,6 +10,8 @@ import { AlertTriangle } from "lucide-react";
 import ContentTextarea from "../content-textarea";
 import { cn } from "@/lib/utils";
 
+import { AdaptChannelsButton } from "./adapt-channels-button";
+
 export type ChannelContentMap = Record<string, { text: string; images: ImageObject[] }>;
 
 interface PostChannelAccordionsProps {
@@ -58,13 +60,36 @@ export function PostChannelAccordions({
           />
         </div>
       ) : (
-        <Accordion
-          type="single"
-          collapsible
-          value={activeAccordion}
-          className="w-full space-y-3"
-          onValueChange={onAccordionChange}
-        >
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between px-0.5">
+            <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
+              Channel-Specific Tailoring
+            </span>
+            <AdaptChannelsButton
+              masterContent={
+                globalContent?.text ||
+                (activeAccordion && channelContent[activeAccordion]?.text) ||
+                Object.values(channelContent).find((c) => c.text)?.text ||
+                ""
+              }
+              channelIds={selectedChannels}
+              onAdaptSuccess={(results) => {
+                results.forEach((res) => {
+                  const targetChannel = selectedChannelsList.find((c) => c.id === res.userChannelId);
+                  const limit = targetChannel?.character_limit || 280;
+                  onTextChange(res.userChannelId, res.content, limit);
+                });
+              }}
+            />
+          </div>
+
+          <Accordion
+            type="single"
+            collapsible
+            value={activeAccordion}
+            className="w-full space-y-3"
+            onValueChange={onAccordionChange}
+          >
           {selectedChannelsList?.map((channel) => {
             const content = channelContent[channel.id] || { text: "", images: [] };
             const isExpanded = activeAccordion === channel.id;
@@ -162,6 +187,7 @@ export function PostChannelAccordions({
             );
           })}
         </Accordion>
+        </div>
       )}
     </div>
   );
