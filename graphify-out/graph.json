@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T19:39:59.472044+00:00",
-  "total_nodes": 180,
-  "total_edges": 350,
+  "timestamp": "2026-11-07T20:11:23.426500+00:00",
+  "total_nodes": 181,
+  "total_edges": 354,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -78,7 +78,7 @@
       "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 260,
+      "lines": 286,
       "components": [],
       "community": 5
     },
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 193,
+      "lines": 88,
       "components": [],
       "community": 3
     },
@@ -752,7 +752,7 @@
       "id": "components/schedule/schedule-toolbar.tsx",
       "label": "schedule-toolbar.tsx",
       "type": "component",
-      "lines": 156,
+      "lines": 164,
       "components": [],
       "community": 1
     },
@@ -770,7 +770,7 @@
       "id": "components/schedule/use-create-post-state.ts",
       "label": "use-create-post-state.ts",
       "type": "component",
-      "lines": 332,
+      "lines": 340,
       "components": [
         "useCreatePostState"
       ],
@@ -896,7 +896,7 @@
       "id": "components/settings/channels-tab.tsx",
       "label": "channels-tab.tsx",
       "type": "component",
-      "lines": 151,
+      "lines": 159,
       "components": [],
       "community": 3
     },
@@ -1157,17 +1157,29 @@
       "community": 4
     },
     {
-      "id": "constants/channels.tsx",
-      "label": "channels.tsx",
+      "id": "constants/channels.ts",
+      "label": "channels.ts",
       "type": "file",
-      "lines": 46,
+      "lines": 48,
       "components": [
+        "ChannelTypeEnum",
         "CHANNEL_TYPE_ICONS",
         "CHANNEL_TYPE_URLS",
         "getChannelUrl",
         "getChannelIcon"
       ],
       "community": 3
+    },
+    {
+      "id": "constants/mock-channels.ts",
+      "label": "mock-channels.ts",
+      "type": "file",
+      "lines": 120,
+      "components": [
+        "DEFAULT_MOCK_CHANNELS",
+        "applyChannelFilter"
+      ],
+      "community": 5
     },
     {
       "id": "constants/post.ts",
@@ -1508,7 +1520,7 @@
       "id": "lib/ideas/mock-ideas.ts",
       "label": "mock-ideas.ts",
       "type": "lib",
-      "lines": 117,
+      "lines": 118,
       "components": [
         "DEFAULT_MOCK_GROUPS",
         "getInMemoryMockGroups",
@@ -1842,11 +1854,6 @@
     },
     {
       "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
-      "target": "components/ui/sidebar",
-      "relation": "imports"
-    },
-    {
-      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "components/logo",
       "relation": "imports"
     },
@@ -1903,6 +1910,11 @@
     {
       "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "components/copilot/copilot-chat-sheet",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "constants/mock-channels",
       "relation": "imports"
     },
     {
@@ -1993,6 +2005,11 @@
     {
       "source": "app/api/channel/route.ts",
       "target": "lib/insforge-circuit-breaker",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/channel/route.ts",
+      "target": "constants/mock-channels",
       "relation": "imports"
     },
     {
@@ -2821,6 +2838,11 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/schedule-toolbar.tsx",
+      "target": "constants/mock-channels",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/schedule-view-switcher.tsx",
       "target": "components/ui/toggle-group",
       "relation": "imports"
@@ -2843,6 +2865,11 @@
     {
       "source": "components/schedule/use-create-post-state.ts",
       "target": "constants/post",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/use-create-post-state.ts",
+      "target": "constants/mock-channels",
       "relation": "imports"
     },
     {
@@ -3003,6 +3030,11 @@
     {
       "source": "components/settings/channels-tab.tsx",
       "target": "hooks/use-social-connect",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/channels-tab.tsx",
+      "target": "constants/mock-channels",
       "relation": "imports"
     },
     {

@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { useSocialConnect } from '@/hooks/use-social-connect';
+import { DEFAULT_MOCK_CHANNELS } from '@/constants/mock-channels';
 
 function ChannelTabContent() {
     const queryClient = useQueryClient()
@@ -24,7 +25,14 @@ function ChannelTabContent() {
             const res = await fetch("/api/channel");
             const data = await res.json();
             return data
-        }
+        },
+        placeholderData: {
+            channels: DEFAULT_MOCK_CHANNELS as any,
+            totalChannels: DEFAULT_MOCK_CHANNELS.length,
+            connectedCount: 0,
+        },
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
     })
     const channels = (channelsData?.channels || []) as ChannelType[]
 

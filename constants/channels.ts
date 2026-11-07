@@ -1,15 +1,17 @@
 import { InstagramIcon, NewTwitterIcon, FacebookIcon, TiktokIcon, ThreadsIcon, YoutubeIcon, LinkedinIcon, BlueskyIcon } from '@hugeicons/core-free-icons'
 
-export enum ChannelTypeEnum {
-  TWITTER = "TWITTER",
-  INSTAGRAM = "INSTAGRAM",
-  THREADS = "THREADS",
-  FACEBOOK = "FACEBOOK",
-  LINKEDIN = "LINKEDIN",
-  BLUESKY = "BLUESKY",
-  YOUTUBE = "YOUTUBE",
-  TIKTOK = "TIKTOK"
-}
+export const ChannelTypeEnum = {
+  TWITTER: "TWITTER",
+  INSTAGRAM: "INSTAGRAM",
+  THREADS: "THREADS",
+  FACEBOOK: "FACEBOOK",
+  LINKEDIN: "LINKEDIN",
+  BLUESKY: "BLUESKY",
+  YOUTUBE: "YOUTUBE",
+  TIKTOK: "TIKTOK",
+} as const;
+
+export type ChannelTypeEnum = (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum];
 
 export const CHANNEL_TYPE_ICONS: Record<ChannelTypeEnum, any> = {
   [ChannelTypeEnum.TWITTER]: NewTwitterIcon,

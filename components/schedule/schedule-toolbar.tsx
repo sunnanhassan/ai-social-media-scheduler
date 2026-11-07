@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { ChannelType } from "@/types/channel.type";
 import ChannelAvatar from "../channel-avatar";
+import { DEFAULT_MOCK_CHANNELS } from "@/constants/mock-channels";
 
 interface ScheduleToolbarProps {
   viewType?: "board" | "calendar" | "list";
@@ -47,6 +48,13 @@ const ScheduleToolbar = ({
       if (!res.ok) throw new Error("Failed to fetch channels");
       return res.json();
     },
+    placeholderData: {
+      channels: [],
+      totalChannels: DEFAULT_MOCK_CHANNELS.length,
+      connectedCount: 0,
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
   const connectedChannels = channelsData?.channels || [];
 

@@ -10,6 +10,7 @@ import { ImageObject } from "@/types/post.type";
 import { POST_STATUS, PostStatus } from "@/constants/post";
 import { ChannelContentMap } from "./post-channel-accordions";
 import { ActionTabType } from "./post-side-drawer";
+import { DEFAULT_MOCK_CHANNELS } from "@/constants/mock-channels";
 
 type ChannelContent = {
   text: string;
@@ -37,6 +38,13 @@ export function useCreatePostState(
       const json = await res.json();
       return json;
     },
+    placeholderData: {
+      channels: DEFAULT_MOCK_CHANNELS as any,
+      totalChannels: DEFAULT_MOCK_CHANNELS.length,
+      connectedCount: 0,
+    },
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
   const channelsData = data?.channels;
