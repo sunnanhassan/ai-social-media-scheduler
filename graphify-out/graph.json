@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T12:22:39.439026+00:00",
-  "total_nodes": 163,
-  "total_edges": 330,
+  "timestamp": "2026-11-07T18:06:13.056670+00:00",
+  "total_nodes": 176,
+  "total_edges": 340,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -36,7 +36,7 @@
       "id": "app/(routes)/(dashboard)/analytics/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 120,
+      "lines": 121,
       "components": [
         "AnalyticsPage"
       ],
@@ -70,7 +70,7 @@
       "id": "app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 226,
+      "lines": 197,
       "components": [],
       "community": 3
     },
@@ -120,7 +120,7 @@
       "id": "app/api/analytics/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 118,
+      "lines": 119,
       "components": [],
       "community": 5
     },
@@ -128,7 +128,7 @@
       "id": "app/api/analytics/refresh/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 61,
+      "lines": 62,
       "components": [],
       "community": 5
     },
@@ -317,6 +317,74 @@
       "community": 5
     },
     {
+      "id": "app/api/user/api-keys/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 26,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/user/api-keys/[id]/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 17,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/v1/analytics/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 53,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/v1/channels/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 64,
+      "components": [],
+      "community": 3
+    },
+    {
+      "id": "app/api/v1/openapi.json/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 274,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/v1/posts/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 211,
+      "components": [
+        "clearMemoryPostsStore"
+      ],
+      "community": 5
+    },
+    {
+      "id": "app/api/v1/posts/viral-hooks/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 44,
+      "components": [
+        "generateTemplateHooks"
+      ],
+      "community": 5
+    },
+    {
+      "id": "app/api/v1/posts/[id]/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 89,
+      "components": [],
+      "community": 5
+    },
+    {
       "id": "components/channel-avatar.tsx",
       "label": "channel-avatar.tsx",
       "type": "component",
@@ -376,7 +444,7 @@
       "id": "components/analytics/analytics-charts.tsx",
       "label": "analytics-charts.tsx",
       "type": "component",
-      "lines": 145,
+      "lines": 146,
       "components": [
         "AnalyticsCharts"
       ],
@@ -386,7 +454,7 @@
       "id": "components/analytics/analytics-summary-cards.tsx",
       "label": "analytics-summary-cards.tsx",
       "type": "component",
-      "lines": 84,
+      "lines": 85,
       "components": [
         "AnalyticsSummaryCards"
       ],
@@ -396,7 +464,7 @@
       "id": "components/analytics/top-posts-table.tsx",
       "label": "top-posts-table.tsx",
       "type": "component",
-      "lines": 178,
+      "lines": 179,
       "components": [
         "TopPostsTable"
       ],
@@ -803,6 +871,16 @@
         "YoutubePreview"
       ],
       "community": 1
+    },
+    {
+      "id": "components/settings/api-keys-manager.tsx",
+      "label": "api-keys-manager.tsx",
+      "type": "component",
+      "lines": 258,
+      "components": [
+        "ApiKeysManager"
+      ],
+      "community": 3
     },
     {
       "id": "components/settings/channels-tab.tsx",
@@ -1304,7 +1382,7 @@
       "id": "lib/analytics/demo-analytics.ts",
       "label": "demo-analytics.ts",
       "type": "lib",
-      "lines": 98,
+      "lines": 97,
       "components": [
         "DEMO_ANALYTICS_POSTS",
         "getDemoAnalyticsData"
@@ -1315,8 +1393,21 @@
       "id": "lib/analytics/types.ts",
       "label": "types.ts",
       "type": "lib",
-      "lines": 63,
+      "lines": 64,
       "components": [],
+      "community": 5
+    },
+    {
+      "id": "lib/auth/api-key.ts",
+      "label": "api-key.ts",
+      "type": "lib",
+      "lines": 247,
+      "components": [
+        "generateApiKey",
+        "hashApiKey",
+        "verifyApiKeyHash",
+        "clearMemoryKeyStore"
+      ],
       "community": 5
     },
     {
@@ -1344,6 +1435,42 @@
         "mockUser",
         "AppAuthProvider",
         "useAppAuth"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/auth/idempotency.ts",
+      "label": "idempotency.ts",
+      "type": "lib",
+      "lines": 67,
+      "components": [
+        "generateIdempotencyFingerprint",
+        "getIdempotentResponse",
+        "setIdempotentResponse",
+        "clearIdempotencyCache"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/auth/rate-limiter.ts",
+      "label": "rate-limiter.ts",
+      "type": "lib",
+      "lines": 59,
+      "components": [
+        "checkRateLimit",
+        "clearRateLimitCache"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/auth/validation.ts",
+      "label": "validation.ts",
+      "type": "lib",
+      "lines": 86,
+      "components": [
+        "CHANNEL_LIMITS",
+        "validatePostContent",
+        "validateScheduledDate"
       ],
       "community": 5
     },
@@ -1629,6 +1756,11 @@
     {
       "source": "app/(routes)/(dashboard)/settings/page.tsx",
       "target": "components/settings/channels-tab",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/settings/page.tsx",
+      "target": "components/settings/api-keys-manager",
       "relation": "imports"
     },
     {
@@ -2039,6 +2171,26 @@
     {
       "source": "app/api/upload-image/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/user/api-keys/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/user/api-keys/route.ts",
+      "target": "lib/auth/api-key",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/user/api-keys/[id]/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/user/api-keys/[id]/route.ts",
+      "target": "lib/auth/api-key",
       "relation": "imports"
     },
     {
@@ -2714,6 +2866,31 @@
     {
       "source": "components/schedule/preview/youtube-preview.tsx",
       "target": "components/ui/avatar",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/api-keys-manager.tsx",
+      "target": "components/ui/card",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/api-keys-manager.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/api-keys-manager.tsx",
+      "target": "components/ui/input",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/api-keys-manager.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
+      "source": "components/settings/api-keys-manager.tsx",
+      "target": "components/ui/dialog",
       "relation": "imports"
     },
     {

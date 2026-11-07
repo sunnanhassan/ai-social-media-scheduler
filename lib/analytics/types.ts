@@ -61,3 +61,4 @@ export interface AnalyticsDashboardData {
   recentPosts: PostAnalyticsItem[];
   isFallback?: boolean;
 }
+

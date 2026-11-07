@@ -7,6 +7,7 @@ import { useUser } from "@/lib/auth/auth-context";
 import { UserProfile } from "@/lib/auth/auth-components";
 import { Layers, Palette, User, Key, ShieldCheck, Copy, Check } from "lucide-react";
 import ChannelsTab from "@/components/settings/channels-tab";
+import { ApiKeysManager } from "@/components/settings/api-keys-manager";
 import { useTheme } from "next-themes";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -136,37 +137,7 @@ const SettingsPage = () => {
         {/* Developer Tab */}
         <TabsContent value="developer">
           <div className="grid gap-4">
-            <Card className="border-border/80 bg-card shadow-2xs">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-semibold">Developer API Keys</CardTitle>
-                <CardDescription className="text-xs">
-                  Authenticate custom integrations, external posting scripts, or mobile clients
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Input
-                    readOnly
-                    value="sk_live_sm_scheduler_9a8f27b3e10c"
-                    type="password"
-                    className="font-mono text-xs h-8 max-w-md bg-muted/30"
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-1.5 text-xs font-mono cursor-pointer"
-                    onClick={handleCopyApiKey}
-                  >
-                    {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                    {copiedKey ? "Copied" : "Copy Key"}
-                  </Button>
-                </div>
-                <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Key scope: Full workspace post & channel access</span>
-                </div>
-              </CardContent>
-            </Card>
+            <ApiKeysManager />
 
             <Card className="border-border/80 bg-card shadow-2xs">
               <CardHeader className="pb-3">

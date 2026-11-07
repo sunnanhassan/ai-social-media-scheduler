@@ -176,3 +176,4 @@ export function TopPostsTable({ posts }: TopPostsTableProps) {
     </Card>
   );
 }
+
