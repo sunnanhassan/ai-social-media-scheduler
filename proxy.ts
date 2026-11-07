@@ -15,6 +15,7 @@ export default async function middleware(req: NextRequest) {
         '/api/posts/cron(.*)',
         '/api/social/callback(.*)',
         '/api/channel/callback(.*)',
+        '/api/v1(.*)',
       ]);
       return clerkMiddleware(async (auth, request) => {
         if (!isPublicRoute(request)) {
