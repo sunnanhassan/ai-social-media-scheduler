@@ -1,4 +1,5 @@
 import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { NextRequest, NextResponse } from "next/server";
 
 const DEFAULT_MOCK_CHANNELS = [
@@ -111,36 +112,48 @@ export async function GET(request: NextRequest) {
 
   try {
     const { insforge, userId } = await getInsforgeServerClient();
+    const fallbackPayload = {
+      channels: applyFilter(DEFAULT_MOCK_CHANNELS, filter),
+      totalChannels: DEFAULT_MOCK_CHANNELS.length,
+      connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
+      isFallback: true,
+    };
+
     if (!userId) {
-      return NextResponse.json({
-        channels: applyFilter(DEFAULT_MOCK_CHANNELS, filter),
-        totalChannels: DEFAULT_MOCK_CHANNELS.length,
-        connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
-      });
+      return NextResponse.json(fallbackPayload);
     }
 
-    const [typesRes, userChannelsRes] = await Promise.all([
-      insforge.database
-        .from("channel_types")
-        .select("*")
-        .order("created_at", { ascending: true }),
-      insforge.database.from("user_channels").select("*").eq("user_id", userId),
-    ]);
+    const queryTask = async () => {
+      const [typesRes, userChannelsRes] = await Promise.all([
+        insforge.database
+          .from("channel_types")
+          .select("*")
+          .order("created_at", { ascending: true }),
+        insforge.database.from("user_channels").select("*").eq("user_id", userId),
+      ]);
+      return { typesRes, userChannelsRes };
+    };
 
-    if (typesRes.error || userChannelsRes.error || !typesRes.data?.length) {
-      return NextResponse.json({
-        channels: applyFilter(DEFAULT_MOCK_CHANNELS, filter),
-        totalChannels: DEFAULT_MOCK_CHANNELS.length,
-        connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
-      });
+    const { data: result, isFallback } = await insforgeCircuitBreaker.execute(
+      queryTask,
+      {
+        typesRes: { data: null, error: { message: "Fallback" } },
+        userChannelsRes: { data: null, error: null },
+      } as any,
+      1500
+    );
+
+    const { typesRes, userChannelsRes } = result;
+    if (isFallback || typesRes.error || userChannelsRes.error || !typesRes.data?.length) {
+      return NextResponse.json(fallbackPayload);
     }
 
     const userChannelMap = new Map(
-      (userChannelsRes.data || []).map((channel) => [channel.channel_type_id, channel])
+      (userChannelsRes.data || []).map((channel: any) => [channel.channel_type_id, channel])
     );
 
-    let channels = (typesRes.data || []).map((channel_type) => {
-      const userChannel = userChannelMap.get(channel_type.id);
+    let channels = (typesRes.data || []).map((channel_type: any) => {
+      const userChannel = userChannelMap.get(channel_type.id) as any;
       return {
         id: channel_type.id,
         type: channel_type.type,
@@ -156,12 +169,12 @@ export async function GET(request: NextRequest) {
     });
 
     const totalChannels = typesRes.data?.length || 0;
-    const connectedCount = channels.filter((channel) => channel.connected).length;
+    const connectedCount = channels.filter((channel: any) => channel.connected).length;
 
     if (filter === "connected") {
-      channels = channels.filter((channel) => channel.connected);
+      channels = channels.filter((channel: any) => channel.connected);
     } else if (filter === "unconnected") {
-      channels = channels.filter((channel) => !channel.connected);
+      channels = channels.filter((channel: any) => !channel.connected);
     }
 
     return NextResponse.json({

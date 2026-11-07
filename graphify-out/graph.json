@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T18:49:55.632331+00:00",
-  "total_nodes": 176,
-  "total_edges": 340,
+  "timestamp": "2026-11-07T19:08:38.425507+00:00",
+  "total_nodes": 177,
+  "total_edges": 345,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -120,7 +120,7 @@
       "id": "app/api/analytics/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 99,
+      "lines": 100,
       "components": [],
       "community": 5
     },
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 180,
+      "lines": 193,
       "components": [],
       "community": 3
     },
@@ -168,7 +168,7 @@
       "id": "app/api/idea/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 218,
+      "lines": 232,
       "components": [],
       "community": 2
     },
@@ -224,7 +224,7 @@
       "id": "app/api/post/totals/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 68,
+      "lines": 76,
       "components": [],
       "community": 5
     },
@@ -248,7 +248,7 @@
       "id": "app/api/posts/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 264,
+      "lines": 265,
       "components": [],
       "community": 5
     },
@@ -424,7 +424,7 @@
       "id": "components/query-provider.tsx",
       "label": "query-provider.tsx",
       "type": "component",
-      "lines": 21,
+      "lines": 22,
       "components": [
         "QueryProvider"
       ],
@@ -1279,10 +1279,20 @@
       "community": 5
     },
     {
+      "id": "lib/insforge-circuit-breaker.ts",
+      "label": "insforge-circuit-breaker.ts",
+      "type": "lib",
+      "lines": 139,
+      "components": [
+        "insforgeCircuitBreaker"
+      ],
+      "community": 5
+    },
+    {
       "id": "lib/insforge-server.ts",
       "label": "insforge-server.ts",
       "type": "lib",
-      "lines": 58,
+      "lines": 60,
       "components": [
         "getInsforgeAdminClient",
         "getInsforgeUploadClient"
@@ -1293,7 +1303,7 @@
       "id": "lib/insforge.ts",
       "label": "insforge.ts",
       "type": "lib",
-      "lines": 82,
+      "lines": 83,
       "components": [
         "useInsforgeClient",
         "insforge"
@@ -1910,6 +1920,11 @@
     },
     {
       "source": "app/api/analytics/route.ts",
+      "target": "lib/insforge-circuit-breaker",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/analytics/route.ts",
       "target": "lib/analytics/demo-analytics",
       "relation": "imports"
     },
@@ -1939,6 +1954,11 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/channel/route.ts",
+      "target": "lib/insforge-circuit-breaker",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/channel/callback/route.ts",
       "target": "app/api/social/callback/route",
       "relation": "imports"
@@ -1956,6 +1976,11 @@
     {
       "source": "app/api/idea/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/idea/route.ts",
+      "target": "lib/insforge-circuit-breaker",
       "relation": "imports"
     },
     {
@@ -2019,6 +2044,11 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/post/totals/route.ts",
+      "target": "lib/insforge-circuit-breaker",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/post/[id]/route.ts",
       "target": "app/api/posts/[id]/route",
       "relation": "imports"
@@ -2036,6 +2066,11 @@
     {
       "source": "app/api/posts/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/route.ts",
+      "target": "lib/insforge-circuit-breaker",
       "relation": "imports"
     },
     {

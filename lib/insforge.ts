@@ -20,6 +20,7 @@ export function useInsforgeClient(): { client: InsForgeClient; isReady: boolean 
       createClient({
         baseUrl: process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://e5p8ba7h.ap-southeast.insforge.app',
         anonKey: process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || '',
+        ...({ retryCount: 0, timeout: 1500 } as any),
       }),
     []
   );

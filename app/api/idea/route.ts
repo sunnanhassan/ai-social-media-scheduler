@@ -1,4 +1,5 @@
 import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { NextRequest, NextResponse } from "next/server";
 
 const DEFAULT_MOCK_GROUPS = [
@@ -86,32 +87,45 @@ const DEFAULT_MOCK_GROUPS = [
 export async function GET() {
   try {
     const { insforge, userId } = await getInsforgeServerClient();
-    if (!userId) return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS });
+    if (!userId) return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS, isFallback: true });
 
-    const [ideasRes, groupsRes] = await Promise.all([
-      insforge.database
-        .from("ideas")
-        .select("*")
-        .eq("user_id", userId)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false }),
-      insforge.database
-        .from("idea_groups")
-        .select("*")
-        .order("created_at", { ascending: true }),
-    ]);
+    const queryTask = async () => {
+      const [ideasRes, groupsRes] = await Promise.all([
+        insforge.database
+          .from("ideas")
+          .select("*")
+          .eq("user_id", userId)
+          .order("sort_order", { ascending: true })
+          .order("created_at", { ascending: false }),
+        insforge.database
+          .from("idea_groups")
+          .select("*")
+          .order("created_at", { ascending: true }),
+      ]);
+      return { ideasRes, groupsRes };
+    };
 
-    if (groupsRes.error || !groupsRes.data?.length) {
-      return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS });
+    const { data: result, isFallback } = await insforgeCircuitBreaker.execute(
+      queryTask,
+      {
+        ideasRes: { data: null, error: { message: "Fallback" } },
+        groupsRes: { data: null, error: null },
+      } as any,
+      1500
+    );
+
+    const { ideasRes, groupsRes } = result;
+    if (isFallback || groupsRes.error || !groupsRes.data?.length) {
+      return NextResponse.json({ groups: DEFAULT_MOCK_GROUPS, isFallback: true });
     }
 
     const ideas = ideasRes.data ?? [];
-    const groups = groupsRes.data.map((group) => ({
+    const groups = (groupsRes.data || []).map((group: any) => ({
       id: group.id,
       title: group.name,
       ideas: ideas
-        .filter((idea) => idea.group_id === group.id)
-        .map((idea) => ({
+        .filter((idea: any) => idea.group_id === group.id)
+        .map((idea: any) => ({
           id: idea.id,
           title: idea.title,
           description: idea.description,

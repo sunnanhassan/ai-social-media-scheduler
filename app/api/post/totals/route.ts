@@ -1,4 +1,5 @@
 import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { NextRequest, NextResponse } from "next/server";
 
 const FALLBACK_TOTALS = {
@@ -21,31 +22,38 @@ export async function GET(request: NextRequest) {
       .flatMap((value) => value.split(","))
       .filter(Boolean);
 
-    const countQuery = (status: string) => {
-      let query = insforge.database
-        .from("scheduled_posts")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", userId)
-        .eq("status", status);
+    const queryTask = async () => {
+      const countQuery = (status: string) => {
+        let query = insforge.database
+          .from("scheduled_posts")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", userId)
+          .eq("status", status);
 
-      if (channelIds.length > 0) query = query.in("user_channel_id", channelIds);
-      return query;
+        if (channelIds.length > 0) query = query.in("user_channel_id", channelIds);
+        return query;
+      };
+
+      return await Promise.all([
+        countQuery("draft"),
+        countQuery("queue"),
+        countQuery("published"),
+        countQuery("failed"),
+      ]);
     };
 
-    const timeoutPromise = new Promise<{ isTimeout: true }>((resolve) =>
-      setTimeout(() => resolve({ isTimeout: true }), 3500)
+    const { data: result, isFallback } = await insforgeCircuitBreaker.execute(
+      queryTask,
+      [
+        { data: null, error: { message: "Fallback" }, count: 2 },
+        { data: null, error: { message: "Fallback" }, count: 1 },
+        { data: null, error: { message: "Fallback" }, count: 3 },
+        { data: null, error: { message: "Fallback" }, count: 0 },
+      ] as any,
+      1500
     );
 
-    const countsPromise = Promise.all([
-      countQuery("draft"),
-      countQuery("queue"),
-      countQuery("published"),
-      countQuery("failed"),
-    ]);
-
-    const result = await Promise.race([countsPromise, timeoutPromise]);
-    if ("isTimeout" in result) {
-      console.warn("DB timeout fetching totals; returning resilient fallback totals.");
+    if (isFallback) {
       return NextResponse.json(FALLBACK_TOTALS);
     }
 

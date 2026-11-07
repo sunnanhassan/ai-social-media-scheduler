@@ -46,11 +46,13 @@ export function getInsforgeAdminClient(): InsForgeClient {
     return createAdminClient({
       baseUrl: BASE_URL,
       apiKey: PROJECT_API_KEY,
+      ...({ retryCount: 0, timeout: 1500 } as any),
     });
   }
   return createClient({
     baseUrl: BASE_URL,
     anonKey: ANON_KEY,
+    ...({ retryCount: 0, timeout: 1500 } as any),
   });
 }
 

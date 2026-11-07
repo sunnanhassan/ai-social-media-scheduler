@@ -1,5 +1,6 @@
 import { POST_STATUS } from "@/constants/post";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { DEMO_FALLBACK_POSTS, filterDemoPosts } from "@/lib/demo-posts";
 import { buildGroupPosts } from "@/lib/schedule-utils";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,8 +23,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Attempt live database query with 3.5s timeout race
-    const queryPromise = (async () => {
+    const queryTask = async () => {
       let postQuery = insforge.database
         .from("scheduled_posts")
         .select("*, user_channels(*, channel_types(id, type, name, color, character_limit))")
@@ -34,16 +34,17 @@ export async function GET(request: NextRequest) {
       if (channelIds.length > 0) postQuery = postQuery.in("user_channel_id", channelIds);
 
       return await postQuery;
-    })();
+    };
 
-    const timeoutPromise = new Promise<{ data: null; error: { message: string } }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: { message: "Backend database query timeout" } }), 3500)
+    const { data: queryResult, isFallback } = await insforgeCircuitBreaker.execute(
+      queryTask,
+      { data: null, error: { message: "Fallback triggered" } } as any,
+      1500
     );
 
-    const { data: posts, error } = await Promise.race([queryPromise, timeoutPromise]);
+    const { data: posts, error } = queryResult;
 
-    if (error || !posts) {
-      console.warn("[GET /api/posts] Database unavailable, serving resilient fallback posts:", error?.message);
+    if (isFallback || error || !posts) {
       const fallbackList = filterDemoPosts(DEMO_FALLBACK_POSTS, { channelIds, status, groupByDate });
       if (!groupByDate) {
         return NextResponse.json({ posts: fallbackList, isFallback: true });

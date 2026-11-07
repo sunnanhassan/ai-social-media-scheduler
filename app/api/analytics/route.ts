@@ -1,4 +1,5 @@
 import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { NextRequest, NextResponse } from "next/server";
 import { getDemoAnalyticsData } from "@/lib/analytics/demo-analytics";
 import {
@@ -25,8 +26,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(getDemoAnalyticsData(rangeDays));
     }
 
-    // Attempt live database query with 3.5s timeout race
-    const queryPromise = (async () => {
+    const queryTask = async () => {
       let query = insforge.database
         .from("scheduled_posts")
         .select("*, user_channels(id, handle, profile_image, channel_types(id, type, name))")
@@ -40,16 +40,17 @@ export async function GET(request: NextRequest) {
       }
 
       return await query;
-    })();
+    };
 
-    const timeoutPromise = new Promise<{ data: null; error: { message: string } }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: { message: "Query timeout" } }), 3500)
+    const { data: queryResult, isFallback } = await insforgeCircuitBreaker.execute(
+      queryTask,
+      { data: null, error: { message: "Fallback" } } as any,
+      1500
     );
 
-    const { data: posts, error } = await Promise.race([queryPromise, timeoutPromise]);
+    const { data: posts, error } = queryResult;
 
-    if (error || !posts || posts.length === 0) {
-      console.warn("[GET /api/analytics] Serving demo analytics data:", error?.message);
+    if (isFallback || error || !posts || posts.length === 0) {
       return NextResponse.json(getDemoAnalyticsData(rangeDays));
     }
 

@@ -1,9 +1,9 @@
 # Codebase Knowledge Graph Report
-Generated: 2026-11-07T18:49:55.632331+00:00
+Generated: 2026-11-07T19:08:38.425507+00:00
 
 ## Overview
-- **Total Tracked Code Files**: 176
-- **Total Dependency Edges**: 340
+- **Total Tracked Code Files**: 177
+- **Total Dependency Edges**: 345
 - **Architecture**: Next.js 16 (Turbopack) Root App Router, React 19, TypeScript, Tailwind CSS v4, shadcn/ui
 
 ## Key Subsystems
