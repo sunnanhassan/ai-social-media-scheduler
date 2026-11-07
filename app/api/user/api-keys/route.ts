@@ -24,3 +24,4 @@ export async function POST(req: NextRequest) {
   const { rawKey, key } = await registerApiKey(userId, name);
   return NextResponse.json({ rawKey, key }, { status: 201 });
 }
+

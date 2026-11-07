@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-07T18:09:26.511237+00:00",
+  "timestamp": "2026-11-07T18:18:52.269625+00:00",
   "total_nodes": 176,
   "total_edges": 340,
   "nodes": [
@@ -70,7 +70,7 @@
       "id": "app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 197,
+      "lines": 199,
       "components": [],
       "community": 3
     },
@@ -320,7 +320,7 @@
       "id": "app/api/user/api-keys/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 26,
+      "lines": 27,
       "components": [],
       "community": 5
     },
@@ -328,7 +328,7 @@
       "id": "app/api/user/api-keys/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 17,
+      "lines": 18,
       "components": [],
       "community": 5
     },
@@ -876,7 +876,7 @@
       "id": "components/settings/api-keys-manager.tsx",
       "label": "api-keys-manager.tsx",
       "type": "component",
-      "lines": 258,
+      "lines": 259,
       "components": [
         "ApiKeysManager"
       ],
@@ -1442,7 +1442,7 @@
       "id": "lib/auth/idempotency.ts",
       "label": "idempotency.ts",
       "type": "lib",
-      "lines": 67,
+      "lines": 68,
       "components": [
         "generateIdempotencyFingerprint",
         "getIdempotentResponse",
@@ -1455,7 +1455,7 @@
       "id": "lib/auth/rate-limiter.ts",
       "label": "rate-limiter.ts",
       "type": "lib",
-      "lines": 59,
+      "lines": 60,
       "components": [
         "checkRateLimit",
         "clearRateLimitCache"
@@ -1466,7 +1466,7 @@
       "id": "lib/auth/validation.ts",
       "label": "validation.ts",
       "type": "lib",
-      "lines": 86,
+      "lines": 87,
       "components": [
         "CHANNEL_LIMITS",
         "validatePostContent",

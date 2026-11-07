@@ -20,6 +20,7 @@ const SettingsPage = () => {
   const { user } = useUser();
   const { theme, setTheme } = useTheme();
   const [copiedKey, setCopiedKey] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleCopyApiKey = () => {
     navigator.clipboard.writeText("sk_live_sm_scheduler_9a8f27b3e10c");
@@ -98,13 +99,14 @@ const SettingsPage = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/20 border border-border/60">
-                {user?.imageUrl ? (
+                {user?.imageUrl && !imageError ? (
                   <Image
                     src={user.imageUrl}
                     alt="Profile"
-                    className="h-12 w-12 rounded-full border border-border"
+                    className="h-12 w-12 rounded-full border border-border object-cover"
                     width={48}
                     height={48}
+                    onError={() => setImageError(true)}
                   />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">

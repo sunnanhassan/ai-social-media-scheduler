@@ -15,3 +15,4 @@ export async function DELETE(
   await revokeApiKey(userId, id);
   return NextResponse.json({ success: true, message: "API key revoked" });
 }
+
