@@ -87,14 +87,14 @@ const SettingsPage = () => {
         </TabsContent>
 
         {/* Profile Tab */}
-        <TabsContent value="profile" className="space-y-4">
-          <div className="w-full flex justify-center">
+        <TabsContent value="profile" className="w-full space-y-4">
+          <div className="w-full flex justify-start">
             <UserProfile
               routing="hash"
               appearance={{
                 elements: {
                   rootBox: "w-full shadow-none",
-                  card: "border border-border/80 bg-card shadow-2xs rounded-xl w-full",
+                  card: "border border-border/80 bg-card shadow-2xs rounded-xl w-full max-w-4xl",
                   navbar: "border-r border-border/60 bg-muted/10",
                   headerTitle: "text-foreground font-semibold",
                   headerSubtitle: "text-muted-foreground text-xs",
