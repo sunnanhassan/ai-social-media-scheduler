@@ -7,6 +7,7 @@ import {
   calculateEngagementRate,
   calculateSummaryTotals,
   rankTopPosts,
+  calculateBestTimeToPost,
 } from "@/lib/analytics/calculator";
 import { PostAnalyticsItem } from "@/lib/analytics/types";
 
@@ -81,33 +82,12 @@ export async function GET(request: NextRequest) {
     const hourlyBreakdown = bucketHourlyEngagement(items);
     const topPosts = rankTopPosts(items, 5);
 
-    let peakHour = 10;
-    let maxAvg = -1;
-    hourlyBreakdown.forEach((h) => {
-      if (h.avgEngagements > maxAvg) {
-        maxAvg = h.avgEngagements;
-        peakHour = h.hour;
-      }
-    });
-
-    const peakLabel =
-      peakHour === 0
-        ? "12:00 AM – 1:00 AM"
-        : peakHour < 12
-        ? `${peakHour}:00 AM – ${peakHour + 1}:00 AM`
-        : peakHour === 12
-        ? "12:00 PM – 1:00 PM"
-        : `${peakHour - 12}:00 PM – ${peakHour - 11}:00 PM`;
+    const bestTimeToPost = calculateBestTimeToPost(hourlyBreakdown, items);
 
     return NextResponse.json({
       summary,
       timeseries,
-      bestTimeToPost: {
-        peakDay: "Wednesday",
-        peakHour,
-        peakLabel,
-        hourlyBreakdown,
-      },
+      bestTimeToPost,
       topPosts,
       recentPosts: items,
     });

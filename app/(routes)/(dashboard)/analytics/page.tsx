@@ -108,7 +108,7 @@ export default function AnalyticsPage() {
         <div className="space-y-5">
           <AnalyticsSummaryCards summary={data.summary} />
           <AnalyticsCharts timeseries={data.timeseries} bestTimeToPost={data.bestTimeToPost} />
-          <TopPostsTable posts={data.recentPosts} />
+          <TopPostsTable posts={data.recentPosts || data.topPosts || []} />
         </div>
       ) : (
         <div className="h-64 flex flex-col items-center justify-center text-muted-foreground">

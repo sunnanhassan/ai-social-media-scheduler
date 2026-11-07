@@ -189,3 +189,80 @@ export function buildTimeseriesData(
 
   return points;
 }
+
+/**
+ * Computes peak posting window and optimal scheduling day from hourly breakdown and analyzed items.
+ */
+export function calculateBestTimeToPost(
+  hourlyBreakdown: HourlyPeakPoint[],
+  items?: PostAnalyticsItem[]
+): {
+  peakDay: string;
+  peakHour: number;
+  peakLabel: string;
+  hourlyBreakdown: HourlyPeakPoint[];
+} {
+  const buckets =
+    hourlyBreakdown && hourlyBreakdown.length > 0
+      ? hourlyBreakdown
+      : bucketHourlyEngagement(items || []);
+
+  let peakHour = 10;
+  let maxAvg = -1;
+
+  buckets.forEach((h) => {
+    if (h.avgEngagements > maxAvg) {
+      maxAvg = h.avgEngagements;
+      peakHour = h.hour;
+    }
+  });
+
+  const nextHour = (peakHour + 1) % 24;
+  const formatHour = (hr: number) => {
+    if (hr === 0) return "12:00 AM";
+    if (hr < 12) return `${hr}:00 AM`;
+    if (hr === 12) return "12:00 PM";
+    return `${hr - 12}:00 PM`;
+  };
+
+  const peakLabel = `${formatHour(peakHour)} – ${formatHour(nextHour)}`;
+
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const dayCounts: Record<string, number> = {};
+  if (items && items.length > 0) {
+    items.forEach((item) => {
+      try {
+        const d = new Date(item.scheduledAt);
+        if (!isNaN(d.getTime())) {
+          const name = dayNames[d.getDay()];
+          const eng = (item.likes || 0) + (item.comments || 0) + (item.shares || 0);
+          dayCounts[name] = (dayCounts[name] || 0) + eng;
+        }
+      } catch {}
+    });
+  }
+
+  let peakDay = "Wednesday";
+  let maxDayEng = -1;
+  for (const [day, eng] of Object.entries(dayCounts)) {
+    if (eng > maxDayEng) {
+      maxDayEng = eng;
+      peakDay = day;
+    }
+  }
+
+  return {
+    peakDay,
+    peakHour,
+    peakLabel,
+    hourlyBreakdown: buckets,
+  };
+}

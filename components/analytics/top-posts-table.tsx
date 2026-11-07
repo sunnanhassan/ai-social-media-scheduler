@@ -11,12 +11,13 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface TopPostsTableProps {
-  posts: PostAnalyticsItem[];
+  posts?: PostAnalyticsItem[];
 }
 
-export function TopPostsTable({ posts }: TopPostsTableProps) {
+export function TopPostsTable({ posts = [] }: TopPostsTableProps) {
   const queryClient = useQueryClient();
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
+  const safePosts = Array.isArray(posts) ? posts : [];
 
   const handleRefreshPost = async (postId: string) => {
     setRefreshingId(postId);
@@ -90,7 +91,14 @@ export function TopPostsTable({ posts }: TopPostsTableProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/40 font-normal">
-              {posts.map((post) => {
+              {safePosts.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 text-center text-muted-foreground font-mono text-xs">
+                    No individual post performance data available yet.
+                  </td>
+                </tr>
+              ) : (
+                safePosts.map((post) => {
                 const isRefreshing = refreshingId === post.postId;
                 let formattedDate = "Published";
                 try {
@@ -168,7 +176,7 @@ export function TopPostsTable({ posts }: TopPostsTableProps) {
                     </td>
                   </tr>
                 );
-              })}
+              }))}
             </tbody>
           </table>
         </div>

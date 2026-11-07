@@ -60,5 +60,6 @@ export interface AnalyticsDashboardData {
   topPosts: PostAnalyticsItem[];
   recentPosts: PostAnalyticsItem[];
   isFallback?: boolean;
+  hourlyPeaks?: HourlyPeakPoint[];
 }
 

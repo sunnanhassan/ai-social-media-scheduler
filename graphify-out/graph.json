@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-07T18:37:17.877959+00:00",
+  "timestamp": "2026-11-07T18:49:55.632331+00:00",
   "total_nodes": 176,
   "total_edges": 340,
   "nodes": [
@@ -120,7 +120,7 @@
       "id": "app/api/analytics/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 119,
+      "lines": 99,
       "components": [],
       "community": 5
     },
@@ -444,7 +444,7 @@
       "id": "components/analytics/analytics-charts.tsx",
       "label": "analytics-charts.tsx",
       "type": "component",
-      "lines": 146,
+      "lines": 176,
       "components": [
         "AnalyticsCharts"
       ],
@@ -454,7 +454,7 @@
       "id": "components/analytics/analytics-summary-cards.tsx",
       "label": "analytics-summary-cards.tsx",
       "type": "component",
-      "lines": 85,
+      "lines": 96,
       "components": [
         "AnalyticsSummaryCards"
       ],
@@ -464,7 +464,7 @@
       "id": "components/analytics/top-posts-table.tsx",
       "label": "top-posts-table.tsx",
       "type": "component",
-      "lines": 179,
+      "lines": 187,
       "components": [
         "TopPostsTable"
       ],
@@ -1368,7 +1368,7 @@
       "id": "lib/analytics/calculator.ts",
       "label": "calculator.ts",
       "type": "lib",
-      "lines": 191,
+      "lines": 268,
       "components": [
         "calculateEngagementRate",
         "calculateSummaryTotals",
@@ -1382,7 +1382,7 @@
       "id": "lib/analytics/demo-analytics.ts",
       "label": "demo-analytics.ts",
       "type": "lib",
-      "lines": 97,
+      "lines": 98,
       "components": [
         "DEMO_ANALYTICS_POSTS",
         "getDemoAnalyticsData"
@@ -1393,7 +1393,7 @@
       "id": "lib/analytics/types.ts",
       "label": "types.ts",
       "type": "lib",
-      "lines": 64,
+      "lines": 65,
       "components": [],
       "community": 5
     },

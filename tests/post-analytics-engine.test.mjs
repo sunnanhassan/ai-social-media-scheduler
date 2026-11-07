@@ -6,7 +6,9 @@ import {
   bucketHourlyEngagement,
   rankTopPosts,
   buildTimeseriesData,
+  calculateBestTimeToPost,
 } from '../lib/analytics/calculator.ts';
+import { getDemoAnalyticsData } from '../lib/analytics/demo-analytics.ts';
 
 test('Post Analytics Engine & Performance Metrics', async (t) => {
   await t.test('calculateEngagementRate: accurately computes rate percentage', () => {
@@ -123,6 +125,69 @@ test('Post Analytics Engine & Performance Metrics', async (t) => {
       assert.strictEqual(pt.impressions, 0);
       assert.strictEqual(pt.engagements, 0);
     }
+  });
+
+  await t.test('calculateBestTimeToPost: identifies peak hour and formats label correctly', () => {
+    const hourly = bucketHourlyEngagement([]);
+    hourly[14].avgEngagements = 45; // 2 PM peak
+
+    const result = calculateBestTimeToPost(hourly);
+    assert.strictEqual(result.peakHour, 14);
+    assert.strictEqual(result.peakLabel, '2:00 PM – 3:00 PM');
+    assert.strictEqual(result.hourlyBreakdown.length, 24);
+  });
+
+  await t.test('calculateBestTimeToPost: handles edge peak hours 0 (midnight) and 23 (11 PM)', () => {
+    const hourlyMidnight = bucketHourlyEngagement([]);
+    hourlyMidnight[0].avgEngagements = 99;
+    const resMidnight = calculateBestTimeToPost(hourlyMidnight);
+    assert.strictEqual(resMidnight.peakHour, 0);
+    assert.strictEqual(resMidnight.peakLabel, '12:00 AM – 1:00 AM');
+
+    const hourlyLate = bucketHourlyEngagement([]);
+    hourlyLate[23].avgEngagements = 88;
+    const resLate = calculateBestTimeToPost(hourlyLate);
+    assert.strictEqual(resLate.peakHour, 23);
+    assert.strictEqual(resLate.peakLabel, '11:00 PM – 12:00 AM');
+  });
+
+  await t.test('calculateBestTimeToPost: handles empty hourly breakdown without throwing', () => {
+    const result = calculateBestTimeToPost([]);
+    assert.strictEqual(typeof result.peakHour, 'number');
+    assert.strictEqual(typeof result.peakLabel, 'string');
+    assert.strictEqual(result.hourlyBreakdown.length, 24);
+  });
+
+  await t.test('getDemoAnalyticsData: satisfies complete AnalyticsDashboardData contract', () => {
+    const demo = getDemoAnalyticsData('7d');
+    assert.ok(demo.summary, 'Must contain summary');
+    assert.strictEqual(typeof demo.summary.totalImpressions, 'number');
+    assert.strictEqual(typeof demo.summary.totalEngagements, 'number');
+
+    assert.ok(demo.timeseries, 'Must contain timeseries');
+    assert.strictEqual(demo.timeseries.length, 7);
+
+    assert.ok(demo.bestTimeToPost, 'Must contain bestTimeToPost');
+    assert.strictEqual(typeof demo.bestTimeToPost.peakHour, 'number');
+    assert.strictEqual(typeof demo.bestTimeToPost.peakDay, 'string');
+    assert.strictEqual(typeof demo.bestTimeToPost.peakLabel, 'string');
+    assert.ok(Array.isArray(demo.bestTimeToPost.hourlyBreakdown), 'hourlyBreakdown must be array');
+    assert.strictEqual(demo.bestTimeToPost.hourlyBreakdown.length, 24);
+
+    assert.ok(Array.isArray(demo.topPosts), 'topPosts must be array');
+    assert.ok(Array.isArray(demo.recentPosts), 'recentPosts must be array');
+    assert.strictEqual(demo.isFallback, true);
+  });
+
+  await t.test('getDemoAnalyticsData: respects 30d, 90d, and numeric ranges', () => {
+    const demo30 = getDemoAnalyticsData('30d');
+    assert.strictEqual(demo30.timeseries.length, 30);
+
+    const demo90 = getDemoAnalyticsData('90d');
+    assert.strictEqual(demo90.timeseries.length, 90);
+
+    const demoCustom = getDemoAnalyticsData(14);
+    assert.strictEqual(demoCustom.timeseries.length, 14);
   });
 });
 

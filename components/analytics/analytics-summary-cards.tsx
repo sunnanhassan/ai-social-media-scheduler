@@ -7,14 +7,25 @@ import { Eye, Heart, MessageSquare, TrendingUp, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface AnalyticsSummaryCardsProps {
-  summary: AnalyticsSummary;
+  summary?: AnalyticsSummary;
 }
 
 export function AnalyticsSummaryCards({ summary }: AnalyticsSummaryCardsProps) {
+  const safeSummary: AnalyticsSummary = {
+    totalImpressions: summary?.totalImpressions ?? 0,
+    totalLikes: summary?.totalLikes ?? 0,
+    totalComments: summary?.totalComments ?? 0,
+    totalShares: summary?.totalShares ?? 0,
+    totalEngagements: summary?.totalEngagements ?? 0,
+    averageEngagementRate: summary?.averageEngagementRate ?? 0,
+    postsAnalyzed: summary?.postsAnalyzed ?? 0,
+    topChannel: summary?.topChannel || "None",
+  };
+
   const cards = [
     {
       title: "Total Reach",
-      value: summary.totalImpressions.toLocaleString(),
+      value: safeSummary.totalImpressions.toLocaleString(),
       subtitle: "Organic Views & Impressions",
       icon: Eye,
       color: "text-blue-500",
@@ -24,28 +35,28 @@ export function AnalyticsSummaryCards({ summary }: AnalyticsSummaryCardsProps) {
     },
     {
       title: "Total Engagements",
-      value: summary.totalEngagements.toLocaleString(),
-      subtitle: `${summary.totalLikes.toLocaleString()} likes • ${summary.totalComments.toLocaleString()} comments`,
+      value: safeSummary.totalEngagements.toLocaleString(),
+      subtitle: `${safeSummary.totalLikes.toLocaleString()} likes • ${safeSummary.totalComments.toLocaleString()} comments`,
       icon: Heart,
       color: "text-rose-500",
       bgColor: "bg-rose-500/10 border-rose-500/20",
-      badge: `${summary.totalShares.toLocaleString()} shares`,
+      badge: `${safeSummary.totalShares.toLocaleString()} shares`,
       badgeColor: "text-rose-500 border-rose-500/20 bg-rose-500/10",
     },
     {
       title: "Avg Engagement Rate",
-      value: `${summary.averageEngagementRate}%`,
+      value: `${safeSummary.averageEngagementRate}%`,
       subtitle: "Industry benchmark is ~2.5%",
       icon: TrendingUp,
       color: "text-emerald-500",
       bgColor: "bg-emerald-500/10 border-emerald-500/20",
-      badge: summary.averageEngagementRate >= 3.0 ? "High Performance" : "Normal",
+      badge: safeSummary.averageEngagementRate >= 3.0 ? "High Performance" : "Normal",
       badgeColor: "text-emerald-500 border-emerald-500/20 bg-emerald-500/10",
     },
     {
       title: "Top Channel",
-      value: summary.topChannel,
-      subtitle: `${summary.postsAnalyzed} total posts analyzed`,
+      value: safeSummary.topChannel,
+      subtitle: `${safeSummary.postsAnalyzed} total posts analyzed`,
       icon: Sparkles,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10 border-purple-500/20",

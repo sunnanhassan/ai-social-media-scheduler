@@ -1,4 +1,5 @@
 import type {
+  AnalyticsDashboardData,
   AnalyticsSummary,
   AnalyticsTimeseriesPoint,
   HourlyPeakPoint,
@@ -9,6 +10,7 @@ import {
   bucketHourlyEngagement,
   rankTopPosts,
   buildTimeseriesData,
+  calculateBestTimeToPost,
 } from "./calculator.ts";
 
 export const DEMO_ANALYTICS_POSTS: PostAnalyticsItem[] = [
@@ -74,24 +76,23 @@ export const DEMO_ANALYTICS_POSTS: PostAnalyticsItem[] = [
   },
 ];
 
-export function getDemoAnalyticsData(range: "7d" | "30d" | "90d" | number = "30d"): {
-  summary: AnalyticsSummary;
-  topPosts: PostAnalyticsItem[];
-  timeseries: AnalyticsTimeseriesPoint[];
-  hourlyPeaks: HourlyPeakPoint[];
-  allPosts: PostAnalyticsItem[];
-} {
+export function getDemoAnalyticsData(
+  range: "7d" | "30d" | "90d" | number = "30d"
+): AnalyticsDashboardData {
   const days = typeof range === "number" ? range : range === "7d" ? 7 : range === "90d" ? 90 : 30;
   const summary = calculateSummaryTotals(DEMO_ANALYTICS_POSTS);
   const topPosts = rankTopPosts(DEMO_ANALYTICS_POSTS, 5);
   const timeseries = buildTimeseriesData(DEMO_ANALYTICS_POSTS, days);
-  const hourlyPeaks = bucketHourlyEngagement(DEMO_ANALYTICS_POSTS);
+  const hourlyBreakdown = bucketHourlyEngagement(DEMO_ANALYTICS_POSTS);
+  const bestTimeToPost = calculateBestTimeToPost(hourlyBreakdown, DEMO_ANALYTICS_POSTS);
 
   return {
     summary,
     topPosts,
     timeseries,
-    hourlyPeaks,
-    allPosts: DEMO_ANALYTICS_POSTS,
+    bestTimeToPost,
+    recentPosts: DEMO_ANALYTICS_POSTS,
+    hourlyPeaks: hourlyBreakdown,
+    isFallback: true,
   };
 }
