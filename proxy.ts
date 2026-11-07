@@ -1,34 +1,32 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-export default async function middleware(req: NextRequest) {
-  const secretKey = process.env.CLERK_SECRET_KEY;
-  const pubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const secretKey = process.env.CLERK_SECRET_KEY;
+const pubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const hasClerk = Boolean(secretKey && pubKey && !pubKey.includes('example.com'));
 
-  if (secretKey && pubKey && !pubKey.includes('example.com')) {
-    try {
-      const { clerkMiddleware, createRouteMatcher } = await import('@clerk/nextjs/server');
-      const isPublicRoute = createRouteMatcher([
-        '/sign-in(.*)',
-        '/sign-up(.*)',
-        '/',
-        '/api/inngest(.*)',
-        '/api/posts/cron(.*)',
-        '/api/social/callback(.*)',
-        '/api/channel/callback(.*)',
-        '/api/v1(.*)',
-      ]);
-      return clerkMiddleware(async (auth, request) => {
-        if (!isPublicRoute(request)) {
-          await auth.protect();
-        }
-      })(req, {} as any);
-    } catch (e) {
-      console.warn('Clerk middleware error, passing through:', e);
-      return NextResponse.next();
-    }
+const isPublicRoute = createRouteMatcher([
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/',
+  '/api/inngest(.*)',
+  '/api/posts/cron(.*)',
+  '/api/social/callback(.*)',
+  '/api/channel/callback(.*)',
+  '/api/v1(.*)',
+]);
+
+const clerkHandler = clerkMiddleware(async (auth, request) => {
+  if (!isPublicRoute(request)) {
+    await auth.protect();
   }
+});
 
-  return NextResponse.next();
+export default function middleware(req: NextRequest) {
+  if (!hasClerk) {
+    return NextResponse.next();
+  }
+  return clerkHandler(req, {} as any);
 }
 
 export const config = {

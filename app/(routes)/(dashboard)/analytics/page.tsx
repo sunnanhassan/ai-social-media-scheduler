@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnalyticsDashboardData } from "@/lib/analytics/types";
+import { getDemoAnalyticsData } from "@/lib/analytics/demo-analytics";
 import { AnalyticsSummaryCards } from "@/components/analytics/analytics-summary-cards";
 import { AnalyticsCharts } from "@/components/analytics/analytics-charts";
 import { TopPostsTable } from "@/components/analytics/top-posts-table";
@@ -26,6 +27,7 @@ export default function AnalyticsPage() {
       if (!res.ok) throw new Error("Failed to load analytics");
       return res.json();
     },
+    placeholderData: () => getDemoAnalyticsData(range),
   });
 
   const handleManualRefresh = async () => {

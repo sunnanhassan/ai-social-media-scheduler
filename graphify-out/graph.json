@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T19:08:38.425507+00:00",
+  "timestamp": "2026-11-07T19:19:39.769167+00:00",
   "total_nodes": 177,
-  "total_edges": 345,
+  "total_edges": 346,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -36,7 +36,7 @@
       "id": "app/(routes)/(dashboard)/analytics/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 121,
+      "lines": 123,
       "components": [
         "AnalyticsPage"
       ],
@@ -1282,7 +1282,7 @@
       "id": "lib/insforge-circuit-breaker.ts",
       "label": "insforge-circuit-breaker.ts",
       "type": "lib",
-      "lines": 139,
+      "lines": 148,
       "components": [
         "insforgeCircuitBreaker"
       ],
@@ -1671,6 +1671,11 @@
     {
       "source": "app/(routes)/(dashboard)/analytics/page.tsx",
       "target": "lib/analytics/types",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/analytics/page.tsx",
+      "target": "lib/analytics/demo-analytics",
       "relation": "imports"
     },
     {

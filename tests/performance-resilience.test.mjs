@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { InsforgeCircuitBreaker } from '../lib/insforge-circuit-breaker.ts';
+import { InsforgeCircuitBreaker, insforgeCircuitBreaker } from '../lib/insforge-circuit-breaker.ts';
 import { getDemoAnalyticsData } from '../lib/analytics/demo-analytics.ts';
 
 test('Fast-Fail Circuit Breaker & Performance Resilience Suite', async (t) => {
@@ -109,6 +109,18 @@ test('Fast-Fail Circuit Breaker & Performance Resilience Suite', async (t) => {
     assert.strictEqual(cb.isAvailable(), false);
   });
 
+  await t.test('global singleton: insforgeCircuitBreaker persists on globalThis', () => {
+    const symbolKey = Symbol.for('insforge.circuit.breaker');
+    assert.ok(globalThis[symbolKey], 'Must be registered on globalThis');
+    assert.strictEqual(typeof globalThis[symbolKey].execute, 'function');
+    assert.strictEqual(typeof globalThis[symbolKey].isAvailable, 'function');
+  });
+
+  await t.test('default timeout is 800ms for fast cutoff', async () => {
+    const cb = new InsforgeCircuitBreaker();
+    assert.strictEqual(cb['defaultTimeoutMs'], 800);
+  });
+
   await t.test('endpoint fallback contracts: channels, analytics, ideas and totals', () => {
     const demo = getDemoAnalyticsData('7d');
     assert.strictEqual(demo.isFallback, true);
@@ -117,3 +129,4 @@ test('Fast-Fail Circuit Breaker & Performance Resilience Suite', async (t) => {
     assert.ok(demo.bestTimeToPost.hourlyBreakdown.length === 24);
   });
 });
+

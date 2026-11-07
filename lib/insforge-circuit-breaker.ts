@@ -6,8 +6,8 @@
 export type CircuitState = "CLOSED" | "OPEN" | "HALF_OPEN";
 
 export interface CircuitBreakerOptions {
-  cooldownMs?: number; // Time circuit remains OPEN before allowing a probe (default: 30000ms)
-  timeoutMs?: number; // Request timeout in milliseconds (default: 1500ms)
+  cooldownMs?: number; // Time circuit remains OPEN before allowing a probe (default: 60000ms)
+  timeoutMs?: number; // Request timeout in milliseconds (default: 800ms)
 }
 
 export class InsforgeCircuitBreaker {
@@ -18,8 +18,8 @@ export class InsforgeCircuitBreaker {
   private readonly defaultTimeoutMs: number;
 
   constructor(options: CircuitBreakerOptions = {}) {
-    this.cooldownMs = options.cooldownMs ?? 30000;
-    this.defaultTimeoutMs = options.timeoutMs ?? 1500;
+    this.cooldownMs = options.cooldownMs ?? 60000;
+    this.defaultTimeoutMs = options.timeoutMs ?? 800;
   }
 
   public getState(): CircuitState {
@@ -132,8 +132,17 @@ export class InsforgeCircuitBreaker {
   }
 }
 
-// Global singleton instance for server runtime
-export const insforgeCircuitBreaker = new InsforgeCircuitBreaker({
-  cooldownMs: 30000,
-  timeoutMs: 1500,
-});
+// Global singleton persisted on globalThis to share state across Turbopack workers & route modules
+const GLOBAL_CB_KEY = Symbol.for("insforge.circuit.breaker");
+
+const globalScope = globalThis as unknown as {
+  [GLOBAL_CB_KEY]?: InsforgeCircuitBreaker;
+};
+
+export const insforgeCircuitBreaker: InsforgeCircuitBreaker =
+  globalScope[GLOBAL_CB_KEY] ??
+  (globalScope[GLOBAL_CB_KEY] = new InsforgeCircuitBreaker({
+    cooldownMs: 60000,
+    timeoutMs: 800,
+  }));
+
