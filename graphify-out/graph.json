@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-07T18:18:52.269625+00:00",
+  "timestamp": "2026-11-07T18:28:10.841318+00:00",
   "total_nodes": 176,
   "total_edges": 340,
   "nodes": [
@@ -70,7 +70,7 @@
       "id": "app/(routes)/(dashboard)/settings/page.tsx",
       "label": "page.tsx",
       "type": "route",
-      "lines": 199,
+      "lines": 169,
       "components": [],
       "community": 3
     },
@@ -1414,7 +1414,7 @@
       "id": "lib/auth/auth-components.tsx",
       "label": "auth-components.tsx",
       "type": "lib",
-      "lines": 313,
+      "lines": 324,
       "components": [
         "AppUserButton",
         "AppUserProfile",

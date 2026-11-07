@@ -93,11 +93,22 @@ export function AppUserButton({
   );
 }
 
-export function AppUserProfile({ appearance }: { appearance?: any } = {}) {
+export function AppUserProfile({
+  appearance,
+  routing = "hash",
+  path,
+}: {
+  appearance?: any;
+  routing?: "hash" | "path";
+  path?: string;
+} = {}) {
   const { user } = useAppUser();
 
   if (hasValidClerkKey) {
-    return <ClerkUserProfile appearance={appearance} />;
+    if (routing === "path") {
+      return <ClerkUserProfile routing="path" path={path} appearance={appearance} />;
+    }
+    return <ClerkUserProfile routing="hash" appearance={appearance} />;
   }
 
   return (

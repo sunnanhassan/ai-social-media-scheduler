@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/lib/auth/auth-context";
 import { UserProfile } from "@/lib/auth/auth-components";
@@ -20,7 +19,6 @@ const SettingsPage = () => {
   const { user } = useUser();
   const { theme, setTheme } = useTheme();
   const [copiedKey, setCopiedKey] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   const handleCopyApiKey = () => {
     navigator.clipboard.writeText("sk_live_sm_scheduler_9a8f27b3e10c");
@@ -89,51 +87,23 @@ const SettingsPage = () => {
         </TabsContent>
 
         {/* Profile Tab */}
-        <TabsContent value="profile">
-          <Card className="border-border/80 bg-card shadow-2xs">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-sm font-semibold">Your Profile</CardTitle>
-              <CardDescription className="text-xs">
-                Manage your credentials, name, and identity settings
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/20 border border-border/60">
-                {user?.imageUrl && !imageError ? (
-                  <Image
-                    src={user.imageUrl}
-                    alt="Profile"
-                    className="h-12 w-12 rounded-full border border-border object-cover"
-                    width={48}
-                    height={48}
-                    onError={() => setImageError(true)}
-                  />
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <User className="size-6" />
-                  </div>
-                )}
-
-                <div>
-                  <p className="font-medium text-sm text-foreground">{user?.fullName || "User"}</p>
-                  <p className="text-xs font-mono text-muted-foreground">
-                    {user?.primaryEmailAddress?.emailAddress}
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <UserProfile
-                  appearance={{
-                    elements: {
-                      rootBox: "w-full",
-                      card: "border-0 shadow-none bg-transparent",
-                    },
-                  }}
-                />
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="profile" className="space-y-4">
+          <div className="w-full flex justify-center">
+            <UserProfile
+              routing="hash"
+              appearance={{
+                elements: {
+                  rootBox: "w-full shadow-none",
+                  card: "border border-border/80 bg-card shadow-2xs rounded-xl w-full",
+                  navbar: "border-r border-border/60 bg-muted/10",
+                  headerTitle: "text-foreground font-semibold",
+                  headerSubtitle: "text-muted-foreground text-xs",
+                  profileSectionTitleText: "text-foreground font-medium",
+                  userButtonPopoverCard: "border border-border bg-card",
+                },
+              }}
+            />
+          </div>
         </TabsContent>
 
         {/* Developer Tab */}
