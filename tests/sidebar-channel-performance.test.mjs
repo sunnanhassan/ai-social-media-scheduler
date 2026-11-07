@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  DEFAULT_PLATFORMS,
   DEFAULT_MOCK_CHANNELS,
   applyChannelFilter,
 } from "../constants/mock-channels.ts";
@@ -11,9 +12,9 @@ import {
 } from "../constants/channels.ts";
 
 test("Sidebar Channels - 8 Platforms Integrity & Completeness", () => {
-  assert.equal(DEFAULT_MOCK_CHANNELS.length, 8, "Must support all 8 social platforms");
+  assert.equal(DEFAULT_PLATFORMS.length, 8, "Must support all 8 social platforms");
 
-  const types = DEFAULT_MOCK_CHANNELS.map((c) => c.type);
+  const types = DEFAULT_PLATFORMS.map((c) => c.type);
   assert.ok(types.includes(ChannelTypeEnum.TWITTER));
   assert.ok(types.includes(ChannelTypeEnum.LINKEDIN));
   assert.ok(types.includes(ChannelTypeEnum.INSTAGRAM));
@@ -23,7 +24,7 @@ test("Sidebar Channels - 8 Platforms Integrity & Completeness", () => {
   assert.ok(types.includes(ChannelTypeEnum.BLUESKY));
   assert.ok(types.includes(ChannelTypeEnum.TIKTOK));
 
-  for (const channel of DEFAULT_MOCK_CHANNELS) {
+  for (const channel of DEFAULT_PLATFORMS) {
     assert.ok(channel.id, "Channel must have an ID");
     assert.ok(channel.name, "Channel must have a name");
     assert.ok(channel.color.startsWith("#"), "Channel color must be a valid hex string");
@@ -80,24 +81,24 @@ test("Sidebar Channels - Connect Channels 4-Item Limiting", () => {
   const limited = unconnected.slice(0, 4);
 
   assert.equal(limited.length, 4, "Sidebar Connect Channels should display top 4 platforms");
-  assert.equal(limited[0].name, "X (Twitter)");
-  assert.equal(limited[1].name, "LinkedIn");
-  assert.equal(limited[2].name, "Instagram");
-  assert.equal(limited[3].name, "Facebook");
+  assert.equal(limited[0].name, "Instagram");
+  assert.equal(limited[1].name, "Facebook");
+  assert.equal(limited[2].name, "Threads");
+  assert.equal(limited[3].name, "Bluesky");
 });
 
 test("Sidebar Channels - Zero-Latency Placeholder Data Shape", () => {
   const placeholder = {
     channels: DEFAULT_MOCK_CHANNELS,
     totalChannels: DEFAULT_MOCK_CHANNELS.length,
-    connectedCount: 0,
+    connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
   };
 
-  assert.equal(placeholder.totalChannels, 8);
-  assert.equal(placeholder.connectedCount, 0);
-  assert.equal(placeholder.channels.length, 8);
+  assert.equal(placeholder.totalChannels, 10);
+  assert.equal(placeholder.connectedCount, 6);
+  assert.equal(placeholder.channels.length, 10);
   assert.equal(
     `${placeholder.connectedCount}/${placeholder.totalChannels} channels connected`,
-    "0/8 channels connected"
+    "6/10 channels connected"
   );
 });

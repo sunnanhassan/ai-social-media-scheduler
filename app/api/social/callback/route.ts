@@ -180,7 +180,7 @@ export async function GET(request: NextRequest) {
         .from("user_channels")
         .select("refresh_token")
         .eq("user_id", state.userId)
-        .eq("channel_type_id", state.channelTypeId)
+        .eq("provider_account_id", providerAccountId)
         .maybeSingle();
 
       if (existingChannel?.refresh_token) {
@@ -207,7 +207,7 @@ export async function GET(request: NextRequest) {
     const { error: upsertError } = await insforge.database
       .from("user_channels")
       .upsert(payload, {
-        onConflict: "user_id,channel_type_id",
+        onConflict: "user_id,provider_account_id",
       });
 
     if (upsertError) {

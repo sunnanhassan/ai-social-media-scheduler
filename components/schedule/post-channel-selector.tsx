@@ -54,7 +54,7 @@ export function PostChannelSelector({
                     type="button"
                     style={{ "--channel-color": channel.color } as React.CSSProperties}
                     className={cn(
-                      "relative shrink-0 rounded-xl p-0 transition-all focus:outline-none",
+                      "relative shrink-0 rounded-xl p-0 transition-all focus:outline-none flex flex-col items-center gap-1",
                       !isConnected ? "cursor-not-allowed" : "cursor-pointer",
                       selected
                         ? "ring-2 ring-(--channel-color) ring-offset-2 ring-offset-background"
@@ -76,12 +76,17 @@ export function PostChannelSelector({
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <span>Preview {channel.name}</span>
-                  {!isConnected && (
-                    <span className="text-primary font-medium ml-1">
-                      → Connect Channel
-                    </span>
-                  )}
+                  <div className="flex flex-col text-xs">
+                    <span className="font-semibold">{channel.name}</span>
+                    {channel.handle && (
+                      <span className="text-muted-foreground">{channel.handle}</span>
+                    )}
+                    {!isConnected && (
+                      <span className="text-primary font-medium mt-0.5">
+                        → Connect Channel in Settings
+                      </span>
+                    )}
+                  </div>
                 </TooltipContent>
               </Tooltip>
             );

@@ -1,4 +1,4 @@
-import { ChannelTypeEnum } from "@/constants/channels"
+import { ChannelTypeEnum } from "../../constants/channels.ts";
 
 export type OAuthConnectionProfile = {
     providerAccountId?: string | null

@@ -57,7 +57,7 @@ export async function handleMockOAuthCallback({
 
     await insforge.database
       .from("user_channels")
-      .upsert(payload, { onConflict: "user_id,channel_type_id" });
+      .upsert(payload, { onConflict: "user_id,provider_account_id" });
 
     const response = buildRedirectUrl(appUrl, redirectTo, {
       connected: "true",

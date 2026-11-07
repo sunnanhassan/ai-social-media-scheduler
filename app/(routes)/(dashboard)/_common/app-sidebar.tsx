@@ -72,7 +72,7 @@ const AppSidebar = () => {
     placeholderData: {
       channels: DEFAULT_MOCK_CHANNELS as any,
       totalChannels: DEFAULT_MOCK_CHANNELS.length,
-      connectedCount: 0,
+      connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
@@ -82,8 +82,8 @@ const AppSidebar = () => {
   const unconnectedChannels = channels.filter((channel: ChannelType) => !channel.connected);
   const connectedChannels = channels.filter((channel: ChannelType) => channel.connected);
 
-  const connectedCount = channelsData?.connectedCount || 0;
-  const totalChannels = channelsData?.totalChannels || DEFAULT_MOCK_CHANNELS.length;
+  const connectedCount = channelsData?.connectedCount ?? connectedChannels.length;
+  const totalChannels = channelsData?.totalChannels ?? (channels.length || DEFAULT_MOCK_CHANNELS.length);
   const limitedChannels = unconnectedChannels.slice(0, 4);
 
   const handleConnect = (channel: ChannelType) => {

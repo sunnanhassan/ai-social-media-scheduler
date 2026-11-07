@@ -48,7 +48,7 @@ create table if not exists user_channels (
   created_at       timestamptz default now(),
   updated_at       timestamptz default now(),
 
-  unique (user_id, channel_type_id)
+  unique (user_id, provider_account_id)
 );
 
 alter table user_channels enable row level security;

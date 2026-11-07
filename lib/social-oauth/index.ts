@@ -1,5 +1,5 @@
-import { ChannelTypeEnum } from "@/constants/channels";
-import { OAuthProvider, OAuthTokenResponse } from "./types";
+import { ChannelTypeEnum } from "../../constants/channels.ts";
+import type { OAuthProvider, OAuthTokenResponse } from "./types.ts";
 
 const DEFAULT_PROVIDER_CONFIGS: Record<
   ChannelTypeEnum,
@@ -139,6 +139,13 @@ function createProvider(type: ChannelTypeEnum, opts: { pkce?: boolean } = {}): O
         scope: config.scope.join(" "),
         state,
       });
+
+      // YouTube / Google requires offline access for refresh tokens and select_account for brand channels
+      if (type === ChannelTypeEnum.YOUTUBE) {
+        params.append("access_type", "offline");
+        params.append("prompt", "consent select_account");
+      }
+
       if (opts.pkce && codeChallenge && codeChallengeMethod) {
         params.append("code_challenge", codeChallenge);
         params.append("code_challenge_method", codeChallengeMethod);

@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T20:11:23.426500+00:00",
+  "timestamp": "2026-11-07T20:50:01.621790+00:00",
   "total_nodes": 181,
-  "total_edges": 354,
+  "total_edges": 351,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 88,
+      "lines": 114,
       "components": [],
       "community": 3
     },
@@ -304,7 +304,7 @@
       "id": "app/api/social/connect/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 194,
+      "lines": 197,
       "components": [],
       "community": 5
     },
@@ -692,7 +692,7 @@
       "id": "components/schedule/post-channel-selector.tsx",
       "label": "post-channel-selector.tsx",
       "type": "component",
-      "lines": 93,
+      "lines": 98,
       "components": [
         "PostChannelSelector"
       ],
@@ -896,8 +896,10 @@
       "id": "components/settings/channels-tab.tsx",
       "label": "channels-tab.tsx",
       "type": "component",
-      "lines": 159,
-      "components": [],
+      "lines": 225,
+      "components": [
+        "ChannelsTab"
+      ],
       "community": 3
     },
     {
@@ -1174,8 +1176,9 @@
       "id": "constants/mock-channels.ts",
       "label": "mock-channels.ts",
       "type": "file",
-      "lines": 120,
+      "lines": 228,
       "components": [
+        "DEFAULT_PLATFORMS",
         "DEFAULT_MOCK_CHANNELS",
         "applyChannelFilter"
       ],
@@ -1584,7 +1587,7 @@
       "id": "lib/social-oauth/index.ts",
       "label": "index.ts",
       "type": "lib",
-      "lines": 251,
+      "lines": 258,
       "components": [
         "getProviderConfig",
         "isProviderConfigured",
@@ -1655,7 +1658,7 @@
       "id": "types/channel.type.ts",
       "label": "channel.type.ts",
       "type": "type",
-      "lines": 15,
+      "lines": 16,
       "components": [],
       "community": 3
     },
@@ -3024,11 +3027,6 @@
     },
     {
       "source": "components/settings/channels-tab.tsx",
-      "target": "lib/utils",
-      "relation": "imports"
-    },
-    {
-      "source": "components/settings/channels-tab.tsx",
       "target": "hooks/use-social-connect",
       "relation": "imports"
     },
@@ -3413,11 +3411,6 @@
       "relation": "imports"
     },
     {
-      "source": "lib/social-oauth/index.ts",
-      "target": "constants/channels",
-      "relation": "imports"
-    },
-    {
       "source": "lib/social-oauth/mock-callback.ts",
       "target": "constants/channels",
       "relation": "imports"
@@ -3434,11 +3427,6 @@
     },
     {
       "source": "lib/social-oauth/state.ts",
-      "target": "constants/channels",
-      "relation": "imports"
-    },
-    {
-      "source": "lib/social-oauth/types.ts",
       "target": "constants/channels",
       "relation": "imports"
     },

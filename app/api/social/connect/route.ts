@@ -103,11 +103,14 @@ export async function POST(request: NextRequest) {
     }
 
     const type = channelType.type as ChannelTypeEnum;
-    const SUPPORTED_PLATFORMS = [
+    const SUPPORTED_PLATFORMS: ChannelTypeEnum[] = [
       ChannelTypeEnum.TWITTER,
       ChannelTypeEnum.LINKEDIN,
       ChannelTypeEnum.FACEBOOK,
       ChannelTypeEnum.INSTAGRAM,
+      ChannelTypeEnum.YOUTUBE,
+      ChannelTypeEnum.TIKTOK,
+      ChannelTypeEnum.THREADS,
     ];
 
     if (!SUPPORTED_PLATFORMS.includes(type)) {

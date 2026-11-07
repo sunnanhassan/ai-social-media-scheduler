@@ -28,7 +28,11 @@ export async function GET(request: NextRequest) {
           .from("channel_types")
           .select("*")
           .order("created_at", { ascending: true }),
-        insforge.database.from("user_channels").select("*").eq("user_id", userId),
+        insforge.database
+          .from("user_channels")
+          .select("*")
+          .eq("user_id", userId)
+          .eq("is_active", true),
       ]);
       return { typesRes, userChannelsRes };
     };
@@ -39,7 +43,7 @@ export async function GET(request: NextRequest) {
         typesRes: { data: null, error: { message: "Fallback" } },
         userChannelsRes: { data: null, error: null },
       } as any,
-      600 // aggressive 600ms timeout for snappy sidebar rendering
+      600
     );
 
     const { typesRes, userChannelsRes } = result;
@@ -47,37 +51,59 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(fallbackPayload);
     }
 
-    const userChannelMap = new Map(
-      (userChannelsRes.data || []).map((channel: any) => [channel.channel_type_id, channel])
-    );
+    const channelTypes = typesRes.data || [];
+    const userChannels = (userChannelsRes.data || []).filter((uc: any) => uc.is_connected);
 
-    let channels = (typesRes.data || []).map((channel_type: any) => {
-      const userChannel = userChannelMap.get(channel_type.id) as any;
-      return {
-        id: channel_type.id,
-        type: channel_type.type,
-        name: channel_type.name,
-        color: channel_type.color,
-        character_limit: channel_type.character_limit,
-        user_channel_id: userChannel?.id ?? null,
-        handle: userChannel?.handle ?? null,
-        profile_image: userChannel?.profile_image ?? null,
-        profile_url: userChannel?.profile_url ?? null,
-        connected: userChannel?.is_connected ?? false,
-      };
-    });
+    const typeMap = new Map<string, any>(channelTypes.map((t: any) => [t.id, t]));
+    const channels: any[] = [];
 
-    const totalChannels = typesRes.data?.length || 0;
-    const connectedCount = channels.filter((channel: any) => channel.connected).length;
-
-    if (filter === "connected") {
-      channels = channels.filter((channel: any) => channel.connected);
-    } else if (filter === "unconnected") {
-      channels = channels.filter((channel: any) => !channel.connected);
+    // 1. Add all individual connected accounts
+    for (const uc of userChannels) {
+      const parentType = typeMap.get(uc.channel_type_id);
+      if (parentType) {
+        channels.push({
+          id: uc.id,
+          channel_type_id: parentType.id,
+          type: parentType.type,
+          name: parentType.name,
+          color: parentType.color,
+          character_limit: parentType.character_limit,
+          user_channel_id: uc.id,
+          handle: uc.handle ?? null,
+          profile_image: uc.profile_image ?? null,
+          profile_url: uc.profile_url ?? null,
+          connected: true,
+        });
+      }
     }
 
+    // 2. Identify platforms with 0 connected accounts and add unconnected placeholders
+    const connectedTypeIds = new Set(userChannels.map((uc: any) => uc.channel_type_id));
+    for (const ct of channelTypes) {
+      if (!connectedTypeIds.has(ct.id)) {
+        channels.push({
+          id: ct.id,
+          channel_type_id: ct.id,
+          type: ct.type,
+          name: ct.name,
+          color: ct.color,
+          character_limit: ct.character_limit,
+          user_channel_id: null,
+          handle: null,
+          profile_image: null,
+          profile_url: null,
+          connected: false,
+        });
+      }
+    }
+
+    const totalChannels = channels.length;
+    const connectedCount = channels.filter((c) => c.connected).length;
+
+    const filteredChannels = applyChannelFilter(channels, filter);
+
     return NextResponse.json({
-      channels,
+      channels: filteredChannels,
       totalChannels,
       connectedCount,
     });
