@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T19:19:39.769167+00:00",
-  "total_nodes": 177,
-  "total_edges": 346,
+  "timestamp": "2026-11-07T19:39:59.472044+00:00",
+  "total_nodes": 180,
+  "total_edges": 350,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -168,7 +168,7 @@
       "id": "app/api/idea/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 232,
+      "lines": 61,
       "components": [],
       "community": 2
     },
@@ -184,7 +184,7 @@
       "id": "app/api/idea/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 37,
+      "lines": 22,
       "components": [],
       "community": 2
     },
@@ -192,7 +192,7 @@
       "id": "app/api/ideas/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 204,
+      "lines": 75,
       "components": [],
       "community": 2
     },
@@ -562,7 +562,7 @@
       "id": "components/idea/idea-kanban.tsx",
       "label": "idea-kanban.tsx",
       "type": "component",
-      "lines": 335,
+      "lines": 104,
       "components": [],
       "community": 2
     },
@@ -573,6 +573,16 @@
       "lines": 96,
       "components": [
         "IdeaToolbar"
+      ],
+      "community": 2
+    },
+    {
+      "id": "components/idea/use-idea-kanban.ts",
+      "label": "use-idea-kanban.ts",
+      "type": "component",
+      "lines": 261,
+      "components": [
+        "useIdeaKanban"
       ],
       "community": 2
     },
@@ -636,7 +646,7 @@
       "id": "components/schedule/ideas-list.tsx",
       "label": "ideas-list.tsx",
       "type": "component",
-      "lines": 141,
+      "lines": 144,
       "components": [],
       "community": 1
     },
@@ -1485,6 +1495,28 @@
       "community": 5
     },
     {
+      "id": "lib/ideas/ideas-service.ts",
+      "label": "ideas-service.ts",
+      "type": "lib",
+      "lines": 243,
+      "components": [
+        "UUID_REGEX"
+      ],
+      "community": 2
+    },
+    {
+      "id": "lib/ideas/mock-ideas.ts",
+      "label": "mock-ideas.ts",
+      "type": "lib",
+      "lines": 117,
+      "components": [
+        "DEFAULT_MOCK_GROUPS",
+        "getInMemoryMockGroups",
+        "resetInMemoryMockGroups"
+      ],
+      "community": 2
+    },
+    {
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
@@ -1985,7 +2017,7 @@
     },
     {
       "source": "app/api/idea/route.ts",
-      "target": "lib/insforge-circuit-breaker",
+      "target": "lib/ideas/ideas-service",
       "relation": "imports"
     },
     {
@@ -1999,8 +2031,18 @@
       "relation": "imports"
     },
     {
+      "source": "app/api/idea/[id]/route.ts",
+      "target": "lib/ideas/ideas-service",
+      "relation": "imports"
+    },
+    {
       "source": "app/api/ideas/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/ideas/route.ts",
+      "target": "lib/ideas/ideas-service",
       "relation": "imports"
     },
     {
@@ -2454,16 +2496,6 @@
       "relation": "imports"
     },
     {
-      "source": "components/idea/idea-kanban.tsx",
-      "target": "types/idea.type",
-      "relation": "imports"
-    },
-    {
-      "source": "components/idea/idea-kanban.tsx",
-      "target": "lib/kanban-sort",
-      "relation": "imports"
-    },
-    {
       "source": "components/idea/idea-toolbar.tsx",
       "target": "components/ui/button",
       "relation": "imports"
@@ -2471,6 +2503,21 @@
     {
       "source": "components/idea/idea-toolbar.tsx",
       "target": "components/ui/input",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/use-idea-kanban.ts",
+      "target": "types/idea.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/use-idea-kanban.ts",
+      "target": "lib/kanban-sort",
+      "relation": "imports"
+    },
+    {
+      "source": "components/idea/use-idea-kanban.ts",
+      "target": "lib/ideas/mock-ideas",
       "relation": "imports"
     },
     {
@@ -2596,6 +2643,11 @@
     {
       "source": "components/schedule/ideas-list.tsx",
       "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/ideas-list.tsx",
+      "target": "lib/ideas/mock-ideas",
       "relation": "imports"
     },
     {

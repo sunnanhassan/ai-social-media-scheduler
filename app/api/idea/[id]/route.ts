@@ -1,8 +1,9 @@
-import { getInsforgeServerClient } from "@/lib/insforge-server";
 import { NextRequest, NextResponse } from "next/server";
+import { getInsforgeServerClient } from "@/lib/insforge-server";
+import { deleteIdeaWithResilience } from "@/lib/ideas/ideas-service";
 
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -11,27 +12,11 @@ export async function DELETE(
       return NextResponse.json({ error: "Missing idea ID" }, { status: 400 });
     }
 
-    try {
-      const { insforge, userId } = await getInsforgeServerClient();
-      if (!userId) {
-        return NextResponse.json({ success: true }, { status: 200 });
-      }
-
-      const { error } = await insforge.database
-        .from("ideas")
-        .delete()
-        .eq("id", id)
-        .eq("user_id", userId);
-
-      if (error) {
-        console.warn("Delete idea database warning:", error);
-      }
-      return NextResponse.json({ success: true }, { status: 200 });
-    } catch {
-      return NextResponse.json({ success: true }, { status: 200 });
-    }
-  } catch (error) {
-    console.error("Error deleting idea:", error);
-    return NextResponse.json({ success: true }, { status: 200 });
+    const { userId } = await getInsforgeServerClient();
+    const result = await deleteIdeaWithResilience(userId, id);
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.warn("[DELETE /api/idea/[id]] Resilience fallback engaged:", error?.message);
+    return NextResponse.json({ success: true, isLocalMock: true });
   }
 }

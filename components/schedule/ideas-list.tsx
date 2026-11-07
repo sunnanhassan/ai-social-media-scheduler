@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { ImageObject } from "@/types/post.type"
+import { DEFAULT_MOCK_GROUPS } from "@/lib/ideas/mock-ideas"
 
 interface Idea {
   id: string
@@ -35,7 +36,9 @@ const IdeasList = ({ onSelect }: IdeasListProps) => {
       const res = await fetch("/api/ideas")
       if (!res.ok) throw new Error("Failed to fetch ideas")
       return res.json()
-    }
+    },
+    placeholderData: { groups: DEFAULT_MOCK_GROUPS as any },
+    staleTime: 60 * 1000,
   })
 
   const groups: IdeaGroup[] = data?.groups ?? []
