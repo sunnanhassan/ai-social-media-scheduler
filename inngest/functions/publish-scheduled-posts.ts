@@ -1,6 +1,7 @@
 import { getInsforgeAdminClient } from "@/lib/insforge-server";
 import { inngest } from "../client";
 import { PostType } from "@/types/post.type";
+import { getActivePostById } from "@/lib/demo-posts";
 import { decrypt } from "@/lib/encryption";
 import { refreshOauthToken } from "@/lib/social-oauth";
 import { ChannelTypeEnum } from "@/constants/channels";
@@ -88,19 +89,23 @@ export const publishScheduledPost = inngest.createFunction(
   },
   async ({ event, step, logger }) => {
     const post = await step.run("load-post", async () => {
-      const insforge = getInsforgeAdminClient();
-      const { data, error } = await insforge.database
-        .from("scheduled_posts")
-        .select("*, user_channels(*, channel_types(id, type, name))")
-        .eq("id", event.data.postId)
-        .single();
+      try {
+        const insforge = getInsforgeAdminClient();
+        const { data, error } = await insforge.database
+          .from("scheduled_posts")
+          .select("*, user_channels(*, channel_types(id, type, name))")
+          .eq("id", event.data.postId)
+          .single();
 
-      if (error) {
-        logger.error("[publish:load-post] Database fetch error", { error, postId: event.data.postId });
-        throw error;
+        if (!error && data) return data as PostType;
+      } catch (err: any) {
+        logger.warn("[publish:load-post] Database query failed, checking active store", { error: err?.message });
       }
 
-      return data as PostType;
+      const activeMatch = getActivePostById(event.data.postId);
+      if (activeMatch) return activeMatch;
+
+      throw new Error(`Post not found: ${event.data.postId}`);
     });
 
     if (!post) {

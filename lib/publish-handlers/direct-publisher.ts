@@ -13,6 +13,7 @@ import { publishToTwitter } from "./twitter";
 import { publishToLinkedIn } from "./linkedin";
 import { publishToFacebook } from "./facebook";
 import { PostType } from "@/types/post.type";
+import { getActivePostById } from "@/lib/demo-posts";
 
 export interface DirectPublishResult {
   success: boolean;
@@ -26,19 +27,30 @@ export interface DirectPublishResult {
  * queue systems (Inngest) are offline or in local development environments.
  */
 export async function executeDirectPublish(postId: string): Promise<DirectPublishResult> {
-  const insforge = getInsforgeAdminClient();
+  let post: PostType | null = null;
 
-  const { data, error } = await insforge.database
-    .from("scheduled_posts")
-    .select("*, user_channels(*, channel_types(id, type, name))")
-    .eq("id", postId)
-    .single();
+  try {
+    const insforge = getInsforgeAdminClient();
+    const { data, error } = await insforge.database
+      .from("scheduled_posts")
+      .select("*, user_channels(*, channel_types(id, type, name))")
+      .eq("id", postId)
+      .single();
 
-  if (error || !data) {
-    return { success: false, error: "Post not found or inaccessible" };
+    if (!error && data) {
+      post = data as PostType;
+    }
+  } catch (dbErr: any) {
+    console.warn("[direct-publisher] DB query notice:", dbErr?.message);
   }
 
-  const post = data as PostType;
+  if (!post) {
+    post = (getActivePostById(postId) as PostType) || null;
+  }
+
+  if (!post) {
+    return { success: false, error: "Post not found or inaccessible" };
+  }
 
   if (post.status === "published") {
     return {

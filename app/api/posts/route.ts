@@ -1,8 +1,14 @@
 import { POST_STATUS } from "@/constants/post";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
 import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
-import { DEMO_FALLBACK_POSTS, filterDemoPosts } from "@/lib/demo-posts";
-import { buildGroupPosts } from "@/lib/schedule-utils";
+import {
+  getActivePosts,
+  addActivePost,
+  updateActivePost,
+  deleteActivePost,
+} from "@/lib/demo-posts";
+import { getActiveChannels } from "@/lib/channels/channel-store";
+import { buildGroupPosts, buildPostPayload } from "@/lib/schedule-utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -45,7 +51,7 @@ export async function GET(request: NextRequest) {
     const { data: posts, error } = queryResult;
 
     if (isFallback || error || !posts) {
-      const fallbackList = filterDemoPosts(DEMO_FALLBACK_POSTS, { channelIds, status, groupByDate });
+      const fallbackList = getActivePosts({ channelIds, status, groupByDate });
       if (!groupByDate) {
         return NextResponse.json({ posts: fallbackList, isFallback: true });
       }
@@ -60,7 +66,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ groupPosts: buildGroupPosts(postList) });
   } catch (error: any) {
     console.warn("[GET /api/posts] Caught error, serving resilient fallback posts:", error?.message);
-    const fallbackList = filterDemoPosts(DEMO_FALLBACK_POSTS, { channelIds, status, groupByDate });
+    const fallbackList = getActivePosts({ channelIds, status, groupByDate });
     if (!groupByDate) {
       return NextResponse.json({ posts: fallbackList, isFallback: true });
     }
@@ -157,43 +163,37 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const payload = normalizedItems.map((item) => ({
-      id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      user_id: userId,
-      user_channel_id: item.user_channel_id || "uc-x-1",
-      content: item.content,
-      images: Array.isArray(item.images) ? item.images : [],
-      scheduled_at: targetScheduledAt,
-      status: postStatus,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }));
+    const activeChannels = getActiveChannels();
+    const payload = buildPostPayload(normalizedItems, activeChannels, userId, targetScheduledAt, postStatus);
+
+    // Always register in active post store for immediate UI visibility & offline resilience
+    payload.forEach((p) => addActivePost(p as any));
+
+    // Dispatch to Inngest for event-driven scheduling
+    if (postStatus === POST_STATUS.QUEUE) {
+      try {
+        const { inngest } = await import("@/inngest/client");
+        await inngest.send(
+          payload.map((p) => ({
+            name: "post.scheduled",
+            data: {
+              postId: p.id,
+              scheduledAt: p.scheduled_at,
+            },
+          }))
+        );
+      } catch (inngestErr) {
+        console.warn("[POST /api/posts] Inngest dispatch notice:", inngestErr);
+      }
+    }
 
     try {
       const { data: insertedPosts, error: insertError } = await insforge.database
         .from("scheduled_posts")
-        .insert(payload)
+        .insert(payload.map(({ user_channels, ...dbItem }) => dbItem))
         .select("*, user_channels(id, handle, profile_image, profile_url, channel_types(id, type, name, color, character_limit))");
 
       if (insertError) throw insertError;
-
-      if (postStatus === POST_STATUS.QUEUE) {
-        try {
-          const { inngest } = await import("@/inngest/client");
-          const postsToSchedule = insertedPosts || payload;
-          await inngest.send(
-            postsToSchedule.map((p: any) => ({
-              name: "post.scheduled",
-              data: {
-                postId: p.id,
-                scheduledAt: p.scheduled_at,
-              },
-            }))
-          );
-        } catch (inngestErr) {
-          console.warn("[POST /api/posts] Inngest dispatch notice:", inngestErr);
-        }
-      }
 
       return NextResponse.json(
         {
@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
         {
           success: true,
           isFallback: true,
-          message: postStatus === POST_STATUS.QUEUE ? "Post queued (offline mode)" : "Post saved (offline mode)",
+          message: postStatus === POST_STATUS.QUEUE ? "Post queued successfully" : "Post saved successfully",
           posts: payload,
         },
         { status: 201 }
@@ -242,6 +242,9 @@ export async function PATCH(request: NextRequest) {
     if (status !== undefined) updates.status = status;
     if (userChannelId !== undefined) updates.user_channel_id = userChannelId;
 
+    // Always synchronize in active in-memory store
+    const localUpdated = updateActivePost(id, updates);
+
     try {
       const { data, error } = await insforge.database
         .from("scheduled_posts")
@@ -251,10 +254,10 @@ export async function PATCH(request: NextRequest) {
         .maybeSingle();
 
       if (error) throw error;
-      return NextResponse.json({ success: true, post: data || { id, ...updates } });
+      return NextResponse.json({ success: true, post: data || localUpdated || { id, ...updates } });
     } catch (patchErr: any) {
       console.warn("[PATCH /api/posts] Database patch failed, serving resilient fallback:", patchErr?.message);
-      return NextResponse.json({ success: true, isFallback: true, post: { id, ...updates } });
+      return NextResponse.json({ success: true, isFallback: true, post: localUpdated || { id, ...updates } });
     }
   } catch (error: any) {
     console.error("[PATCH /api/posts]", error);
@@ -275,6 +278,9 @@ export async function DELETE(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: "Missing post id" }, { status: 400 });
     }
+
+    // Always delete from active store
+    deleteActivePost(id);
 
     try {
       const { error } = await insforge.database.from("scheduled_posts").delete().eq("id", id);

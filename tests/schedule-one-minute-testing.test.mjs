@@ -46,3 +46,4 @@ describe("1-Minute Scheduling & Quick Testing Presets", () => {
     assert.strictEqual(isPast, false);
   });
 });
+

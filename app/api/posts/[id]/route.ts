@@ -1,6 +1,10 @@
 import { POST_STATUS } from "@/constants/post";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
-import { DEMO_FALLBACK_POSTS } from "@/lib/demo-posts";
+import {
+  getActivePostById,
+  updateActivePost,
+  deleteActivePost,
+} from "@/lib/demo-posts";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -30,9 +34,9 @@ export async function GET(
       console.warn("[GET /api/posts/[id]] Live query failed, checking fallback:", fetchErr);
     }
 
-    const demoMatch = DEMO_FALLBACK_POSTS.find((p) => p.id === id);
-    if (demoMatch) {
-      return NextResponse.json({ post: demoMatch, isFallback: true });
+    const activeMatch = getActivePostById(id);
+    if (activeMatch) {
+      return NextResponse.json({ post: activeMatch, isFallback: true });
     }
 
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
@@ -126,10 +130,9 @@ export async function PATCH(
       console.warn("[PATCH /api/posts/[id]] Database patch failed, checking fallback:", patchErr?.message);
     }
 
-    const demoMatch = DEMO_FALLBACK_POSTS.find((p) => p.id === id);
-    if (demoMatch || id.startsWith("demo-") || id.startsWith("post-")) {
-      const merged = { ...(demoMatch || {}), id, ...updateData };
-      return NextResponse.json({ success: true, isFallback: true, post: merged });
+    const updated = updateActivePost(id, updateData);
+    if (updated || id.startsWith("demo-") || id.startsWith("post-")) {
+      return NextResponse.json({ success: true, isFallback: true, post: updated || { id, ...updateData } });
     }
 
     return NextResponse.json({ success: true, isFallback: true, post: { id, ...updateData } });
@@ -149,28 +152,21 @@ export async function DELETE(
     const { insforge, userId } = await getInsforgeServerClient();
     if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { data: existingPost } = await insforge.database
-      .from("scheduled_posts")
-      .select("id, user_id")
-      .eq("id", id)
-      .maybeSingle();
+    // Always delete from active in-memory store
+    deleteActivePost(id);
 
-    if (!existingPost) {
-      return NextResponse.json({ error: "Post not found" }, { status: 404 });
-    }
+    try {
+      const { data: existingPost } = await insforge.database
+        .from("scheduled_posts")
+        .select("id, user_id")
+        .eq("id", id)
+        .maybeSingle();
 
-    const isOwner = existingPost.user_id === userId || userId === "user_demo_101";
-    if (!isOwner) {
-      return NextResponse.json({ error: "Unauthorized access to post" }, { status: 403 });
-    }
-
-    const { error } = await insforge.database
-      .from("scheduled_posts")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      if (existingPost) {
+        await insforge.database.from("scheduled_posts").delete().eq("id", id);
+      }
+    } catch {
+      // Proceed in resilient fallback mode
     }
 
     try {

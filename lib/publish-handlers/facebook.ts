@@ -60,3 +60,4 @@ export async function publishToFacebook({
 
   return `https://facebook.com/${data.id}`;
 }
+

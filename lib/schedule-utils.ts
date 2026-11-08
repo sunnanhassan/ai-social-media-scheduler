@@ -92,3 +92,60 @@ export function formatDayLabel(date: Date): string {
   return date.toLocaleDateString();
 }
 
+/**
+ * Builds normalized post records enriched with resolved social channel metadata.
+ */
+export function buildPostPayload(
+  normalizedItems: { user_channel_id?: string; channelTypeId?: string; content: string; images: any[] }[],
+  activeChannels: any[],
+  userId: string,
+  targetScheduledAt: string,
+  postStatus: any
+) {
+  return normalizedItems.map((item) => {
+    const matchingChannel =
+      activeChannels.find(
+        (c: any) =>
+          c.id === item.channelTypeId ||
+          c.channel_type_id === item.channelTypeId ||
+          c.user_channel_id === item.user_channel_id ||
+          c.id === item.user_channel_id
+      ) ||
+      activeChannels.find((c: any) => c.connected) ||
+      activeChannels[0];
+
+    const userChannelData = matchingChannel
+      ? {
+          id: matchingChannel.user_channel_id || matchingChannel.id,
+          handle: matchingChannel.handle || matchingChannel.name,
+          profile_image: matchingChannel.profile_image,
+          profile_url: matchingChannel.profile_url,
+          channel_type_id: matchingChannel.channel_type_id,
+          is_connected: matchingChannel.connected,
+          is_active: true,
+          channel_types: {
+            id: matchingChannel.channel_type_id,
+            type: matchingChannel.type,
+            name: matchingChannel.name,
+            color: matchingChannel.color,
+            character_limit: matchingChannel.character_limit,
+            connected: matchingChannel.connected,
+          },
+        }
+      : undefined;
+
+    return {
+      id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      user_id: userId,
+      user_channel_id: item.user_channel_id || matchingChannel?.id || "uc-x-1",
+      content: item.content,
+      images: Array.isArray(item.images) ? item.images : [],
+      scheduled_at: targetScheduledAt,
+      status: postStatus,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      user_channels: userChannelData,
+    };
+  });
+}
+

@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T19:29:24.600755+00:00",
+  "timestamp": "2026-11-08T19:51:20.285666+00:00",
   "total_nodes": 192,
-  "total_edges": 374,
+  "total_edges": 377,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -248,7 +248,7 @@
       "id": "app/api/posts/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 291,
+      "lines": 297,
       "components": [],
       "community": 5
     },
@@ -280,7 +280,7 @@
       "id": "app/api/posts/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 189,
+      "lines": 185,
       "components": [],
       "community": 5
     },
@@ -1317,7 +1317,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 267,
+      "lines": 272,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1342,10 +1342,13 @@
       "id": "lib/demo-posts.ts",
       "label": "demo-posts.ts",
       "type": "lib",
-      "lines": 178,
+      "lines": 233,
       "components": [
         "DEMO_FALLBACK_POSTS",
-        "filterDemoPosts"
+        "filterDemoPosts",
+        "getActivePosts",
+        "getActivePostById",
+        "addActivePost"
       ],
       "community": 5
     },
@@ -1417,7 +1420,7 @@
       "id": "lib/schedule-utils.ts",
       "label": "schedule-utils.ts",
       "type": "lib",
-      "lines": 94,
+      "lines": 151,
       "components": [
         "sanitizeChannelIds",
         "serializeChannelIds",
@@ -1615,7 +1618,7 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 164,
+      "lines": 176,
       "components": [],
       "community": 5
     },
@@ -1623,7 +1626,7 @@
       "id": "lib/publish-handlers/facebook.ts",
       "label": "facebook.ts",
       "type": "lib",
-      "lines": 62,
+      "lines": 63,
       "components": [],
       "community": 5
     },
@@ -1631,7 +1634,7 @@
       "id": "lib/publish-handlers/lifecycle.ts",
       "label": "lifecycle.ts",
       "type": "lib",
-      "lines": 103,
+      "lines": 123,
       "components": [],
       "community": 5
     },
@@ -2271,6 +2274,11 @@
     {
       "source": "app/api/posts/route.ts",
       "target": "lib/demo-posts",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/route.ts",
+      "target": "lib/channels/channel-store",
       "relation": "imports"
     },
     {
@@ -3540,6 +3548,11 @@
     },
     {
       "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/demo-posts",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
       "target": "lib/encryption",
       "relation": "imports"
     },
@@ -3621,6 +3634,11 @@
     {
       "source": "lib/publish-handlers/direct-publisher.ts",
       "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "lib/demo-posts",
       "relation": "imports"
     },
     {

@@ -176,3 +176,58 @@ export function filterDemoPosts(posts: PostType[], options: FilterOptions = {}) 
 
   return filtered;
 }
+
+// In-Memory Active Posts Store for Offline & Dev Resilience
+let activePosts: PostType[] = [...DEMO_FALLBACK_POSTS];
+
+export function getActivePosts(options?: FilterOptions): PostType[] {
+  if (!options) return [...activePosts];
+  return filterDemoPosts(activePosts, options);
+}
+
+export function getActivePostById(id: string): PostType | undefined {
+  return activePosts.find((p) => p.id === id);
+}
+
+export function addActivePost(post: Partial<PostType> & { content: string }): PostType {
+  const newPost: PostType = {
+    id: post.id || `post-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    user_id: post.user_id || "user_demo_101",
+    user_channel_id: post.user_channel_id || "uc-x-1",
+    content: post.content,
+    images: post.images || [],
+    scheduled_at: post.scheduled_at || new Date().toISOString(),
+    status: post.status || POST_STATUS.QUEUE,
+    published_at: post.published_at || null,
+    published_url: post.published_url || null,
+    error_message: post.error_message || null,
+    created_at: post.created_at || new Date().toISOString(),
+    updated_at: post.updated_at || new Date().toISOString(),
+    user_channels: post.user_channels,
+  };
+
+  activePosts = [newPost, ...activePosts.filter((p) => p.id !== newPost.id)];
+  return newPost;
+}
+
+export function updateActivePost(id: string, updates: Partial<PostType>): PostType | null {
+  const index = activePosts.findIndex((p) => p.id === id);
+  if (index === -1) return null;
+
+  activePosts[index] = {
+    ...activePosts[index],
+    ...updates,
+    updated_at: new Date().toISOString(),
+  };
+  return activePosts[index];
+}
+
+export function deleteActivePost(id: string): boolean {
+  const initialLen = activePosts.length;
+  activePosts = activePosts.filter((p) => p.id !== id);
+  return activePosts.length < initialLen;
+}
+
+export function resetActivePosts(): void {
+  activePosts = [...DEMO_FALLBACK_POSTS];
+}
