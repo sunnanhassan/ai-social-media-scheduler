@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { format, startOfDay, addMinutes, isSameDay, isBefore } from "date-fns"
+import { format, startOfDay, addMinutes, isSameDay, isBefore, addDays } from "date-fns"
 
 interface ScheduleDatePickerProps {
   date: Date | undefined
@@ -68,13 +68,18 @@ export function ScheduleDatePicker({
     })
   }, [date])
 
+  const isToday = date ? isSameDay(date, new Date()) : false
+  const isTodayExpired = isToday && availableTimeOptions.length === 0
+
   React.useEffect(() => {
     if (!time && availableTimeOptions.length > 0) {
       setTime(availableTimeOptions[0])
       return
     }
-    if (time) {
+    if (time && availableTimeOptions.includes(time)) {
       setTime(time)
+    } else if (availableTimeOptions.length > 0) {
+      setTime(availableTimeOptions[0])
     }
   }, [availableTimeOptions, setTime, time])
 
@@ -133,22 +138,48 @@ export function ScheduleDatePicker({
             />
 
             <div className="space-y-1">
-              <h4 className="text-[13px] font-semibold text-foreground/70">Select Time</h4>
-              <div className="flex items-center gap-2">
-                <Select value={time} onValueChange={handleTimeChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select time" />
-                  </SelectTrigger>
-                  <SelectContent position="popper" className="max-h-[200px]">
-                    {availableTimeOptions.map((time) => (
-                      <SelectItem key={time} value={time}>
-                        <Clock className="size-3" />
-                        {time}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex items-center justify-between">
+                <h4 className="text-[13px] font-semibold text-foreground/70">Select Time</h4>
+                {isTodayExpired && (
+                  <span className="text-[11px] font-medium text-amber-500">Day ended</span>
+                )}
               </div>
+
+              {isTodayExpired ? (
+                <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-2.5 text-xs space-y-1.5">
+                  <p className="text-muted-foreground font-medium">
+                    All 15-minute time slots for today have passed (it is past 11:45 PM).
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-xs font-semibold h-7 border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10"
+                    onClick={() => {
+                      const tomorrow = addDays(new Date(), 1);
+                      setDate(tomorrow);
+                    }}
+                  >
+                    Switch to Tomorrow ({format(addDays(new Date(), 1), "MMM d")})
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Select value={time} onValueChange={handleTimeChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select time" />
+                    </SelectTrigger>
+                    <SelectContent position="popper" className="max-h-[200px]">
+                      {availableTimeOptions.map((timeOption) => (
+                        <SelectItem key={timeOption} value={timeOption}>
+                          <Clock className="size-3" />
+                          {timeOption}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
           </div>
 

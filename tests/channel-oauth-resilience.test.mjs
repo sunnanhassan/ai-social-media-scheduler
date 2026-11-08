@@ -117,3 +117,4 @@ test("Channel Store Resilience - Filter Connected and Unconnected", () => {
   assert.ok(connected.every((c) => c.connected === true));
   assert.ok(unconnected.every((c) => c.connected === false));
 });
+

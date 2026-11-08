@@ -28,7 +28,16 @@ export function useCreatePostState(
   const [selectedRightTab, setSelectedRightTab] = useState<ActionTabType | null>(null);
   const [activePreview, setActivePreview] = useState<string>("");
   const [activeAccordion, setActiveAccordion] = useState<string>("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(() => {
+    if (selectedDate) return selectedDate;
+    const now = new Date();
+    if (now.getHours() === 23 && now.getMinutes() >= 45) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return tomorrow;
+    }
+    return now;
+  });
   const [timeSlot, setTimeSlot] = useState<string>("");
 
   const { data, isPending } = useQuery({

@@ -1,5 +1,5 @@
 # Codebase Knowledge Graph Report
-Generated: 2026-11-08T18:47:54.385060+00:00
+Generated: 2026-11-08T19:01:55.017123+00:00
 
 ## Overview
 - **Total Tracked Code Files**: 191
