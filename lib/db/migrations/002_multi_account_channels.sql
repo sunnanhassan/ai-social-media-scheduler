@@ -22,3 +22,4 @@ end $$;
 -- 3. Add performance index on user_channels for fast dashboard lookups
 create index if not exists idx_user_channels_user_connected
   on user_channels (user_id, is_connected);
+

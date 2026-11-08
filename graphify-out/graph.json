@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T20:50:01.621790+00:00",
-  "total_nodes": 181,
-  "total_edges": 351,
+  "timestamp": "2026-11-08T16:29:44.145182+00:00",
+  "total_nodes": 189,
+  "total_edges": 369,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -78,7 +78,7 @@
       "id": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "label": "app-sidebar.tsx",
       "type": "route",
-      "lines": 286,
+      "lines": 295,
       "components": [],
       "community": 5
     },
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 114,
+      "lines": 131,
       "components": [],
       "community": 3
     },
@@ -381,6 +381,22 @@
       "label": "route.ts",
       "type": "route",
       "lines": 89,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/workspaces/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 50,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "app/api/workspaces/[id]/route.ts",
+      "label": "route.ts",
+      "type": "route",
+      "lines": 56,
       "components": [],
       "community": 5
     },
@@ -1159,6 +1175,26 @@
       "community": 4
     },
     {
+      "id": "components/workspace/create-workspace-dialog.tsx",
+      "label": "create-workspace-dialog.tsx",
+      "type": "component",
+      "lines": 180,
+      "components": [
+        "CreateWorkspaceDialog"
+      ],
+      "community": 5
+    },
+    {
+      "id": "components/workspace/workspace-switcher.tsx",
+      "label": "workspace-switcher.tsx",
+      "type": "component",
+      "lines": 117,
+      "components": [
+        "WorkspaceSwitcher"
+      ],
+      "community": 5
+    },
+    {
       "id": "constants/channels.ts",
       "label": "channels.ts",
       "type": "file",
@@ -1181,6 +1217,17 @@
         "DEFAULT_PLATFORMS",
         "DEFAULT_MOCK_CHANNELS",
         "applyChannelFilter"
+      ],
+      "community": 5
+    },
+    {
+      "id": "constants/mock-workspaces.ts",
+      "label": "mock-workspaces.ts",
+      "type": "file",
+      "lines": 58,
+      "components": [
+        "DEFAULT_MOCK_WORKSPACES",
+        "getMockWorkspaceById"
       ],
       "community": 5
     },
@@ -1212,6 +1259,16 @@
       "lines": 141,
       "components": [
         "useSocialConnect"
+      ],
+      "community": 5
+    },
+    {
+      "id": "hooks/use-workspace.ts",
+      "label": "use-workspace.ts",
+      "type": "hook",
+      "lines": 94,
+      "components": [
+        "useWorkspace"
       ],
       "community": 5
     },
@@ -1655,6 +1712,18 @@
       "community": 5
     },
     {
+      "id": "lib/workspaces/workspace-service.ts",
+      "label": "workspace-service.ts",
+      "type": "lib",
+      "lines": 281,
+      "components": [
+        "getInMemoryWorkspaces",
+        "resetInMemoryWorkspaces",
+        "generateSlug"
+      ],
+      "community": 5
+    },
+    {
       "id": "types/channel.type.ts",
       "label": "channel.type.ts",
       "type": "type",
@@ -1675,6 +1744,14 @@
       "label": "post.type.ts",
       "type": "type",
       "lines": 47,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "types/workspace.type.ts",
+      "label": "workspace.type.ts",
+      "type": "type",
+      "lines": 26,
       "components": [],
       "community": 5
     }
@@ -1918,6 +1995,16 @@
     {
       "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
       "target": "constants/mock-channels",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "components/workspace/workspace-switcher",
+      "relation": "imports"
+    },
+    {
+      "source": "app/(routes)/(dashboard)/_common/app-sidebar.tsx",
+      "target": "hooks/use-workspace",
       "relation": "imports"
     },
     {
@@ -2293,6 +2380,26 @@
     {
       "source": "app/api/user/api-keys/[id]/route.ts",
       "target": "lib/auth/api-key",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/workspaces/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/workspaces/route.ts",
+      "target": "lib/workspaces/workspace-service",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/workspaces/[id]/route.ts",
+      "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/workspaces/[id]/route.ts",
+      "target": "lib/workspaces/workspace-service",
       "relation": "imports"
     },
     {
@@ -3288,6 +3395,66 @@
     {
       "source": "components/ui/tooltip.tsx",
       "target": "lib/utils",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "components/ui/dialog",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "components/ui/input",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "components/ui/label",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "hooks/use-workspace",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/create-workspace-dialog.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/workspace-switcher.tsx",
+      "target": "components/ui/dropdown-menu",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/workspace-switcher.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/workspace-switcher.tsx",
+      "target": "hooks/use-workspace",
+      "relation": "imports"
+    },
+    {
+      "source": "components/workspace/workspace-switcher.tsx",
+      "target": "types/workspace.type",
+      "relation": "imports"
+    },
+    {
+      "source": "hooks/use-workspace.ts",
+      "target": "types/workspace.type",
+      "relation": "imports"
+    },
+    {
+      "source": "hooks/use-workspace.ts",
+      "target": "constants/mock-workspaces",
       "relation": "imports"
     },
     {

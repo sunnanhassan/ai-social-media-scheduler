@@ -8,6 +8,7 @@ import {
 
 export async function GET(request: NextRequest) {
   const filter = request.nextUrl.searchParams.get("filter");
+  const workspaceId = request.nextUrl.searchParams.get("workspaceId");
 
   const fallbackPayload = {
     channels: applyChannelFilter(DEFAULT_MOCK_CHANNELS, filter),
@@ -52,7 +53,23 @@ export async function GET(request: NextRequest) {
     }
 
     const channelTypes = typesRes.data || [];
-    const userChannels = (userChannelsRes.data || []).filter((uc: any) => uc.is_connected);
+    const allUserChannels = (userChannelsRes.data || []).filter((uc: any) => uc.is_connected);
+    let userChannels = allUserChannels;
+
+    if (workspaceId) {
+      try {
+        const { data: wsMappings } = await insforge.database
+          .from("workspace_channels")
+          .select("user_channel_id")
+          .eq("workspace_id", workspaceId);
+        if (wsMappings && wsMappings.length > 0) {
+          const allowedIds = new Set(wsMappings.map((m: any) => m.user_channel_id));
+          userChannels = allUserChannels.filter((uc: any) => allowedIds.has(uc.id));
+        }
+      } catch {
+        // Fallback gracefully to all channels if table not yet seeded
+      }
+    }
 
     const typeMap = new Map<string, any>(channelTypes.map((t: any) => [t.id, t]));
     const channels: any[] = [];

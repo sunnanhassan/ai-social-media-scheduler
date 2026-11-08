@@ -44,6 +44,8 @@ import { useSocialConnect } from "@/hooks/use-social-connect";
 import { Spinner } from "@/components/ui/spinner";
 import { CopilotChatSheet } from "@/components/copilot/copilot-chat-sheet";
 import { DEFAULT_MOCK_CHANNELS } from "@/constants/mock-channels";
+import { WorkspaceSwitcher } from "@/components/workspace/workspace-switcher";
+import { useWorkspace } from "@/hooks/use-workspace";
 
 const mainNav = [
   { name: "Ideas", href: "/ideas", icon: Lightbulb },
@@ -61,11 +63,15 @@ const AppSidebar = () => {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState<boolean>(false);
   const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
   const { isConnecting, connectingPlatform, connectSocial } = useSocialConnect();
+  const { activeWorkspace } = useWorkspace();
 
   const { data: channelsData, isLoading } = useQuery({
-    queryKey: ["channels"],
+    queryKey: ["channels", activeWorkspace?.id],
     queryFn: async () => {
-      const res = await fetch("/api/channel");
+      const url = activeWorkspace?.id
+        ? `/api/channel?workspaceId=${encodeURIComponent(activeWorkspace.id)}`
+        : "/api/channel";
+      const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to fetch channels");
       return res.json();
     },
@@ -99,8 +105,11 @@ const AppSidebar = () => {
             <Logo hideName={isCollapsed} />
             <SidebarTrigger className="hidden md:flex -mx-8 mb-0" />
           </div>
+          <div className="mt-3">
+            <WorkspaceSwitcher isCollapsed={isCollapsed} />
+          </div>
           <Button
-            className="mt-4 w-full"
+            className="mt-3 w-full"
             size={isCollapsed ? "icon" : "lg"}
             onClick={() => setIsCreatePostOpen(true)}
           >
