@@ -11,6 +11,7 @@ import {
 } from "./lifecycle";
 import { publishToTwitter } from "./twitter";
 import { publishToLinkedIn } from "./linkedin";
+import { publishToFacebook } from "./facebook";
 import { PostType } from "@/types/post.type";
 
 export interface DirectPublishResult {
@@ -70,8 +71,12 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
   }
 
   const providerType = userChannel.channel_types?.type;
-  if (providerType !== ChannelTypeEnum.TWITTER && providerType !== ChannelTypeEnum.LINKEDIN) {
-    const errorMsg = `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter/X and LinkedIn are available.`;
+  if (
+    providerType !== ChannelTypeEnum.TWITTER &&
+    providerType !== ChannelTypeEnum.LINKEDIN &&
+    providerType !== ChannelTypeEnum.FACEBOOK
+  ) {
+    const errorMsg = `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter/X, LinkedIn, and Facebook are available.`;
     await markPostFailed(post.id, errorMsg);
     return { success: false, error: errorMsg, provider: providerType };
   }
@@ -130,6 +135,14 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
         accessToken: currentAccessToken,
         content: post.content,
         authorId: userChannel.provider_account_id,
+        images: post.images,
+      });
+    } else if (providerType === ChannelTypeEnum.FACEBOOK) {
+      publishedUrl = await publishToFacebook({
+        accessToken: currentAccessToken,
+        content: post.content,
+        authorId: userChannel.provider_account_id,
+        handle: userChannel.handle,
         images: post.images,
       });
     } else {

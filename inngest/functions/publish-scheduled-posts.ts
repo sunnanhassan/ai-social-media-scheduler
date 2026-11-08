@@ -13,6 +13,7 @@ import {
 } from "@/lib/publish-handlers/lifecycle";
 import { publishToTwitter } from "@/lib/publish-handlers/twitter";
 import { publishToLinkedIn } from "@/lib/publish-handlers/linkedin";
+import { publishToFacebook } from "@/lib/publish-handlers/facebook";
 
 type DuePost = {
   id: string;
@@ -131,7 +132,11 @@ export const publishScheduledPost = inngest.createFunction(
     }
 
     const providerType = userChannel.channel_types?.type;
-    if (providerType !== ChannelTypeEnum.TWITTER && providerType !== ChannelTypeEnum.LINKEDIN) {
+    if (
+      providerType !== ChannelTypeEnum.TWITTER &&
+      providerType !== ChannelTypeEnum.LINKEDIN &&
+      providerType !== ChannelTypeEnum.FACEBOOK
+    ) {
       await markPostFailed(
         post.id,
         `Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet.`
@@ -211,6 +216,17 @@ export const publishScheduledPost = inngest.createFunction(
             accessToken: currentAccessToken,
             content: post.content,
             authorId: userChannel.provider_account_id,
+            images: post.images,
+            logger,
+          });
+        }
+
+        if (providerType === ChannelTypeEnum.FACEBOOK) {
+          return publishToFacebook({
+            accessToken: currentAccessToken,
+            content: post.content,
+            authorId: userChannel.provider_account_id,
+            handle: userChannel.handle,
             images: post.images,
             logger,
           });

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { CalendarDays, ChevronDown, Clock, Check } from "lucide-react"
+import { CalendarDays, ChevronDown, Clock, Check, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -27,19 +27,17 @@ interface ScheduleDatePickerProps {
   renderButton?: (isDatePassed: boolean, isTimeNotAvailable: boolean) => React.ReactNode
 }
 
-
-const generateTimeOptions = () => {
+// 1-minute intervals for testing and exact scheduling (1,440 options/day)
+const generateTimeOptions = (stepMinutes = 1) => {
   const options: string[] = []
   const baseDate = startOfDay(new Date())
-  for (let i = 0; i < 24 * 4; i++) {
-    options.push(format(addMinutes(baseDate, i * 15), "h:mm a"))
+  for (let i = 0; i < 24 * 60; i += stepMinutes) {
+    options.push(format(addMinutes(baseDate, i), "h:mm a"))
   }
   return options
 }
 
-const timeOptions = generateTimeOptions()
-
-
+const timeOptions = generateTimeOptions(1)
 
 export function ScheduleDatePicker({
   date,
@@ -53,18 +51,18 @@ export function ScheduleDatePicker({
   const [open, setOpen] = React.useState(false)
   const today = React.useMemo(() => startOfDay(new Date()), [])
 
-
   const availableTimeOptions = React.useMemo(() => {
     if (!date || !isSameDay(date, new Date())) return timeOptions
     const now = new Date()
+    // 60-second grace window so picking the upcoming minute doesn't expire immediately
+    const graceTime = new Date(now.getTime() - 60000)
     return timeOptions.filter((slot) => {
       const [timeValue, meridiem] = slot.split(" ")
       const [rawHour, rawMinute] = timeValue.split(":").map(Number)
-      // hour - 
       const hour = meridiem === "PM" && rawHour !== 12 ? rawHour + 12 : meridiem === "AM" && rawHour === 12 ? 0 : rawHour
       const candidate = new Date(date)
       candidate.setHours(hour, rawMinute, 0, 0)
-      return !isBefore(candidate, now)
+      return !isBefore(candidate, graceTime)
     })
   }, [date])
 
@@ -73,7 +71,16 @@ export function ScheduleDatePicker({
 
   React.useEffect(() => {
     if (!time && availableTimeOptions.length > 0) {
-      setTime(availableTimeOptions[0])
+      const now = new Date()
+      const nextSlot = availableTimeOptions.find((slot) => {
+        const [timeValue, meridiem] = slot.split(" ")
+        const [rawHour, rawMinute] = timeValue.split(":").map(Number)
+        const hour = meridiem === "PM" && rawHour !== 12 ? rawHour + 12 : meridiem === "AM" && rawHour === 12 ? 0 : rawHour
+        const candidate = new Date(date || new Date())
+        candidate.setHours(hour, rawMinute, 0, 0)
+        return candidate.getTime() >= now.getTime()
+      })
+      setTime(nextSlot || availableTimeOptions[0])
       return
     }
     if (time && availableTimeOptions.includes(time)) {
@@ -81,13 +88,19 @@ export function ScheduleDatePicker({
     } else if (availableTimeOptions.length > 0) {
       setTime(availableTimeOptions[0])
     }
-  }, [availableTimeOptions, setTime, time])
+  }, [availableTimeOptions, date, setTime, time])
 
   const isDatePassed = date ? isBefore(date, new Date()) && !isSameDay(date, new Date()) : false
   const isTimeNotAvailable = time ? !availableTimeOptions.includes(time) : false
 
   const handleTimeChange = (newTime: string) => {
     setTime(newTime)
+  }
+
+  const handleQuickPreset = (minutesToAdd: number) => {
+    const target = addMinutes(new Date(), minutesToAdd)
+    setDate(target)
+    setTime(format(target, "h:mm a"))
   }
 
   return (
@@ -137,18 +150,47 @@ export function ScheduleDatePicker({
               }}
             />
 
-            <div className="space-y-1">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h4 className="text-[13px] font-semibold text-foreground/70">Select Time</h4>
-                {isTodayExpired && (
+                {isTodayExpired ? (
                   <span className="text-[11px] font-medium text-amber-500">Day ended</span>
+                ) : (
+                  <span className="text-[10px] font-medium text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                    1-min steps
+                  </span>
                 )}
               </div>
+
+              {!isTodayExpired && (
+                <div className="flex items-center gap-1">
+                  <span className="text-[11px] font-medium text-muted-foreground mr-0.5 flex items-center gap-0.5">
+                    <Zap className="size-3 text-amber-500" /> Quick:
+                  </span>
+                  {[
+                    { label: "+1m", mins: 1 },
+                    { label: "+2m", mins: 2 },
+                    { label: "+5m", mins: 5 },
+                    { label: "+15m", mins: 15 },
+                  ].map((preset) => (
+                    <Button
+                      key={preset.mins}
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-6 px-1.5 text-[11px] font-medium hover:bg-primary/10 hover:text-primary hover:border-primary/40"
+                      onClick={() => handleQuickPreset(preset.mins)}
+                    >
+                      {preset.label}
+                    </Button>
+                  ))}
+                </div>
+              )}
 
               {isTodayExpired ? (
                 <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-2.5 text-xs space-y-1.5">
                   <p className="text-muted-foreground font-medium">
-                    All 15-minute time slots for today have passed (it is past 11:45 PM).
+                    All time slots for today have passed.
                   </p>
                   <Button
                     type="button"

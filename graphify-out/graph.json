@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T19:14:42.533469+00:00",
-  "total_nodes": 191,
-  "total_edges": 373,
+  "timestamp": "2026-11-08T19:29:24.600755+00:00",
+  "total_nodes": 192,
+  "total_edges": 374,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -728,7 +728,7 @@
       "id": "components/schedule/schedule-date-picker.tsx",
       "label": "schedule-date-picker.tsx",
       "type": "component",
-      "lines": 198,
+      "lines": 240,
       "components": [
         "ScheduleDatePicker"
       ],
@@ -1317,7 +1317,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 251,
+      "lines": 267,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1615,7 +1615,15 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 151,
+      "lines": 164,
+      "components": [],
+      "community": 5
+    },
+    {
+      "id": "lib/publish-handlers/facebook.ts",
+      "label": "facebook.ts",
+      "type": "lib",
+      "lines": 62,
       "components": [],
       "community": 5
     },
@@ -3558,6 +3566,11 @@
     {
       "source": "inngest/functions/publish-scheduled-posts.ts",
       "target": "lib/publish-handlers/linkedin",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/publish-handlers/facebook",
       "relation": "imports"
     },
     {

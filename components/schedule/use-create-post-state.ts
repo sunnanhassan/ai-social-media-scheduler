@@ -300,8 +300,8 @@ export function useCreatePostState(
         toast.error("Please select a time slot for scheduling");
         return;
       }
-      if (scheduleAt.getTime() <= Date.now() + 60000) {
-        toast.error("Scheduled time must be at least 1 minute in the future");
+      if (scheduleAt.getTime() < Date.now() - 30000) {
+        toast.error("Scheduled time must be in the future");
         return;
       }
     }

@@ -57,3 +57,4 @@ test("Upload API - Saves image successfully with local fallback when remote stor
     assert.ok(stat.size > 0, "Uploaded file should exist on disk");
   }
 });
+
