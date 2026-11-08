@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T17:01:21.308777+00:00",
-  "total_nodes": 190,
-  "total_edges": 371,
+  "timestamp": "2026-11-08T18:47:54.385060+00:00",
+  "total_nodes": 191,
+  "total_edges": 374,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 131,
+      "lines": 130,
       "components": [],
       "community": 3
     },
@@ -296,7 +296,7 @@
       "id": "app/api/social/callback/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 254,
+      "lines": 264,
       "components": [],
       "community": 5
     },
@@ -1577,6 +1577,19 @@
       "community": 5
     },
     {
+      "id": "lib/channels/channel-store.ts",
+      "label": "channel-store.ts",
+      "type": "lib",
+      "lines": 149,
+      "components": [
+        "getActiveChannels",
+        "upsertActiveChannel",
+        "disconnectActiveChannel",
+        "resetChannelStore"
+      ],
+      "community": 3
+    },
+    {
       "id": "lib/ideas/ideas-service.ts",
       "label": "ideas-service.ts",
       "type": "lib",
@@ -2109,6 +2122,11 @@
     },
     {
       "source": "app/api/channel/route.ts",
+      "target": "lib/channels/channel-store",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/channel/route.ts",
       "target": "constants/mock-channels",
       "relation": "imports"
     },
@@ -2125,6 +2143,11 @@
     {
       "source": "app/api/channel/disconnect/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/channel/disconnect/route.ts",
+      "target": "lib/channels/channel-store",
       "relation": "imports"
     },
     {
@@ -2325,6 +2348,11 @@
     {
       "source": "app/api/social/callback/route.ts",
       "target": "lib/social-oauth",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/social/callback/route.ts",
+      "target": "lib/channels/channel-store",
       "relation": "imports"
     },
     {

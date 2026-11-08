@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
 import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
-import {
-  DEFAULT_MOCK_CHANNELS,
-  applyChannelFilter,
-} from "@/constants/mock-channels";
+import { getActiveChannels } from "@/lib/channels/channel-store";
+import { applyChannelFilter } from "@/constants/mock-channels";
 
 export async function GET(request: NextRequest) {
   const filter = request.nextUrl.searchParams.get("filter");
   const workspaceId = request.nextUrl.searchParams.get("workspaceId");
 
+  const activeFallbackChannels = getActiveChannels(filter, workspaceId);
   const fallbackPayload = {
-    channels: applyChannelFilter(DEFAULT_MOCK_CHANNELS, filter),
-    totalChannels: DEFAULT_MOCK_CHANNELS.length,
-    connectedCount: DEFAULT_MOCK_CHANNELS.filter((c) => c.connected).length,
+    channels: activeFallbackChannels,
+    totalChannels: activeFallbackChannels.length,
+    connectedCount: activeFallbackChannels.filter((c) => c.connected).length,
     isFallback: true,
   };
 
