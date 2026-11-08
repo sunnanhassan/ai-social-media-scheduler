@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server.js";
 import { getInsforgeAdminClient } from "@/lib/insforge-server";
+import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { executeDirectPublish } from "@/lib/publish-handlers/direct-publisher";
 import { verifyCronSecret } from "@/lib/auth/cron-auth";
 
@@ -26,13 +27,30 @@ async function handleCronCheck(request: Request) {
     const insforge = getInsforgeAdminClient();
     const now = new Date().toISOString();
 
-    // Query due posts
-    const { data: duePosts, error } = await insforge.database
-      .from("scheduled_posts")
-      .select("id, content, scheduled_at, status, user_channel_id")
-      .in("status", ["queue", "queued"])
-      .lte("scheduled_at", now)
-      .order("scheduled_at", { ascending: true });
+    // Query due posts with circuit breaker protection against remote backend timeouts
+    const { data: queryResult, isFallback } = await insforgeCircuitBreaker.execute(
+      async () => {
+        return await insforge.database
+          .from("scheduled_posts")
+          .select("id, content, scheduled_at, status, user_channel_id")
+          .in("status", ["queue", "queued"])
+          .lte("scheduled_at", now)
+          .order("scheduled_at", { ascending: true });
+      },
+      { data: [], error: null } as any,
+      1500
+    );
+
+    if (isFallback) {
+      return NextResponse.json({
+        success: true,
+        message: "Database temporarily unavailable, cron check skipped",
+        processed: 0,
+        timestamp: now,
+      });
+    }
+
+    const { data: duePosts, error } = queryResult || { data: [], error: null };
 
     if (error) {
       console.error("[CRON /api/posts/cron] Fetch error:", error);

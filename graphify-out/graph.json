@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T16:48:29.049972+00:00",
+  "timestamp": "2026-11-08T17:01:21.308777+00:00",
   "total_nodes": 190,
-  "total_edges": 370,
+  "total_edges": 371,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -264,7 +264,7 @@
       "id": "app/api/posts/cron/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 81,
+      "lines": 99,
       "components": [],
       "community": 5
     },
@@ -1534,7 +1534,7 @@
       "id": "lib/auth/cron-auth.ts",
       "label": "cron-auth.ts",
       "type": "lib",
-      "lines": 21,
+      "lines": 22,
       "components": [
         "verifyCronSecret"
       ],
@@ -2260,6 +2260,11 @@
     {
       "source": "app/api/posts/cron/route.ts",
       "target": "lib/insforge-server",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/cron/route.ts",
+      "target": "lib/insforge-circuit-breaker",
       "relation": "imports"
     },
     {

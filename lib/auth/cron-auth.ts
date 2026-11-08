@@ -19,3 +19,4 @@ export function verifyCronSecret(request: Request): {
 
   return { authorized: true };
 }
+
