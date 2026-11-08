@@ -19,6 +19,7 @@ export type PostType = {
     user_channel_id?: string | null
     user_channels?: {
         id: string;
+        user_id?: string | null;
         handle?: string | null
         profile_image?: string | null
         profile_url?: string | null

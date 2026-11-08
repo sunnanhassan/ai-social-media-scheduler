@@ -2,7 +2,15 @@ import { ChannelTypeEnum } from "@/constants/channels"
 import { createHmac, timingSafeEqual } from "crypto"
 
 
-const OAUTH_STATE_SECRET = process.env.CHANNEL_OAUTH_STATE_SECRET || "dev_secret_oauth_state_secret_32_bytes!!";
+function getOAuthStateSecret(): string {
+  if (process.env.CHANNEL_OAUTH_STATE_SECRET) {
+    return process.env.CHANNEL_OAUTH_STATE_SECRET;
+  }
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("CRITICAL: CHANNEL_OAUTH_STATE_SECRET must be configured in production");
+  }
+  return "dev_secret_oauth_state_secret_32_bytes!!";
+}
 
 export type OAuthStatePayload = {
   userId: string
@@ -20,7 +28,7 @@ export function createOAuthState(payload: Omit<OAuthStatePayload, 'exp'> & {
     }
     const encodedState = Buffer.from(JSON.stringify(statePayload)).toString('base64url');
 
-    const signature = createHmac('sha256', OAUTH_STATE_SECRET).update(encodedState).digest('base64url');
+    const signature = createHmac('sha256', getOAuthStateSecret()).update(encodedState).digest('base64url');
 
     return `${encodedState}.${signature}`;
 }
@@ -30,7 +38,7 @@ export function verifyOAuthState(state: string): OAuthStatePayload {
     if(!encodedState || !signature) {
         throw new Error('Invalid state format');
     }
-    const expectedSignature = createHmac('sha256', OAUTH_STATE_SECRET).update(encodedState).digest('base64url');
+    const expectedSignature = createHmac('sha256', getOAuthStateSecret()).update(encodedState).digest('base64url');
 
     const sigBuf = Buffer.from(signature);
     const expectedBuf = Buffer.from(expectedSignature);

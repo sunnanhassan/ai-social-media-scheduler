@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const queryTask = async () => {
       let postQuery = insforge.database
         .from("scheduled_posts")
-        .select("*, user_channels(*, channel_types(id, type, name, color, character_limit))")
+        .select("*, user_channels(id, handle, profile_image, profile_url, channel_types(id, type, name, color, character_limit))")
         .eq("user_id", userId)
         .order("scheduled_at", { ascending: false });
 
@@ -131,6 +131,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Post content and channel are required" }, { status: 400 });
     }
 
+    // Verify user owns all target social channels to prevent cross-tenant IDOR hijacking
+    const channelIdsToCheck = normalizedItems
+      .map((i) => i.user_channel_id)
+      .filter((id): id is string => Boolean(id && !id.startsWith("uc-")));
+
+    if (channelIdsToCheck.length > 0) {
+      try {
+        const { data: ownedChannels } = await insforge.database
+          .from("user_channels")
+          .select("id")
+          .eq("user_id", userId)
+          .in("id", channelIdsToCheck);
+
+        const ownedSet = new Set((ownedChannels || []).map((c: any) => c.id));
+        const hasUnowned = channelIdsToCheck.some((id) => !ownedSet.has(id));
+        if (hasUnowned) {
+          return NextResponse.json(
+            { error: "Unauthorized: You do not own one or more selected social channels" },
+            { status: 403 }
+          );
+        }
+      } catch {
+        // Fallback resilience in dev
+      }
+    }
+
     const payload = normalizedItems.map((item) => ({
       id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       user_id: userId,
@@ -147,7 +173,7 @@ export async function POST(request: NextRequest) {
       const { data: insertedPosts, error: insertError } = await insforge.database
         .from("scheduled_posts")
         .insert(payload)
-        .select("*, user_channels(*, channel_types(id, type, name, color, character_limit))");
+        .select("*, user_channels(id, handle, profile_image, profile_url, channel_types(id, type, name, color, character_limit))");
 
       if (insertError) throw insertError;
 

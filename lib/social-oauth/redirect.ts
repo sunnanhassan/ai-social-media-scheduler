@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server.js";
 
 export function buildRedirectUrl(
   appUrl: string,
@@ -6,7 +6,15 @@ export function buildRedirectUrl(
   params: Record<string, string>
 ): NextResponse {
   try {
-    const url = new URL(redirectTo, appUrl);
+    const baseOrigin = new URL(appUrl).origin;
+    // Disallow protocol-relative URLs (e.g. //attacker.com) and non-matching origins
+    const safeTarget = redirectTo.startsWith("//") ? "/settings" : redirectTo;
+    let url = new URL(safeTarget, appUrl);
+
+    if (url.origin !== baseOrigin) {
+      url = new URL("/settings", appUrl);
+    }
+
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.set(key, value);
     });

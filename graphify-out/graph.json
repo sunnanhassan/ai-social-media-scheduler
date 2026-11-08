@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T16:29:44.145182+00:00",
-  "total_nodes": 189,
-  "total_edges": 369,
+  "timestamp": "2026-11-08T16:48:29.049972+00:00",
+  "total_nodes": 190,
+  "total_edges": 370,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -248,7 +248,7 @@
       "id": "app/api/posts/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 265,
+      "lines": 291,
       "components": [],
       "community": 5
     },
@@ -264,7 +264,7 @@
       "id": "app/api/posts/cron/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 76,
+      "lines": 81,
       "components": [],
       "community": 5
     },
@@ -280,7 +280,7 @@
       "id": "app/api/posts/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 175,
+      "lines": 189,
       "components": [],
       "community": 5
     },
@@ -388,7 +388,7 @@
       "id": "app/api/workspaces/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 50,
+      "lines": 51,
       "components": [],
       "community": 5
     },
@@ -396,7 +396,7 @@
       "id": "app/api/workspaces/[id]/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 56,
+      "lines": 57,
       "components": [],
       "community": 5
     },
@@ -1178,7 +1178,7 @@
       "id": "components/workspace/create-workspace-dialog.tsx",
       "label": "create-workspace-dialog.tsx",
       "type": "component",
-      "lines": 180,
+      "lines": 181,
       "components": [
         "CreateWorkspaceDialog"
       ],
@@ -1188,7 +1188,7 @@
       "id": "components/workspace/workspace-switcher.tsx",
       "label": "workspace-switcher.tsx",
       "type": "component",
-      "lines": 117,
+      "lines": 118,
       "components": [
         "WorkspaceSwitcher"
       ],
@@ -1224,7 +1224,7 @@
       "id": "constants/mock-workspaces.ts",
       "label": "mock-workspaces.ts",
       "type": "file",
-      "lines": 58,
+      "lines": 59,
       "components": [
         "DEFAULT_MOCK_WORKSPACES",
         "getMockWorkspaceById"
@@ -1266,7 +1266,7 @@
       "id": "hooks/use-workspace.ts",
       "label": "use-workspace.ts",
       "type": "hook",
-      "lines": 94,
+      "lines": 95,
       "components": [
         "useWorkspace"
       ],
@@ -1353,7 +1353,7 @@
       "id": "lib/encryption.ts",
       "label": "encryption.ts",
       "type": "lib",
-      "lines": 46,
+      "lines": 54,
       "components": [
         "encrypt",
         "decrypt"
@@ -1493,7 +1493,7 @@
       "id": "lib/auth/api-key.ts",
       "label": "api-key.ts",
       "type": "lib",
-      "lines": 247,
+      "lines": 251,
       "components": [
         "generateApiKey",
         "hashApiKey",
@@ -1527,6 +1527,16 @@
         "mockUser",
         "AppAuthProvider",
         "useAppAuth"
+      ],
+      "community": 5
+    },
+    {
+      "id": "lib/auth/cron-auth.ts",
+      "label": "cron-auth.ts",
+      "type": "lib",
+      "lines": 21,
+      "components": [
+        "verifyCronSecret"
       ],
       "community": 5
     },
@@ -1592,7 +1602,7 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 139,
+      "lines": 151,
       "components": [],
       "community": 5
     },
@@ -1686,7 +1696,7 @@
       "id": "lib/social-oauth/redirect.ts",
       "label": "redirect.ts",
       "type": "lib",
-      "lines": 21,
+      "lines": 29,
       "components": [
         "buildRedirectUrl"
       ],
@@ -1696,7 +1706,7 @@
       "id": "lib/social-oauth/state.ts",
       "label": "state.ts",
       "type": "lib",
-      "lines": 48,
+      "lines": 56,
       "components": [
         "createOAuthState",
         "verifyOAuthState"
@@ -1715,7 +1725,7 @@
       "id": "lib/workspaces/workspace-service.ts",
       "label": "workspace-service.ts",
       "type": "lib",
-      "lines": 281,
+      "lines": 282,
       "components": [
         "getInMemoryWorkspaces",
         "resetInMemoryWorkspaces",
@@ -1743,7 +1753,7 @@
       "id": "types/post.type.ts",
       "label": "post.type.ts",
       "type": "type",
-      "lines": 47,
+      "lines": 48,
       "components": [],
       "community": 5
     },
@@ -1751,7 +1761,7 @@
       "id": "types/workspace.type.ts",
       "label": "workspace.type.ts",
       "type": "type",
-      "lines": 26,
+      "lines": 27,
       "components": [],
       "community": 5
     }
@@ -2255,6 +2265,11 @@
     {
       "source": "app/api/posts/cron/route.ts",
       "target": "lib/publish-handlers/direct-publisher",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/cron/route.ts",
+      "target": "lib/auth/cron-auth",
       "relation": "imports"
     },
     {

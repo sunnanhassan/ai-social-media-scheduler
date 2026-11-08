@@ -1,12 +1,20 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "crypto"
 
-const ENCRYPTION_KEY = process.env.CHANNEL_TOKEN_ENCRYPTION_KEY || "dev_secret_encryption_key_32_bytes_long!!";
+function getEncryptionKey(): string {
+  if (process.env.CHANNEL_TOKEN_ENCRYPTION_KEY) {
+    return process.env.CHANNEL_TOKEN_ENCRYPTION_KEY;
+  }
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("CRITICAL: CHANNEL_TOKEN_ENCRYPTION_KEY must be configured in production");
+  }
+  return "dev_secret_encryption_key_32_bytes_long!!";
+}
 
 export function encrypt(text: string | null | undefined){
     if(!text) return null
      const iv = randomBytes(12);
 
-     const encryptionKey = createHash("sha256").update(ENCRYPTION_KEY).digest();
+     const encryptionKey = createHash("sha256").update(getEncryptionKey()).digest();
      const cipher = createCipheriv("aes-256-gcm", encryptionKey, iv)
 
      const encryted = Buffer.concat([
@@ -30,7 +38,7 @@ export function decrypt(encrypted: string | null | undefined): string | null {
 
         if (!iv || !tag || !encryted) return null;
 
-        const encryptionKey = createHash("sha256").update(ENCRYPTION_KEY).digest();
+        const encryptionKey = createHash("sha256").update(getEncryptionKey()).digest();
         const decipher = createDecipheriv("aes-256-gcm", encryptionKey, Buffer.from(iv, "base64url"));
 
         decipher.setAuthTag(Buffer.from(tag, "base64url"));

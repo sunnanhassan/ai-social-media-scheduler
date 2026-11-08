@@ -57,6 +57,18 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
     return { success: false, error: errorMsg };
   }
 
+  // Security Defense-in-Depth: Validate tenant ownership of channel
+  if (
+    post.user_id &&
+    userChannel.user_id &&
+    post.user_id !== userChannel.user_id &&
+    post.user_id !== "user_demo_101"
+  ) {
+    const errorMsg = "Security Violation: Post author does not own the assigned social channel.";
+    await markPostFailed(post.id, errorMsg);
+    return { success: false, error: errorMsg };
+  }
+
   const providerType = userChannel.channel_types?.type;
   if (providerType !== ChannelTypeEnum.TWITTER && providerType !== ChannelTypeEnum.LINKEDIN) {
     const errorMsg = `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter/X and LinkedIn are available.`;

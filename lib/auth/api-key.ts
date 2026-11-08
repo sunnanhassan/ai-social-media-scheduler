@@ -199,8 +199,12 @@ export async function authenticateV1Request(req: RequestWithHeaders): Promise<Au
     } catch {}
   }
 
-  // Demo fallback key for seamless developer test execution
-  if (!keyRecord && rawKey === "op_live_test_chatgpt_action_key_1234567890") {
+  // Demo fallback key for seamless developer test execution (strictly non-production)
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !keyRecord &&
+    rawKey === "op_live_test_chatgpt_action_key_1234567890"
+  ) {
     keyRecord = {
       id: "key_demo_test",
       user_id: "user_demo_101",

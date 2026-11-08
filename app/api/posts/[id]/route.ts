@@ -15,7 +15,7 @@ export async function GET(
     try {
       const { data, error } = await insforge.database
         .from("scheduled_posts")
-        .select("*, user_channels(*, channel_types(id, type, name, color, character_limit))")
+        .select("*, user_channels(id, handle, profile_image, profile_url, channel_types(id, type, name, color, character_limit))")
         .eq("id", id)
         .maybeSingle();
 
@@ -77,6 +77,20 @@ export async function PATCH(
           return NextResponse.json({ error: "Unauthorized access to post" }, { status: 403 });
         }
 
+        // Verify target channel is owned by user to prevent cross-tenant IDOR hijacking
+        if (userChannelId && !userChannelId.startsWith("uc-")) {
+          const { data: ownedChannel } = await insforge.database
+            .from("user_channels")
+            .select("id")
+            .eq("id", userChannelId)
+            .eq("user_id", userId)
+            .maybeSingle();
+
+          if (!ownedChannel) {
+            return NextResponse.json({ error: "Unauthorized: Invalid or unowned channel" }, { status: 403 });
+          }
+        }
+
         if (!updateData.scheduled_at && existingPost.scheduled_at) {
           updateData.scheduled_at = existingPost.scheduled_at;
         }
@@ -85,7 +99,7 @@ export async function PATCH(
           .from("scheduled_posts")
           .update(updateData)
           .eq("id", id)
-          .select("*, user_channels(*, channel_types(id, type, name, color, character_limit))")
+          .select("*, user_channels(id, handle, profile_image, profile_url, channel_types(id, type, name, color, character_limit))")
           .maybeSingle();
 
         if (error) throw error;

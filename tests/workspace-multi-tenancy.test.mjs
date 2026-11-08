@@ -136,3 +136,4 @@ test("Workspace - Auto-Provisioning Resilience Fallback", async () => {
   assert.equal(isFallback, true);
   assert.ok(workspaces.some((w) => w.is_default));
 });
+

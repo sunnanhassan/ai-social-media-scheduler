@@ -56,3 +56,4 @@ export function getMockWorkspaceById(id: string | null | undefined): WorkspaceIt
   const found = DEFAULT_MOCK_WORKSPACES.find((w) => w.id === id);
   return found || DEFAULT_MOCK_WORKSPACES[0];
 }
+

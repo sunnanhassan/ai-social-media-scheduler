@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server.js";
 import { getInsforgeAdminClient } from "@/lib/insforge-server";
 import { executeDirectPublish } from "@/lib/publish-handlers/direct-publisher";
+import { verifyCronSecret } from "@/lib/auth/cron-auth";
 
 /**
  * Scheduled Post Dispatcher & Cron Trigger
@@ -9,14 +10,18 @@ import { executeDirectPublish } from "@/lib/publish-handlers/direct-publisher";
  * 2. Developer manual test to process due posts instantly
  */
 export async function GET(request: Request) {
-  return handleCronCheck();
+  return handleCronCheck(request);
 }
 
 export async function POST(request: Request) {
-  return handleCronCheck();
+  return handleCronCheck(request);
 }
 
-async function handleCronCheck() {
+async function handleCronCheck(request: Request) {
+  const authCheck = verifyCronSecret(request);
+  if (!authCheck.authorized && authCheck.response) {
+    return authCheck.response;
+  }
   try {
     const insforge = getInsforgeAdminClient();
     const now = new Date().toISOString();

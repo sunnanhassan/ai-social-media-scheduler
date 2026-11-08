@@ -54,3 +54,4 @@ ALTER TABLE public.ideas
 
 CREATE INDEX IF NOT EXISTS idx_scheduled_posts_workspace ON public.scheduled_posts(workspace_id, status);
 CREATE INDEX IF NOT EXISTS idx_ideas_workspace ON public.ideas(workspace_id);
+

@@ -24,3 +24,4 @@ export interface WorkspaceChannelMapping {
   user_channel_id: string;
   created_at?: string;
 }
+

@@ -115,3 +115,4 @@ export function WorkspaceSwitcher({ isCollapsed = false }: WorkspaceSwitcherProp
     </>
   );
 }
+
