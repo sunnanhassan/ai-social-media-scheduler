@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-08T20:07:14.405634+00:00",
+  "timestamp": "2026-11-08T20:11:55.304771+00:00",
   "total_nodes": 192,
   "total_edges": 380,
   "nodes": [
@@ -440,7 +440,7 @@
       "id": "components/query-provider.tsx",
       "label": "query-provider.tsx",
       "type": "component",
-      "lines": 22,
+      "lines": 41,
       "components": [
         "QueryProvider"
       ],

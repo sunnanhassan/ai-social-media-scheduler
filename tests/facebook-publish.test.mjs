@@ -74,3 +74,4 @@ describe("Facebook Publishing & Token Vault Suite", () => {
     assert.ok(url.startsWith("https://facebook.com/fb_page_999/posts/sim_"));
   });
 });
+

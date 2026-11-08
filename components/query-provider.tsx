@@ -1,8 +1,27 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
+    useEffect(() => {
+        // Suppress benign browser AbortErrors caused by page navigation & background auth polling
+        const handleRejection = (event: PromiseRejectionEvent) => {
+            const reason = event?.reason;
+            if (
+                reason?.name === "AbortError" ||
+                (typeof reason?.message === "string" && (
+                    reason.message.includes("aborted") ||
+                    reason.message.includes("signal is aborted")
+                ))
+            ) {
+                event.preventDefault();
+            }
+        };
+
+        window.addEventListener("unhandledrejection", handleRejection);
+        return () => window.removeEventListener("unhandledrejection", handleRejection);
+    }, []);
+
     const [queryClient] = useState(() => new QueryClient({
         defaultOptions: {
             queries: {
