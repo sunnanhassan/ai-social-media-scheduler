@@ -2,6 +2,7 @@ import { getInsforgeAdminClient } from "@/lib/insforge-server";
 import { inngest } from "../client";
 import { PostType } from "@/types/post.type";
 import { getActivePostById } from "@/lib/demo-posts";
+import { getChannelToken } from "@/lib/channels/channel-store";
 import { decrypt } from "@/lib/encryption";
 import { refreshOauthToken } from "@/lib/social-oauth";
 import { ChannelTypeEnum } from "@/constants/channels";
@@ -149,17 +150,35 @@ export const publishScheduledPost = inngest.createFunction(
       return { skipped: true, reason: "unsupported_provider" };
     }
 
-    const encryptedAccessToken = userChannel.access_token;
-    const encryptedRefreshToken = userChannel.refresh_token;
+    let accessToken = userChannel.access_token
+      ? decrypt(userChannel.access_token) || userChannel.access_token
+      : null;
+    let refreshToken = userChannel.refresh_token
+      ? decrypt(userChannel.refresh_token) || userChannel.refresh_token
+      : null;
 
-    const accessToken = decrypt(encryptedAccessToken);
-    const refreshToken = decrypt(encryptedRefreshToken);
+    // Resilient fallback to server-side channel token vault
+    if (!accessToken) {
+      const stored =
+        getChannelToken(userChannel.id) ||
+        getChannelToken(post.user_channel_id || "") ||
+        getChannelToken(userChannel.provider_account_id || "") ||
+        getChannelToken(userChannel.handle || "");
+
+      if (stored?.accessToken) {
+        accessToken = decrypt(stored.accessToken) || stored.accessToken;
+        refreshToken = stored.refreshToken
+          ? decrypt(stored.refreshToken) || stored.refreshToken
+          : refreshToken;
+      }
+    }
+
     const tokenExpiresAt = userChannel.token_expires_at
       ? new Date(userChannel.token_expires_at).getTime()
       : null;
 
     if (!accessToken) {
-      const errMsg = "Missing valid decrypted access token";
+      const errMsg = "Missing valid decrypted access token. Please reconnect Facebook in Settings.";
       logger.error("[publish:auth]", { providerType, hasAccessToken: false });
       await markPostFailed(post.id, errMsg);
       return { skipped: true, reason: "missing_token" };

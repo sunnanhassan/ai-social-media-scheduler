@@ -15,6 +15,28 @@ import {
 // Active state of all channels
 let activeChannels: MockChannelItem[] = JSON.parse(JSON.stringify(DEFAULT_MOCK_CHANNELS));
 
+export interface ActiveChannelToken {
+  accessToken: string;
+  refreshToken?: string | null;
+  providerAccountId?: string | null;
+  tokenExpiresAt?: string | null;
+}
+
+const channelTokenVault = new Map<string, ActiveChannelToken>();
+
+export function storeChannelToken(key: string, tokens: ActiveChannelToken): void {
+  if (!key) return;
+  channelTokenVault.set(key, tokens);
+  if (tokens.providerAccountId) {
+    channelTokenVault.set(tokens.providerAccountId, tokens);
+  }
+}
+
+export function getChannelToken(key: string): ActiveChannelToken | undefined {
+  if (!key) return undefined;
+  return channelTokenVault.get(key);
+}
+
 export interface UpsertChannelParams {
   channelTypeId?: string;
   type: ChannelTypeEnum;
@@ -23,6 +45,10 @@ export interface UpsertChannelParams {
   profileUrl?: string | null;
   providerAccountId?: string | null;
   workspaceId?: string | null;
+  accessToken?: string | null;
+  encryptedAccessToken?: string | null;
+  refreshToken?: string | null;
+  tokenExpiresAt?: string | null;
 }
 
 /**
@@ -42,15 +68,7 @@ export function getActiveChannels(filter?: string | null, workspaceId?: string |
 /**
  * Persists a newly connected or re-authenticated social channel into active store.
  */
-export function upsertActiveChannel(params: {
-  channelTypeId?: string;
-  type: ChannelTypeEnum;
-  handle: string;
-  profileImage?: string | null;
-  profileUrl?: string | null;
-  providerAccountId?: string | null;
-  workspaceId?: string | null;
-}): MockChannelItem {
+export function upsertActiveChannel(params: UpsertChannelParams): MockChannelItem {
   const platform = DEFAULT_PLATFORMS.find((p) => p.type === params.type);
   const color = platform?.color || "#1877F2";
   const name = platform?.name || params.type;
@@ -61,6 +79,21 @@ export function upsertActiveChannel(params: {
   const userChannelId = params.providerAccountId
     ? `uc-${params.type.toLowerCase()}-${params.providerAccountId}`
     : `uc-${params.type.toLowerCase()}-${Date.now()}`;
+
+  // Securely store token credentials in server-side vault
+  const tokenToStore = params.encryptedAccessToken || params.accessToken;
+  if (tokenToStore) {
+    const tokenObj: ActiveChannelToken = {
+      accessToken: tokenToStore,
+      refreshToken: params.refreshToken,
+      providerAccountId: params.providerAccountId,
+      tokenExpiresAt: params.tokenExpiresAt,
+    };
+    storeChannelToken(userChannelId, tokenObj);
+    storeChannelToken(cleanHandle, tokenObj);
+    if (params.providerAccountId) storeChannelToken(params.providerAccountId, tokenObj);
+    if (params.channelTypeId) storeChannelToken(params.channelTypeId, tokenObj);
+  }
 
   // Check if an existing connected account matches this handle or provider ID
   const existingIndex = activeChannels.findIndex(
@@ -146,4 +179,5 @@ export function disconnectActiveChannel(userChannelId: string): boolean {
  */
 export function resetChannelStore(): void {
   activeChannels = JSON.parse(JSON.stringify(DEFAULT_MOCK_CHANNELS));
+  channelTokenVault.clear();
 }

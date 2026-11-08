@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
       console.warn("[OAuth Callback] Database offline or timed out, syncing with active channel store:", err?.message);
     }
 
-    // Persist to in-memory active store so connected channel immediately reflects in UI even during DB downtime
+    // Persist to in-memory active store with tokens so connected channel immediately reflects in UI and background workers
     upsertActiveChannel({
       channelTypeId: state.channelTypeId,
       type: state.channelType,
@@ -228,6 +228,10 @@ export async function GET(request: NextRequest) {
       profileImage: profileImage,
       profileUrl: profileUrl,
       providerAccountId: providerAccountId,
+      accessToken: activeAccessToken,
+      encryptedAccessToken: encryptedAccessToken,
+      refreshToken: activeRefreshToken,
+      tokenExpiresAt: activeExpiresAt ? new Date(activeExpiresAt).toISOString() : null,
     });
 
     // Step 13: Clean up PKCE cookies and redirect with success

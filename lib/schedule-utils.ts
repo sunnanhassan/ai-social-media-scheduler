@@ -1,4 +1,5 @@
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, isPast, parseISO } from "date-fns";
+import { getChannelToken } from "./channels/channel-store.ts";
 
 /**
  * Sanitizes channelIds from URL query strings or array inputs.
@@ -114,6 +115,12 @@ export function buildPostPayload(
       activeChannels.find((c: any) => c.connected) ||
       activeChannels[0];
 
+    const storedToken = matchingChannel
+      ? getChannelToken(matchingChannel.user_channel_id || matchingChannel.id) ||
+        getChannelToken(matchingChannel.provider_account_id || "") ||
+        getChannelToken(matchingChannel.handle || "")
+      : undefined;
+
     const userChannelData = matchingChannel
       ? {
           id: matchingChannel.user_channel_id || matchingChannel.id,
@@ -121,6 +128,10 @@ export function buildPostPayload(
           profile_image: matchingChannel.profile_image,
           profile_url: matchingChannel.profile_url,
           channel_type_id: matchingChannel.channel_type_id,
+          provider_account_id: matchingChannel.provider_account_id || storedToken?.providerAccountId || null,
+          access_token: storedToken?.accessToken || null,
+          refresh_token: storedToken?.refreshToken || null,
+          token_expires_at: storedToken?.tokenExpiresAt || null,
           is_connected: matchingChannel.connected,
           is_active: true,
           channel_types: {

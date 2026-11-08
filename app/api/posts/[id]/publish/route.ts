@@ -1,6 +1,7 @@
 import { inngest } from "@/inngest/client";
 import { getInsforgeServerClient } from "@/lib/insforge-server";
 import { executeDirectPublish } from "@/lib/publish-handlers/direct-publisher";
+import { getActivePostById } from "@/lib/demo-posts";
 import { NextResponse } from "next/server";
 
 export async function POST(
@@ -14,13 +15,26 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { data: post, error: postError } = await insforge.database
-      .from("scheduled_posts")
-      .select("id, user_id, status")
-      .eq("id", id)
-      .maybeSingle();
+    let post: any = null;
+    try {
+      const { data, error: postError } = await insforge.database
+        .from("scheduled_posts")
+        .select("id, user_id, status")
+        .eq("id", id)
+        .maybeSingle();
 
-    if (postError || !post) {
+      if (!postError && data) {
+        post = data;
+      }
+    } catch {
+      // Offline fallback
+    }
+
+    if (!post) {
+      post = getActivePostById(id);
+    }
+
+    if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 

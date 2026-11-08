@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T19:51:20.285666+00:00",
+  "timestamp": "2026-11-08T20:07:14.405634+00:00",
   "total_nodes": 192,
-  "total_edges": 377,
+  "total_edges": 380,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -288,7 +288,7 @@
       "id": "app/api/posts/[id]/publish/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 82,
+      "lines": 96,
       "components": [],
       "community": 5
     },
@@ -296,7 +296,7 @@
       "id": "app/api/social/callback/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 264,
+      "lines": 268,
       "components": [],
       "community": 5
     },
@@ -626,7 +626,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 257,
+      "lines": 261,
       "components": [
         "BoardView"
       ],
@@ -1317,7 +1317,7 @@
       "id": "inngest/functions/publish-scheduled-posts.ts",
       "label": "publish-scheduled-posts.ts",
       "type": "file",
-      "lines": 272,
+      "lines": 291,
       "components": [
         "publishScheduledPostsCron",
         "publishScheduledPost"
@@ -1420,7 +1420,7 @@
       "id": "lib/schedule-utils.ts",
       "label": "schedule-utils.ts",
       "type": "lib",
-      "lines": 151,
+      "lines": 162,
       "components": [
         "sanitizeChannelIds",
         "serializeChannelIds",
@@ -1583,12 +1583,13 @@
       "id": "lib/channels/channel-store.ts",
       "label": "channel-store.ts",
       "type": "lib",
-      "lines": 149,
+      "lines": 183,
       "components": [
+        "storeChannelToken",
+        "getChannelToken",
         "getActiveChannels",
         "upsertActiveChannel",
-        "disconnectActiveChannel",
-        "resetChannelStore"
+        "disconnectActiveChannel"
       ],
       "community": 3
     },
@@ -1618,7 +1619,7 @@
       "id": "lib/publish-handlers/direct-publisher.ts",
       "label": "direct-publisher.ts",
       "type": "lib",
-      "lines": 176,
+      "lines": 195,
       "components": [],
       "community": 5
     },
@@ -1626,7 +1627,7 @@
       "id": "lib/publish-handlers/facebook.ts",
       "label": "facebook.ts",
       "type": "lib",
-      "lines": 63,
+      "lines": 103,
       "components": [],
       "community": 5
     },
@@ -2344,6 +2345,11 @@
     {
       "source": "app/api/posts/[id]/publish/route.ts",
       "target": "lib/publish-handlers/direct-publisher",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/posts/[id]/publish/route.ts",
+      "target": "lib/demo-posts",
       "relation": "imports"
     },
     {
@@ -3553,6 +3559,11 @@
     },
     {
       "source": "inngest/functions/publish-scheduled-posts.ts",
+      "target": "lib/channels/channel-store",
+      "relation": "imports"
+    },
+    {
+      "source": "inngest/functions/publish-scheduled-posts.ts",
       "target": "lib/encryption",
       "relation": "imports"
     },
@@ -3639,6 +3650,11 @@
     {
       "source": "lib/publish-handlers/direct-publisher.ts",
       "target": "lib/demo-posts",
+      "relation": "imports"
+    },
+    {
+      "source": "lib/publish-handlers/direct-publisher.ts",
+      "target": "lib/channels/channel-store",
       "relation": "imports"
     },
     {

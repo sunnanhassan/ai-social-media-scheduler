@@ -14,6 +14,7 @@ import { publishToLinkedIn } from "./linkedin";
 import { publishToFacebook } from "./facebook";
 import { PostType } from "@/types/post.type";
 import { getActivePostById } from "@/lib/demo-posts";
+import { getChannelToken } from "@/lib/channels/channel-store";
 
 export interface DirectPublishResult {
   success: boolean;
@@ -93,11 +94,29 @@ export async function executeDirectPublish(postId: string): Promise<DirectPublis
     return { success: false, error: errorMsg, provider: providerType };
   }
 
-  const encryptedAccessToken = userChannel.access_token;
-  const encryptedRefreshToken = userChannel.refresh_token;
+  let accessToken = userChannel.access_token
+    ? decrypt(userChannel.access_token) || userChannel.access_token
+    : null;
+  let refreshToken = userChannel.refresh_token
+    ? decrypt(userChannel.refresh_token) || userChannel.refresh_token
+    : null;
 
-  const accessToken = decrypt(encryptedAccessToken);
-  const refreshToken = decrypt(encryptedRefreshToken);
+  // Resilient fallback to active token vault
+  if (!accessToken) {
+    const stored =
+      getChannelToken(userChannel.id) ||
+      getChannelToken(post.user_channel_id || "") ||
+      getChannelToken(userChannel.provider_account_id || "") ||
+      getChannelToken(userChannel.handle || "");
+
+    if (stored?.accessToken) {
+      accessToken = decrypt(stored.accessToken) || stored.accessToken;
+      refreshToken = stored.refreshToken
+        ? decrypt(stored.refreshToken) || stored.refreshToken
+        : refreshToken;
+    }
+  }
+
   const tokenExpiresAt = userChannel.token_expires_at
     ? new Date(userChannel.token_expires_at).getTime()
     : null;

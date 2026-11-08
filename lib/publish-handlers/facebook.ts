@@ -1,4 +1,6 @@
 import type { PublishContext } from "./types";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 /**
  * Modular publisher for Facebook Pages via Meta Graph API with image attachments and dev simulation.
@@ -26,9 +28,47 @@ export async function publishToFacebook({
 
   // Single or primary photo posting
   if (hasImages && images[0]?.url) {
+    const rawUrl = images[0].url;
+    const isLocal =
+      rawUrl.startsWith("/") ||
+      rawUrl.includes("localhost") ||
+      rawUrl.includes("127.0.0.1");
+
+    // If image is stored locally, upload binary bytes via multipart FormData so Facebook doesn't need to reach localhost
+    if (isLocal) {
+      try {
+        const cleanPath = rawUrl.replace(/^https?:\/\/[^\/]+/, "").replace(/^\/+/, "");
+        const filePath = path.join(process.cwd(), "public", cleanPath.replace(/^public[\/\\]/, ""));
+        const fileBuffer = await fs.readFile(filePath);
+
+        const formData = new FormData();
+        formData.append("access_token", accessToken);
+        formData.append("source", new Blob([fileBuffer]), "photo.png");
+        if (content) formData.append("caption", content);
+
+        const res = await fetch(`https://graph.facebook.com/v19.0/${pageId}/photos`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          const errMsg = data?.error?.message || "Failed to upload photo to Facebook Page";
+          logger?.error("Facebook Photo Upload Error", { errMsg, error: data?.error });
+          throw new Error(errMsg);
+        }
+
+        const postId = data.post_id || data.id;
+        return `https://facebook.com/${postId}`;
+      } catch (localErr: any) {
+        logger?.warn?.("Local photo read failed, falling back to URL parameter:", localErr?.message);
+      }
+    }
+
+    // Remote photo upload by URL
     const photoUrl = new URL(`https://graph.facebook.com/v19.0/${pageId}/photos`);
     photoUrl.searchParams.set("access_token", accessToken);
-    photoUrl.searchParams.set("url", images[0].url);
+    photoUrl.searchParams.set("url", rawUrl);
     if (content) photoUrl.searchParams.set("caption", content);
 
     const res = await fetch(photoUrl.toString(), { method: "POST" });

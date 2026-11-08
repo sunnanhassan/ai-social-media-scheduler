@@ -143,9 +143,13 @@ export default function BoardView({
       return;
     }
 
-    if (providerType !== "TWITTER" && providerType !== "LINKEDIN") {
+    if (
+      providerType !== "TWITTER" &&
+      providerType !== "LINKEDIN" &&
+      providerType !== "FACEBOOK"
+    ) {
       toast.error(
-        `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet.`
+        `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter, LinkedIn, and Facebook are supported.`
       );
       return;
     }
