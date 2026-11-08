@@ -10,6 +10,7 @@ import { Spinner } from "./ui/spinner"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Textarea } from "./ui/textarea"
 import { ImageObject } from "@/types/post.type"
+import { toast } from "sonner"
 
 
 interface ContentTextareaProps {
@@ -80,7 +81,10 @@ const ContentTextarea = ({
           method: "POST",
           body: formData,
         })
-        if (!response.ok) throw new Error("Upload failed")
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData?.error || "Upload failed");
+        }
         const result = await response.json()
         if (result.image) {
           newImages.push({
@@ -90,8 +94,9 @@ const ContentTextarea = ({
         }
       }
       onImagesChange?.(newImages)
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload error:", error)
+      toast.error(error?.message || "Failed to upload image")
     } finally {
       setIsUploading(false)
       if (fileInputRef.current) {

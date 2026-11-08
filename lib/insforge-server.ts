@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import { createClient, createAdminClient, type InsForgeClient } from '@insforge/sdk';
 
 const BASE_URL = process.env.NEXT_PUBLIC_INSFORGE_BASE_URL || 'https://e5p8ba7h.ap-southeast.insforge.app';
@@ -20,6 +19,7 @@ export async function getInsforgeServerClient(): Promise<{ insforge: InsForgeCli
 
   if (hasClerk) {
     try {
+      const { auth } = await import('@clerk/nextjs/server');
       const session = await auth();
       userId = session.userId;
     } catch {

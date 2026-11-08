@@ -56,3 +56,5 @@ next-env.d.ts
 .trae
 .windsurf
 security-audit-out/
+public/uploads/*
+!public/uploads/.gitkeep

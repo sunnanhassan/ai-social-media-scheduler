@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T19:01:55.017123+00:00",
+  "timestamp": "2026-11-08T19:14:42.533469+00:00",
   "total_nodes": 191,
-  "total_edges": 374,
+  "total_edges": 373,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -312,7 +312,7 @@
       "id": "app/api/upload-image/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 53,
+      "lines": 78,
       "components": [],
       "community": 5
     },
@@ -412,7 +412,7 @@
       "id": "components/content-textarea.tsx",
       "label": "content-textarea.tsx",
       "type": "component",
-      "lines": 244,
+      "lines": 249,
       "components": [],
       "community": 5
     },
@@ -2403,11 +2403,6 @@
     {
       "source": "app/api/social/connect/route.ts",
       "target": "lib/social-oauth/state",
-      "relation": "imports"
-    },
-    {
-      "source": "app/api/upload-image/route.ts",
-      "target": "lib/insforge-server",
       "relation": "imports"
     },
     {
