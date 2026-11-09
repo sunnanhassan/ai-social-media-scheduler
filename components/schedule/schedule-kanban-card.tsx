@@ -5,9 +5,10 @@ import { Draggable } from "@hello-pangea/dnd";
 import { PostType } from "@/types/post.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Clock, ExternalLink, AlertCircle, Edit2, Send, Image as ImageIcon, CheckCircle2, RefreshCw } from "lucide-react";
+import { Clock, ExternalLink, AlertCircle, Image as ImageIcon, CheckCircle2, RefreshCw } from "lucide-react";
 import { format, isPast } from "date-fns";
 import { ChannelTypeEnum, formatChannelHandle } from "@/constants/channels";
+import { ScheduleKanbanCardActions } from "./schedule-kanban-card-actions";
 
 interface ScheduleKanbanCardProps {
   post: PostType;
@@ -16,6 +17,9 @@ interface ScheduleKanbanCardProps {
   onSelect?: () => void;
   onEdit?: (post: PostType) => void;
   onPublishNow?: (post: PostType) => void;
+  onDelete?: (postId: string) => void;
+  onRevertToDraft?: (postId: string) => void;
+  onDuplicate?: (post: any) => void;
 }
 
 export function ScheduleKanbanCard({
@@ -25,6 +29,9 @@ export function ScheduleKanbanCard({
   onSelect,
   onEdit,
   onPublishNow,
+  onDelete,
+  onRevertToDraft,
+  onDuplicate,
 }: ScheduleKanbanCardProps) {
   const channelType = post.user_channels?.channel_types?.type?.toLowerCase() || "twitter";
   const rawHandle = post.user_channels?.handle || "creator";
@@ -99,33 +106,15 @@ export function ScheduleKanbanCard({
               </div>
             </div>
 
-            {/* Quick Hover Action Buttons */}
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-6 text-muted-foreground hover:text-foreground"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit?.(post);
-                }}
-              >
-                <Edit2 className="size-3" />
-              </Button>
-              {post.status !== "published" && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="size-6 text-muted-foreground hover:text-primary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onPublishNow?.(post);
-                  }}
-                >
-                  <Send className="size-3" />
-                </Button>
-              )}
-            </div>
+            {/* Quick Action Buttons & Menu */}
+            <ScheduleKanbanCardActions
+              post={post}
+              onEdit={onEdit}
+              onPublishNow={onPublishNow}
+              onDelete={onDelete}
+              onRevertToDraft={onRevertToDraft}
+              onDuplicate={onDuplicate}
+            />
           </div>
 
           {/* Post Content Snippet */}

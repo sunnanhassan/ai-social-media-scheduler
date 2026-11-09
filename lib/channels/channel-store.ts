@@ -68,7 +68,8 @@ export interface UpsertChannelParams {
  * Returns all active channels, optionally filtered by status or workspace.
  */
 export function getActiveChannels(filter?: string | null, workspaceId?: string | null): MockChannelItem[] {
-  let channels = activeChannels.map((c) => {
+  let channels: MockChannelItem[] = activeChannels.map((c) => {
+    if (!c.connected) return c;
     const sanitizedUrl = getChannelProfileUrl({
       type: c.type,
       handle: c.handle,

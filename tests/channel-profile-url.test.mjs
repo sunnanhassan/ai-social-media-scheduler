@@ -87,3 +87,4 @@ test("Channel Handle Formatter - Platform Rules", () => {
   assert.strictEqual(formatChannelHandle(ChannelTypeEnum.YOUTUBE, "SunnanTech"), "@SunnanTech");
   assert.strictEqual(formatChannelHandle(ChannelTypeEnum.TIKTOK, "sunnan_clips"), "@sunnan_clips");
 });
+

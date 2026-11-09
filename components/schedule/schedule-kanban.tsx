@@ -13,6 +13,9 @@ interface ScheduleKanbanProps {
   onSelectPost?: (post: PostType) => void;
   onEditPost?: (post: PostType) => void;
   onPublishNow?: (post: PostType) => void;
+  onDeletePost?: (postId: string) => void;
+  onRevertToDraft?: (postId: string) => void;
+  onDuplicatePost?: (post: any) => void;
   onAddNew?: (status?: string) => void;
   onUpdatePostStatus?: (postId: string, newStatus: string, scheduledAt?: string | null) => Promise<void>;
   className?: string;
@@ -24,6 +27,9 @@ export function ScheduleKanban({
   onSelectPost,
   onEditPost,
   onPublishNow,
+  onDeletePost,
+  onRevertToDraft,
+  onDuplicatePost,
   onAddNew,
   onUpdatePostStatus,
   className = "",
@@ -159,6 +165,9 @@ export function ScheduleKanban({
           onSelectPost={onSelectPost}
           onEditPost={onEditPost}
           onPublishNow={onPublishNow}
+          onDeletePost={onDeletePost}
+          onRevertToDraft={onRevertToDraft}
+          onDuplicatePost={onDuplicatePost}
         />
       </div>
     </DragDropContext>

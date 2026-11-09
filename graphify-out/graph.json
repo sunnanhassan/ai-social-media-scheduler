@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-09T06:40:32.895443+00:00",
-  "total_nodes": 192,
-  "total_edges": 381,
+  "timestamp": "2026-11-09T11:36:54.188252+00:00",
+  "total_nodes": 197,
+  "total_edges": 390,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -626,7 +626,7 @@
       "id": "components/schedule/board-view.tsx",
       "label": "board-view.tsx",
       "type": "component",
-      "lines": 261,
+      "lines": 223,
       "components": [
         "BoardView"
       ],
@@ -649,12 +649,42 @@
       "community": 1
     },
     {
+      "id": "components/schedule/edit-post-default-footer.tsx",
+      "label": "edit-post-default-footer.tsx",
+      "type": "component",
+      "lines": 76,
+      "components": [
+        "EditPostDefaultFooter"
+      ],
+      "community": 1
+    },
+    {
       "id": "components/schedule/edit-post-dialog.tsx",
       "label": "edit-post-dialog.tsx",
       "type": "component",
-      "lines": 280,
+      "lines": 287,
       "components": [
         "EditPostDialog"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/edit-post-published-banner.tsx",
+      "label": "edit-post-published-banner.tsx",
+      "type": "component",
+      "lines": 43,
+      "components": [
+        "EditPostPublishedBanner"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/edit-post-published-footer.tsx",
+      "label": "edit-post-published-footer.tsx",
+      "type": "component",
+      "lines": 92,
+      "components": [
+        "EditPostPublishedFooter"
       ],
       "community": 1
     },
@@ -735,10 +765,20 @@
       "community": 1
     },
     {
+      "id": "components/schedule/schedule-kanban-card-actions.tsx",
+      "label": "schedule-kanban-card-actions.tsx",
+      "type": "component",
+      "lines": 141,
+      "components": [
+        "ScheduleKanbanCardActions"
+      ],
+      "community": 1
+    },
+    {
       "id": "components/schedule/schedule-kanban-card.tsx",
       "label": "schedule-kanban-card.tsx",
       "type": "component",
-      "lines": 238,
+      "lines": 227,
       "components": [
         "ScheduleKanbanCard"
       ],
@@ -748,7 +788,7 @@
       "id": "components/schedule/schedule-kanban-column.tsx",
       "label": "schedule-kanban-column.tsx",
       "type": "component",
-      "lines": 119,
+      "lines": 128,
       "components": [
         "ScheduleKanbanColumn"
       ],
@@ -758,7 +798,7 @@
       "id": "components/schedule/schedule-kanban.tsx",
       "label": "schedule-kanban.tsx",
       "type": "component",
-      "lines": 166,
+      "lines": 175,
       "components": [
         "ScheduleKanban"
       ],
@@ -789,6 +829,16 @@
       "lines": 349,
       "components": [
         "useCreatePostState"
+      ],
+      "community": 1
+    },
+    {
+      "id": "components/schedule/use-post-actions.ts",
+      "label": "use-post-actions.ts",
+      "type": "component",
+      "lines": 141,
+      "components": [
+        "usePostActions"
       ],
       "community": 1
     },
@@ -1583,7 +1633,7 @@
       "id": "lib/channels/channel-store.ts",
       "label": "channel-store.ts",
       "type": "lib",
-      "lines": 216,
+      "lines": 217,
       "components": [
         "storeChannelToken",
         "getChannelToken",
@@ -2783,6 +2833,21 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/edit-post-default-footer.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/edit-post-default-footer.tsx",
+      "target": "components/ui/spinner",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/edit-post-default-footer.tsx",
+      "target": "components/ui/button-group",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/edit-post-dialog.tsx",
       "target": "components/ui/button",
       "relation": "imports"
@@ -2815,6 +2880,16 @@
     {
       "source": "components/schedule/edit-post-dialog.tsx",
       "target": "constants/channels",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/edit-post-published-footer.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/edit-post-published-footer.tsx",
+      "target": "components/ui/spinner",
       "relation": "imports"
     },
     {
@@ -2943,6 +3018,21 @@
       "relation": "imports"
     },
     {
+      "source": "components/schedule/schedule-kanban-card-actions.tsx",
+      "target": "types/post.type",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-card-actions.tsx",
+      "target": "components/ui/button",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/schedule-kanban-card-actions.tsx",
+      "target": "components/ui/dropdown-menu",
+      "relation": "imports"
+    },
+    {
       "source": "components/schedule/schedule-kanban-card.tsx",
       "target": "types/post.type",
       "relation": "imports"
@@ -3050,6 +3140,11 @@
     {
       "source": "components/schedule/use-create-post-state.ts",
       "target": "constants/mock-channels",
+      "relation": "imports"
+    },
+    {
+      "source": "components/schedule/use-post-actions.ts",
+      "target": "types/post.type",
       "relation": "imports"
     },
     {

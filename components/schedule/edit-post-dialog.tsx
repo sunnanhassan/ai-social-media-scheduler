@@ -5,7 +5,6 @@ import { parse, set } from "date-fns";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Wand2, ScanEye, Lightbulb } from "lucide-react";
-import { ScheduleDatePicker } from "./schedule-date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,13 +17,14 @@ import {
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ChannelType } from "@/types/channel.type";
-import { ButtonGroup } from "../ui/button-group";
-import { Spinner } from "../ui/spinner";
 import { ImageObject } from "@/types/post.type";
 import { POST_STATUS, PostStatus } from "@/constants/post";
 import { getChannelIcon } from "@/constants/channels";
 import ContentTextarea from "../content-textarea";
 import { ActionTabType, PostSideDrawer } from "./post-side-drawer";
+import { EditPostPublishedFooter } from "./edit-post-published-footer";
+import { EditPostPublishedBanner } from "./edit-post-published-banner";
+import { EditPostDefaultFooter } from "./edit-post-default-footer";
 
 interface EditPostDialogProps {
   open: boolean;
@@ -35,8 +35,13 @@ interface EditPostDialogProps {
     images: ImageObject[];
     userChannelId: string;
     scheduledDate: string;
+    status?: PostStatus | string;
+    publishedUrl?: string | null;
     channel?: ChannelType | null;
   } | null;
+  onDelete?: (postId: string) => void;
+  onRevertToDraft?: (postId: string) => void;
+  onDuplicate?: (post: any) => void;
 }
 
 const rightTabs = [
@@ -45,48 +50,39 @@ const rightTabs = [
   { id: "preview" as ActionTabType, label: "Preview", icon: ScanEye },
 ];
 
-export function EditPostDialog({ open, onOpenChange, post }: EditPostDialogProps) {
+export function EditPostDialog({
+  open,
+  onOpenChange,
+  post,
+  onDelete,
+  onRevertToDraft,
+  onDuplicate,
+}: EditPostDialogProps) {
   const queryClient = useQueryClient();
+  const isPublished = post?.status === "published" || post?.status === POST_STATUS.PUBLISHED;
 
   const updatePostMutation = useMutation({
-    mutationFn: async ({
-      postId,
-      content,
-      images,
-      scheduledAt,
-      status,
-    }: {
-      postId: string;
-      content: string;
-      images: ImageObject[];
-      scheduledAt: string;
-      status?: PostStatus;
-      userChannelId: string;
-    }) => {
-      const response = await fetch(`/api/posts/${postId}`, {
+    mutationFn: async (payload: { postId: string; content: string; images: ImageObject[]; scheduledAt: string; status?: PostStatus; userChannelId: string }) => {
+      const res = await fetch(`/api/posts/${payload.postId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content,
-          images,
-          scheduledAt,
-          status,
-        }),
+        body: JSON.stringify({ content: payload.content, images: payload.images, scheduledAt: payload.scheduledAt, status: payload.status }),
       });
-      if (!response.ok) throw new Error("Failed to update post");
-      return response.json();
+      if (!res.ok) throw new Error("Failed to update post");
+      return res.json();
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       toast.success(
-        `Post ${variables.status === POST_STATUS.DRAFT ? "saved to drafts" : "rescheduled"} successfully!`
+        variables.status === POST_STATUS.DRAFT
+          ? "Post saved to drafts successfully!"
+          : variables.status === POST_STATUS.PUBLISHED
+          ? "Published post updated successfully!"
+          : "Post rescheduled successfully!"
       );
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       onOpenChange(false);
     },
-    onError: (error: any) => {
-      console.error("Update error:", error);
-      toast.error(error.message);
-    },
+    onError: (error: any) => toast.error(error.message),
   });
 
   const [content, setContent] = React.useState("");
@@ -166,6 +162,13 @@ export function EditPostDialog({ open, onOpenChange, post }: EditPostDialogProps
           </DialogHeader>
           <DialogDescription className="sr-only">Edit scheduled post details</DialogDescription>
 
+          {isPublished && (
+            <EditPostPublishedBanner
+              scheduledDate={post?.scheduledDate}
+              publishedUrl={post?.publishedUrl}
+            />
+          )}
+
           <div className="w-full flex flex-1 h-full min-h-[550px] max-h-[570px]">
             <div className="flex flex-1 flex-col min-w-0 w-[300px] pb-5">
               <section className="channel--composer relative flex flex-col px-8 mt-5 min-h-[300px] h-auto">
@@ -229,50 +232,54 @@ export function EditPostDialog({ open, onOpenChange, post }: EditPostDialogProps
         </div>
 
         <DialogFooter className="px-8 pt-4 pb-4 m-0!">
-          <div className="w-full flex items-center justify-between gap-2">
-            <Button
-              variant="ghost"
-              size="lg"
-              onClick={() => handleUpdate(POST_STATUS.DRAFT)}
-              disabled={updatePostMutation.isPending}
-            >
-              {updatePostMutation.isPending &&
-                updatePostMutation.variables?.status === POST_STATUS.DRAFT && <Spinner />}
-              Save Draft
-            </Button>
-            <ButtonGroup className="p-0!">
-              <ScheduleDatePicker
-                date={date}
-                setDate={setDate}
-                time={time}
-                setTime={setTime}
-                renderButton={(isDatePassed, isTimeNotAvailable) => (
-                  <Button
-                    size="lg"
-                    className="border py-4.5 px-4"
-                    onClick={() => {
-                      if (isDatePassed || isTimeNotAvailable) {
-                        toast.error("Please select a valid time");
-                        return;
-                      }
-                      handleUpdate();
-                    }}
-                    disabled={
-                      updatePostMutation.isPending ||
-                      !date ||
-                      !time ||
-                      isTimeNotAvailable ||
-                      isDatePassed
-                    }
-                  >
-                    {updatePostMutation.isPending &&
-                      updatePostMutation.variables?.status === undefined && <Spinner />}
-                    Schedule Post
-                  </Button>
-                )}
-              />
-            </ButtonGroup>
-          </div>
+          {isPublished ? (
+            <EditPostPublishedFooter
+              onDelete={() => {
+                if (onDelete && post) {
+                  onDelete(post.id);
+                  onOpenChange(false);
+                }
+              }}
+              onRevertToDraft={() => {
+                if (onRevertToDraft && post) {
+                  onRevertToDraft(post.id);
+                  onOpenChange(false);
+                } else {
+                  handleUpdate(POST_STATUS.DRAFT);
+                }
+              }}
+              onDuplicate={() => {
+                if (onDuplicate && post) {
+                  onDuplicate({
+                    content,
+                    images,
+                    userChannelId: post.userChannelId,
+                    channel: post.channel,
+                  });
+                  onOpenChange(false);
+                }
+              }}
+              onSaveChanges={() => handleUpdate(POST_STATUS.PUBLISHED)}
+              isSaving={updatePostMutation.isPending}
+            />
+          ) : (
+            <EditPostDefaultFooter
+              onSaveDraft={() => handleUpdate(POST_STATUS.DRAFT)}
+              onSchedulePost={() => handleUpdate()}
+              date={date}
+              setDate={setDate}
+              time={time}
+              setTime={setTime}
+              isSavingDraft={
+                updatePostMutation.isPending &&
+                updatePostMutation.variables?.status === POST_STATUS.DRAFT
+              }
+              isScheduling={
+                updatePostMutation.isPending &&
+                updatePostMutation.variables?.status === undefined
+              }
+            />
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

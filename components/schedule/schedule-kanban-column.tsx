@@ -16,6 +16,9 @@ interface ScheduleKanbanColumnProps {
   onSelectPost?: (post: PostType) => void;
   onEditPost?: (post: PostType) => void;
   onPublishNow?: (post: PostType) => void;
+  onDeletePost?: (postId: string) => void;
+  onRevertToDraft?: (postId: string) => void;
+  onDuplicatePost?: (post: any) => void;
   onAddNew?: () => void;
 }
 
@@ -28,6 +31,9 @@ export function ScheduleKanbanColumn({
   onSelectPost,
   onEditPost,
   onPublishNow,
+  onDeletePost,
+  onRevertToDraft,
+  onDuplicatePost,
   onAddNew,
 }: ScheduleKanbanColumnProps) {
   const getEmptyMessage = () => {
@@ -107,6 +113,9 @@ export function ScheduleKanbanColumn({
                   onSelect={() => onSelectPost?.(post)}
                   onEdit={onEditPost}
                   onPublishNow={onPublishNow}
+                  onDelete={onDeletePost}
+                  onRevertToDraft={onRevertToDraft}
+                  onDuplicate={onDuplicatePost}
                 />
               ))
             )}

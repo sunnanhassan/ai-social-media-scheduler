@@ -7,6 +7,7 @@ import { ScheduleKanban } from "./schedule-kanban";
 import { LiveMobilePreview } from "./live-mobile-preview";
 import { EditPostDialog } from "./edit-post-dialog";
 import CreatePostDialog from "./create-post-dialog";
+import { usePostActions } from "./use-post-actions";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Smartphone, Sparkles, RefreshCw } from "lucide-react";
@@ -103,58 +104,11 @@ export default function BoardView({
     },
   });
 
-  // Instant Publish Now
-  const publishNowMutation = useMutation({
-    mutationFn: async (postId: string) => {
-      const res = await fetch(`/api/posts/${postId}/publish`, {
-        method: "POST",
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Failed to trigger publishing");
-      }
-      return res.json();
-    },
-    onSuccess: (data: any) => {
-      const msg =
-        data?.mode === "direct_published"
-          ? "Post published live to connected channel!"
-          : data?.message || "Post dispatched for publishing!";
-      toast.success(msg);
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-    },
-    onError: (err: any) => {
-      toast.error(err.message || "Failed to publish post");
-    },
-  });
+  const { deletePost, revertToDraft, duplicatePost, publishNow } = usePostActions();
 
   const handleEditPost = (post: PostType) => {
     setEditingPost(post);
     setEditDialogOpen(true);
-  };
-
-  const handlePublishNow = (post: PostType) => {
-    const userChannel = post.user_channels;
-    const providerType = userChannel?.channel_types?.type;
-    const isConnected = userChannel?.is_connected;
-
-    if (!userChannel || !isConnected) {
-      toast.error("Cannot publish: Channel is not connected. Connect in Channels settings.");
-      return;
-    }
-
-    if (
-      providerType !== "TWITTER" &&
-      providerType !== "LINKEDIN" &&
-      providerType !== "FACEBOOK"
-    ) {
-      toast.error(
-        `Cannot publish: Live publishing for ${userChannel.channel_types?.name || providerType || "this channel"} is not supported yet. Only Twitter, LinkedIn, and Facebook are supported.`
-      );
-      return;
-    }
-
-    publishNowMutation.mutate(post.id);
   };
 
   const handleAIPolish = (post: PostType) => {
@@ -169,6 +123,8 @@ export default function BoardView({
         images: editingPost.images || [],
         userChannelId: editingPost.user_channel_id || editingPost.user_channels?.id || "",
         scheduledDate: editingPost.scheduled_at,
+        status: editingPost.status,
+        publishedUrl: editingPost.published_url,
         channel: editingPost.user_channels as any,
       }
     : null;
@@ -197,7 +153,10 @@ export default function BoardView({
           selectedPostId={selectedPost?.id}
           onSelectPost={(post) => setSelectedPost(post)}
           onEditPost={handleEditPost}
-          onPublishNow={handlePublishNow}
+          onPublishNow={publishNow}
+          onDeletePost={deletePost}
+          onRevertToDraft={revertToDraft}
+          onDuplicatePost={duplicatePost}
           onAddNew={() => setCreatePostOpen(true)}
           onUpdatePostStatus={async (postId, newStatus, scheduledAt) => {
             try {
@@ -214,7 +173,7 @@ export default function BoardView({
         <LiveMobilePreview
           post={selectedPost}
           onEditPost={handleEditPost}
-          onPublishNow={handlePublishNow}
+          onPublishNow={publishNow}
           onAIPolish={handleAIPolish}
         />
       </div>
@@ -238,7 +197,7 @@ export default function BoardView({
             <LiveMobilePreview
               post={selectedPost}
               onEditPost={handleEditPost}
-              onPublishNow={handlePublishNow}
+              onPublishNow={publishNow}
               onAIPolish={handleAIPolish}
             />
           </SheetContent>
@@ -250,6 +209,9 @@ export default function BoardView({
         open={editDialogOpen}
         onOpenChange={setEditDialogOpen}
         post={editPostPayload}
+        onDelete={deletePost}
+        onRevertToDraft={revertToDraft}
+        onDuplicate={duplicatePost}
       />
 
       <CreatePostDialog
