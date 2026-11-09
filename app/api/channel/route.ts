@@ -3,6 +3,7 @@ import { getInsforgeServerClient } from "@/lib/insforge-server";
 import { insforgeCircuitBreaker } from "@/lib/insforge-circuit-breaker";
 import { getActiveChannels } from "@/lib/channels/channel-store";
 import { applyChannelFilter } from "@/constants/mock-channels";
+import { getChannelProfileUrl, formatChannelHandle } from "@/constants/channels";
 
 export async function GET(request: NextRequest) {
   const filter = request.nextUrl.searchParams.get("filter");
@@ -77,6 +78,15 @@ export async function GET(request: NextRequest) {
     for (const uc of userChannels) {
       const parentType = typeMap.get(uc.channel_type_id);
       if (parentType) {
+        const cleanHandle = formatChannelHandle(parentType.type, uc.handle);
+        const cleanProfileUrl = getChannelProfileUrl({
+          type: parentType.type,
+          handle: cleanHandle,
+          profile_url: uc.profile_url,
+          id: uc.id,
+          user_channel_id: uc.id,
+        });
+
         channels.push({
           id: uc.id,
           channel_type_id: parentType.id,
@@ -85,9 +95,9 @@ export async function GET(request: NextRequest) {
           color: parentType.color,
           character_limit: parentType.character_limit,
           user_channel_id: uc.id,
-          handle: uc.handle ?? null,
+          handle: cleanHandle || null,
           profile_image: uc.profile_image ?? null,
-          profile_url: uc.profile_url ?? null,
+          profile_url: cleanProfileUrl,
           connected: true,
         });
       }

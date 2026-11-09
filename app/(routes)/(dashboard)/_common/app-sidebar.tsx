@@ -32,7 +32,7 @@ import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getChannelIcon, getChannelUrl } from "@/constants/channels";
+import { getChannelIcon, getChannelProfileUrl } from "@/constants/channels";
 import { ChannelType } from "@/types/channel.type";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { useUser } from "@/lib/auth/auth-context";
@@ -156,12 +156,12 @@ const AppSidebar = () => {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {connectedChannels.map((channel: ChannelType) => {
-                    const url = getChannelUrl(channel.type);
+                    const profileUrl = getChannelProfileUrl(channel);
                     return (
                       <SidebarMenuItem key={channel.id}>
                         <SidebarMenuButton asChild>
                           <a
-                            href={`${url}/${channel.handle}`}
+                            href={profileUrl}
                             target="_blank"
                             rel="noreferrer"
                             className="w-full! relative block items-center gap-2"

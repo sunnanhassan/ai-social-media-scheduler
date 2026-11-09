@@ -63,6 +63,8 @@ const PreviewPanel = ({
         return <FacebookPreview
           text={content.text}
           images={imageUrls}
+          profileImage={channel?.profile_image || ""}
+          handle={channel?.handle || ""}
         />
       case ChannelTypeEnum.BLUESKY:
         return <BlueSkyPreview

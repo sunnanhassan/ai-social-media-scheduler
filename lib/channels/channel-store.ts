@@ -1,4 +1,8 @@
-import { ChannelTypeEnum } from "../../constants/channels.ts";
+import {
+  ChannelTypeEnum,
+  getChannelProfileUrl,
+  formatChannelHandle,
+} from "../../constants/channels.ts";
 import {
   DEFAULT_MOCK_CHANNELS,
   DEFAULT_PLATFORMS,
@@ -27,6 +31,11 @@ const channelTokenVault = new Map<string, ActiveChannelToken>();
 export function storeChannelToken(key: string, tokens: ActiveChannelToken): void {
   if (!key) return;
   channelTokenVault.set(key, tokens);
+  if (key.startsWith("@")) {
+    channelTokenVault.set(key.replace(/^@+/, ""), tokens);
+  } else {
+    channelTokenVault.set(`@${key}`, tokens);
+  }
   if (tokens.providerAccountId) {
     channelTokenVault.set(tokens.providerAccountId, tokens);
   }
@@ -34,7 +43,11 @@ export function storeChannelToken(key: string, tokens: ActiveChannelToken): void
 
 export function getChannelToken(key: string): ActiveChannelToken | undefined {
   if (!key) return undefined;
-  return channelTokenVault.get(key);
+  return (
+    channelTokenVault.get(key) ||
+    channelTokenVault.get(key.replace(/^@+/, "")) ||
+    channelTokenVault.get(`@${key}`)
+  );
 }
 
 export interface UpsertChannelParams {
@@ -55,7 +68,19 @@ export interface UpsertChannelParams {
  * Returns all active channels, optionally filtered by status or workspace.
  */
 export function getActiveChannels(filter?: string | null, workspaceId?: string | null): MockChannelItem[] {
-  let channels = [...activeChannels];
+  let channels = activeChannels.map((c) => {
+    const sanitizedUrl = getChannelProfileUrl({
+      type: c.type,
+      handle: c.handle,
+      profile_url: c.profile_url,
+      user_channel_id: c.user_channel_id,
+      id: c.id,
+    });
+    return {
+      ...c,
+      profile_url: sanitizedUrl,
+    };
+  });
 
   // In workspace mode, channels can be scoped or shared
   if (filter) {
@@ -79,6 +104,14 @@ export function upsertActiveChannel(params: UpsertChannelParams): MockChannelIte
   const userChannelId = params.providerAccountId
     ? `uc-${params.type.toLowerCase()}-${params.providerAccountId}`
     : `uc-${params.type.toLowerCase()}-${Date.now()}`;
+
+  const computedProfileUrl = getChannelProfileUrl({
+    type: params.type,
+    handle: cleanHandle,
+    profile_url: params.profileUrl,
+    id: userChannelId,
+    user_channel_id: userChannelId,
+  });
 
   // Securely store token credentials in server-side vault
   const tokenToStore = params.encryptedAccessToken || params.accessToken;
@@ -110,7 +143,7 @@ export function upsertActiveChannel(params: UpsertChannelParams): MockChannelIte
       ...activeChannels[existingIndex],
       handle: cleanHandle,
       profile_image: params.profileImage || activeChannels[existingIndex].profile_image,
-      profile_url: params.profileUrl || activeChannels[existingIndex].profile_url,
+      profile_url: computedProfileUrl || activeChannels[existingIndex].profile_url,
       connected: true,
     };
     return activeChannels[existingIndex];
@@ -129,7 +162,7 @@ export function upsertActiveChannel(params: UpsertChannelParams): MockChannelIte
     user_channel_id: userChannelId,
     handle: cleanHandle,
     profile_image: params.profileImage || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
-    profile_url: params.profileUrl || `https://${params.type.toLowerCase()}.com/${params.handle.replace(/^@/, "")}`,
+    profile_url: computedProfileUrl,
     connected: true,
   };
 

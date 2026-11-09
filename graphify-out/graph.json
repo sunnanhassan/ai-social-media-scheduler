@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-08T20:11:55.304771+00:00",
+  "timestamp": "2026-11-09T06:40:32.895443+00:00",
   "total_nodes": 192,
-  "total_edges": 380,
+  "total_edges": 381,
   "nodes": [
     {
       "id": "app/globals.css",
@@ -136,7 +136,7 @@
       "id": "app/api/channel/route.ts",
       "label": "route.ts",
       "type": "route",
-      "lines": 130,
+      "lines": 140,
       "components": [],
       "community": 3
     },
@@ -738,7 +738,7 @@
       "id": "components/schedule/schedule-kanban-card.tsx",
       "label": "schedule-kanban-card.tsx",
       "type": "component",
-      "lines": 237,
+      "lines": 238,
       "components": [
         "ScheduleKanbanCard"
       ],
@@ -834,7 +834,7 @@
       "id": "components/schedule/preview/index.tsx",
       "label": "index.tsx",
       "type": "component",
-      "lines": 95,
+      "lines": 97,
       "components": [],
       "community": 1
     },
@@ -1198,7 +1198,7 @@
       "id": "constants/channels.ts",
       "label": "channels.ts",
       "type": "file",
-      "lines": 48,
+      "lines": 122,
       "components": [
         "ChannelTypeEnum",
         "CHANNEL_TYPE_ICONS",
@@ -1583,7 +1583,7 @@
       "id": "lib/channels/channel-store.ts",
       "label": "channel-store.ts",
       "type": "lib",
-      "lines": 183,
+      "lines": 216,
       "components": [
         "storeChannelToken",
         "getChannelToken",
@@ -2140,6 +2140,11 @@
     {
       "source": "app/api/channel/route.ts",
       "target": "constants/mock-channels",
+      "relation": "imports"
+    },
+    {
+      "source": "app/api/channel/route.ts",
+      "target": "constants/channels",
       "relation": "imports"
     },
     {

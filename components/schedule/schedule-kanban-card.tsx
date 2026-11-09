@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Clock, ExternalLink, AlertCircle, Edit2, Send, Image as ImageIcon, CheckCircle2, RefreshCw } from "lucide-react";
 import { format, isPast } from "date-fns";
-import { ChannelTypeEnum } from "@/constants/channels";
+import { ChannelTypeEnum, formatChannelHandle } from "@/constants/channels";
 
 interface ScheduleKanbanCardProps {
   post: PostType;
@@ -27,7 +27,8 @@ export function ScheduleKanbanCard({
   onPublishNow,
 }: ScheduleKanbanCardProps) {
   const channelType = post.user_channels?.channel_types?.type?.toLowerCase() || "twitter";
-  const handle = post.user_channels?.handle || "creator";
+  const rawHandle = post.user_channels?.handle || "creator";
+  const displayHandle = formatChannelHandle(post.user_channels?.channel_types?.type, rawHandle);
   const profileImage = post.user_channels?.profile_image || "";
   const images = post.images || [];
 
@@ -89,11 +90,11 @@ export function ScheduleKanbanCard({
                 <Avatar className="size-5 shrink-0">
                   <AvatarImage src={profileImage} />
                   <AvatarFallback className="text-[9px]">
-                    {handle.slice(0, 2).toUpperCase()}
+                    {rawHandle.replace(/^@+/, "").slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-xs font-medium text-muted-foreground truncate">
-                  @{handle}
+                  {displayHandle}
                 </span>
               </div>
             </div>
